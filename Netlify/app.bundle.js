@@ -89,6 +89,19 @@
       apiModelId: "claude-sonnet-4-5-20250929",
       modelId: "claude-sonnet-4-5-20250929",
       instructions: "Emphasize expectation gaps, guidance, valuation implications, and read-throughs to peers."
+    },
+    {
+      id: "earnings-futures",
+      name: "Mega-Cap Earnings Futures",
+      description: "Pre-earnings ES/NQ setup: direction, gap risk, severity score, key levels",
+      topicIds: ["geopolitical", "earnings_notable", "vix_sentiment", "sp500_technicals"],
+      watchlist: ["AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META"],
+      coverageIds: ["price_moving_news", "upcoming_earnings", "options_unusual"],
+      depth: "standard",
+      transport: "api",
+      apiModelId: "claude-sonnet-4-5-20250929",
+      modelId: "claude-sonnet-4-5-20250929",
+      instructions: "Pre-earnings futures prep for the mega caps on the watchlist that report next. Answer in this order: (1) macro and geopolitical headwinds or tailwinds since their last reports, including strategic moves by global competitors such as rival earnings, IPOs, or major announcements; (2) expected net impact on S&P 500 (ES) and Nasdaq 100 (NQ) futures given index weights; (3) directional bias, bullish or bearish, and whether major price expansion up or down is expected; (4) whether the reaction is likely to create a price gap at the open or session restart; (5) a move severity score from 0 (negligible, sideways) to 5 (massive volatility, extreme range expansion) with a one-line rationale; (6) specific ES and NQ support and resistance levels to watch. Cite the options-market implied move where available. Be direct and focused on trading implications."
     }
   ];
   var DEFAULT_SETTINGS = {
