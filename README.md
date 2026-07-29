@@ -17,6 +17,13 @@ connections UI, Admin UI, build, and tests.
 
 ## Mandatory feature-parity rule
 
+**Operator rule (2026-07-29): Local is the test bench, Netlify is the customer
+handoff. Only the interfacing may differ between the two apps — how each one
+connects to and talks to its AI (subscription CLI vs. cloud API). Everything
+else — the processing of information, features, and behavior — must be updated
+equally in both apps in the same change, so that what is verified on Local is
+exactly what the customer receives on Netlify.**
+
 When a product feature applies to both applications—profiles, watchlists,
 briefing layout, history, deep dives, evidence display, accessibility, themes,
 or responsive behavior—the same change must be made and tested in both
