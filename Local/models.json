@@ -1,5 +1,5 @@
 {
-  "_doc": "Verbatim Local copy of DAI/models.json. The parity test fails if DAI changes so Local cannot silently invent or drift model names, kinds, or CLI model IDs.",
+  "_doc": "Model registry for the Local app: model names, kinds, and CLI model IDs used by cli-models.js.",
   "models": [
     {
       "key": "codex",

@@ -1,7 +1,7 @@
 (() => {
   // models.json
   var models_default = {
-    _doc: "Verbatim Local copy of DAI/models.json. The parity test fails if DAI changes so Local cannot silently invent or drift model names, kinds, or CLI model IDs.",
+    _doc: "Model registry for the Local app: model names, kinds, and CLI model IDs used by cli-models.js.",
     models: [
       {
         key: "codex",
@@ -442,7 +442,8 @@ Requirements:
     profiles: "maa_local_v4_profiles",
     history: "maa_local_v4_history",
     ui: "maa_local_v4_ui",
-    migrated: "maa_local_v4_migrated"
+    migrated: "maa_local_v4_migrated",
+    seededProfiles: "maa_local_v4_seeded_profiles"
   };
   var SHARED_KEYS = {
     settings: "mba_v2_settings",
@@ -541,7 +542,14 @@ Requirements:
       const storedSettings = parse(storage, STORAGE_KEYS.settings, DEFAULT_SETTINGS);
       write(storage, STORAGE_KEYS.settings, { ...clone(DEFAULT_SETTINGS), ...storedSettings, version: APP_VERSION, expert: { ...DEFAULT_SETTINGS.expert, ...storedSettings.expert } });
       const storedProfiles = parse(storage, STORAGE_KEYS.profiles, DEFAULT_PROFILES);
-      write(storage, STORAGE_KEYS.profiles, storedProfiles.map((profile, index) => normalizeProfile(profile, DEFAULT_PROFILES[index] || DEFAULT_PROFILES[0])));
+      const profiles = storedProfiles.map((profile, index) => normalizeProfile(profile, DEFAULT_PROFILES[index] || DEFAULT_PROFILES[0]));
+      const seededIds = new Set(parse(storage, STORAGE_KEYS.seededProfiles, []));
+      for (const preset of DEFAULT_PROFILES) {
+        if (!seededIds.has(preset.id) && !profiles.some((profile) => profile.id === preset.id)) profiles.push(clone(preset));
+        seededIds.add(preset.id);
+      }
+      write(storage, STORAGE_KEYS.seededProfiles, [...seededIds]);
+      write(storage, STORAGE_KEYS.profiles, profiles);
       storage.setItem(STORAGE_KEYS.migrated, String(APP_VERSION));
     }
     const api = {

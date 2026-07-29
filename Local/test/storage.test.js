@@ -65,6 +65,20 @@ test('version 3 profiles migrate into the Local CLI model field', () => {
   assert.equal(storage.getItem(STORAGE_KEYS.migrated), String(APP_VERSION));
 });
 
+test('new default profiles seed once into existing installs and stay deleted afterwards', () => {
+  const storage = new MemoryStorage({
+    [STORAGE_KEYS.migrated]: String(APP_VERSION),
+    [STORAGE_KEYS.settings]: JSON.stringify({ version: APP_VERSION, theme: 'dark', activeProfileId: 'daily-market', expert: {} }),
+    [STORAGE_KEYS.profiles]: JSON.stringify(DEFAULT_PROFILES.slice(0, 4)),
+    [STORAGE_KEYS.history]: '[]', [STORAGE_KEYS.ui]: '{}'
+  });
+  const store = createStore(storage); store.initialize();
+  assert.ok(store.getProfiles().some(profile => profile.id === 'earnings-futures'));
+  store.saveProfiles(store.getProfiles().filter(profile => profile.id !== 'earnings-futures'));
+  store.initialize();
+  assert.equal(store.getProfiles().some(profile => profile.id === 'earnings-futures'), false);
+});
+
 test('imports reject incompatible and incomplete backups', () => {
   const store = createStore(new MemoryStorage()); store.initialize();
   assert.throws(() => store.importBundle({ format: 'other', version: 2 }), /Unsupported/);
