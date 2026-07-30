@@ -1,6 +1,6 @@
 # Backtesting arena summary
 
-Generated 2026-07-30 00:10 CST. All times CST.
+Generated 2026-07-30 00:16 CST. All times CST.
 
 
 ## Phase status
@@ -11,9 +11,11 @@ Generated 2026-07-30 00:10 CST. All times CST.
 
 _Protocol: mine patterns on 2023, tune on 2024, single final run on 2025. See docs/DESIGN.md._
 
-## Stage 1 — spikes/drops per Mike's magnitude settings
+## Stage 1 — spikes/drops per the active event definition
 
-- **Settings (editable):** session 1.0%, overnight_gap 0.5%, am_leg 0.75%, pm_leg 0.75%, hour 0.5%, week 2.0%, sunday_gap 0.5% — engine/detection_config.json
+- **Definition mode (variable — test it):** magnitude (magnitude | percentile | either | both) — engine/detection_config.json
+- **Magnitude settings:** session 1.0%, overnight_gap 0.5%, am_leg 0.75%, pm_leg 0.75%, hour 0.5%, week 2.0%, sunday_gap 0.5%
+- **Percentile settings:** top 5% vs trailing 2 years
 | Timeframe kind | 2023 | 2024 | 2025 |
 |---|---|---|---|
 | am_leg | 106 | 84 | 95 |
@@ -24,7 +26,7 @@ _Protocol: mine patterns on 2023, tune on 2024, single final run on 2025. See do
 | sunday_gap | 84 | 86 | 89 |
 | week | 41 | 31 | 44 |
 
-_29,112 moves cataloged across both symbols; 5,466 meet the event settings (all years). Trailing-percentile columns remain in the catalog as pointer info only._
+_29,112 moves cataloged across both symbols; 5,466 qualify under the active definition. Both flags are always kept in the catalog, so switching modes never loses data._
 
 ## Stage 1 — extremes
 

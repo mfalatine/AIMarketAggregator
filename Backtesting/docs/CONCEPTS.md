@@ -71,16 +71,25 @@ prices first, then the news-source conversation happens. Candidates on the table
 Trading Economics, Benzinga, limited web search. Adding a source means writing one
 adapter that honors §1, §2, and §5.
 
-## 7. Spikes and drops are defined, not derived (Mike's ruling, 2026-07-30)
+## 7. The event definition is a variable — test it (Mike's rulings, 2026-07-30)
 
-We are looking at **actual spikes and drops** — discrete events — not averages. An
-average is never a finding about an event, and "it averaged flat" is exactly the
-indecisive whirlwind to avoid. Therefore:
+We are looking at **actual spikes and drops** — discrete events — and reporting
+**counts of what actually happened**, not averages ("it averaged flat" is exactly the
+indecisive whirlwind to avoid). The definition of an event:
 
 - **The magnitude of a spike/drop is a setting** (`engine/detection_config.json`),
-  per timeframe kind, editable by Mike. That setting IS the definition of an event.
-- Results about events are reported as **counts of what actually happened**
-  (N of M continued, reversed, spiked again) — not means.
-- **Volatility is a pointer, not a director.** It holds weight as one more piece of
-  info and may be looked at, but it never defines events and never drives conclusions.
-  Statistical baselines (trailing percentiles) ride along as pointer columns only.
+  per timeframe kind, editable by Mike.
+- The percentile approach was **not removed** (his correction): the definition can be
+  magnitude, percentile, **or one or the other, or both** — "we just need to be able
+  to vary whatever we use so that we can test — it's all about the data." The config
+  `mode` switches it; both flags are always kept in the catalog so no data is lost.
+- **Volatility is a pointer, not a director** — one more piece of info, never the
+  driver of a conclusion.
+
+## 8. Where stats belong, and the end goal (Mike, 2026-07-30)
+
+Stats come in at **pattern recognition**: clustered news events that result in spikes
+and drops. At the end of the day the measure is **how good we can get at predicting
+based on events** — looking at news and predicting the effect, whether direct or
+indirect — which is why the design must accommodate **secondary effects** (the arms
+in §4). Everything in the arena serves that prediction score.

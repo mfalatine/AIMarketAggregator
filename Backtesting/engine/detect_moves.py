@@ -10,11 +10,11 @@ Scans MES and MNQ 1-minute bars and catalogs moves per timeframe kind:
     week          last session close of ISO week -> prior week's last session close
     sunday_gap    prior week's last RTH close -> first Globex bar of the new week (Sun 17:00+)
 
-A move is a SPIKE (up) or DROP (down) when |move %| >= the magnitude setting for its
-kind in detection_config.json — Mike's setting IS the definition of an event
-(docs/CONCEPTS.md §7). The trailing-2-year 95th-percentile columns (trailing_p95,
-top5_trailing; 2023-2025 only, trailing-only so no forward bias) are POINTER INFO,
-never the definition.
+The event definition is VARIABLE for testing (docs/CONCEPTS.md §7). detection_config
+selects the mode: 'magnitude' (|move %| >= per-kind threshold), 'percentile' (top X%
+vs trailing N years, trailing-only so no forward bias — 2023+ only), 'either', or
+'both'. The catalog keeps magnitude_event and percentile_event flags regardless of
+mode, so switching modes never loses data; `event` reflects the active mode.
 
 Output: results/moves/<symbol>_moves.parquet, one row per move, all kinds in one file.
 Run:    python Backtesting/engine/detect_moves.py
@@ -31,8 +31,12 @@ CONFIG_PATH = Path(__file__).resolve().parent / "detection_config.json"
 MIDDAY = "11:44"
 
 
+def event_definition() -> dict:
+    return json.loads(CONFIG_PATH.read_text(encoding="utf-8"))["event_definition"]
+
+
 def spike_thresholds() -> dict:
-    return json.loads(CONFIG_PATH.read_text(encoding="utf-8"))["spike_thresholds_pct"]
+    return event_definition()["magnitude"]["spike_thresholds_pct"]
 
 
 def _move(kind, ts_start, ts_end, price_start, price_end):
@@ -94,27 +98,41 @@ def detect(symbol: str) -> pd.DataFrame:
     frame["year"] = pd.to_datetime(frame["ts_end"]).dt.year
     frame["abs_ret"] = frame["ret_pct"].abs()
 
-    # THE event definition: Mike's magnitude setting per kind.
-    thresholds = spike_thresholds()
-    frame["threshold_pct"] = frame["kind"].map(thresholds)
-    frame["event"] = frame["abs_ret"] >= frame["threshold_pct"]
+    definition = event_definition()
 
-    # Pointer info only (never the definition): top 5% vs trailing two years.
-    frame["trailing_p95"] = float("nan")
-    frame["top5_trailing"] = False
+    # Magnitude flag: |move %| >= Mike's per-kind threshold.
+    thresholds = definition["magnitude"]["spike_thresholds_pct"]
+    frame["threshold_pct"] = frame["kind"].map(thresholds)
+    frame["magnitude_event"] = frame["abs_ret"] >= frame["threshold_pct"]
+
+    # Percentile flag: top X% vs trailing N years (trailing-only; 2023+ only).
+    top = definition["percentile"]["top_percent"]
+    trailing_years = definition["percentile"]["trailing_years"]
+    frame["trailing_pctl"] = float("nan")
+    frame["percentile_event"] = False
     for year in (2023, 2024, 2025):
-        trailing = frame[frame["year"].isin([year - 2, year - 1])]
+        trailing = frame[frame["year"].isin(range(year - trailing_years, year))]
         for kind, baseline in trailing.groupby("kind")["abs_ret"]:
-            p95 = baseline.quantile(0.95)
+            cutoff = baseline.quantile(1 - top / 100)
             mask = (frame["year"] == year) & (frame["kind"] == kind)
-            frame.loc[mask, "trailing_p95"] = p95
-            frame.loc[mask, "top5_trailing"] = frame.loc[mask, "abs_ret"] >= p95
+            frame.loc[mask, "trailing_pctl"] = cutoff
+            frame.loc[mask, "percentile_event"] = frame.loc[mask, "abs_ret"] >= cutoff
+
+    # Active definition per mode; both flags stay in the catalog either way.
+    mode = definition["mode"]
+    frame["event"] = {"magnitude": frame["magnitude_event"],
+                      "percentile": frame["percentile_event"],
+                      "either": frame["magnitude_event"] | frame["percentile_event"],
+                      "both": frame["magnitude_event"] & frame["percentile_event"]}[mode]
     return frame.drop(columns=["abs_ret"]).sort_values(["kind", "ts_start"]).reset_index(drop=True)
 
 
 def main() -> None:
     MOVES_DIR.mkdir(parents=True, exist_ok=True)
-    print("spike/drop magnitude settings:", spike_thresholds())
+    definition = event_definition()
+    print(f"event definition mode: {definition['mode']}")
+    print("magnitude settings:", definition["magnitude"]["spike_thresholds_pct"])
+    print(f"percentile settings: top {definition['percentile']['top_percent']}% vs trailing {definition['percentile']['trailing_years']}y")
     for symbol in FILES:
         frame = detect(symbol)
         out = MOVES_DIR / f"{symbol.lower()}_moves.parquet"

@@ -1,12 +1,21 @@
 {
-  "thresholds_pct": {
-    "session": 1.0,
-    "overnight_gap": 0.5,
-    "am_leg": 0.75,
-    "pm_leg": 0.75,
-    "hour": 0.5,
-    "week": 2.0,
-    "sunday_gap": 0.5
+  "event_definition": {
+    "mode": "magnitude",
+    "magnitude": {
+      "spike_thresholds_pct": {
+        "session": 1.0,
+        "overnight_gap": 0.5,
+        "am_leg": 0.75,
+        "pm_leg": 0.75,
+        "hour": 0.5,
+        "week": 2.0,
+        "sunday_gap": 0.5
+      }
+    },
+    "percentile": {
+      "top_percent": 5,
+      "trailing_years": 2
+    }
   },
   "event_days": 249,
   "events": 535,

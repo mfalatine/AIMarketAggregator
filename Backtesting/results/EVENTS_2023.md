@@ -1,7 +1,6 @@
 # 2023 spikes and drops — price-identified (develop year)
 
-An event = |move| >= the magnitude setting for its kind (engine/detection_config.json):
-session 1.0%, overnight_gap 0.5%, am_leg 0.75%, pm_leg 0.75%, hour 0.5%, week 2.0%, sunday_gap 0.5%
+Event definition mode: **magnitude** (engine/detection_config.json). Magnitude settings: session 1.0%, overnight_gap 0.5%, am_leg 0.75%, pm_leg 0.75%, hour 0.5%, week 2.0%, sunday_gap 0.5%. Percentile settings: top 5% vs trailing 2 years.
 
 This is the list to hold against news sources: what happened on these days?
 

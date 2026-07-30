@@ -28,16 +28,21 @@ def moves_sections() -> list[dict]:
     counts = flagged[flagged["year"] >= 2023].groupby(["kind", "year"]).size().unstack(fill_value=0)
     count_table = {"columns": ["Timeframe kind"] + [str(year) for year in counts.columns],
                    "rows": [[kind] + [str(count) for count in row] for kind, row in counts.iterrows()]}
-    thresholds = json.loads((Path(__file__).resolve().parent / "detection_config.json").read_text(encoding="utf-8"))["spike_thresholds_pct"]
+    definition = json.loads((Path(__file__).resolve().parent / "detection_config.json").read_text(encoding="utf-8"))["event_definition"]
+    thresholds = definition["magnitude"]["spike_thresholds_pct"]
     extremes = []
     for kind, label in (("session", "Worst sessions"), ("overnight_gap", "Worst overnight gaps")):
         for row in flagged[flagged["kind"] == kind].nsmallest(3, "ret_pct").itertuples():
             extremes.append([f"{label}", f"{row.symbol} {pd.Timestamp(row.ts_end).date()} {row.ret_pct:+.2f}%"])
     sections = [{
-        "title": "Stage 1 — spikes/drops per Mike's magnitude settings",
-        "rows": [["Settings (editable)", ", ".join(f"{kind} {value}%" for kind, value in thresholds.items()) + " — engine/detection_config.json"]],
+        "title": "Stage 1 — spikes/drops per the active event definition",
+        "rows": [
+            ["Definition mode (variable — test it)", f"{definition['mode']} (magnitude | percentile | either | both) — engine/detection_config.json"],
+            ["Magnitude settings", ", ".join(f"{kind} {value}%" for kind, value in thresholds.items())],
+            ["Percentile settings", f"top {definition['percentile']['top_percent']}% vs trailing {definition['percentile']['trailing_years']} years"],
+        ],
         "table": count_table,
-        "note": f"{len(moves):,} moves cataloged across both symbols; {len(flagged):,} meet the event settings (all years). Trailing-percentile columns remain in the catalog as pointer info only.",
+        "note": f"{len(moves):,} moves cataloged across both symbols; {len(flagged):,} qualify under the active definition. Both flags are always kept in the catalog, so switching modes never loses data.",
     }, {
         "title": "Stage 1 — extremes",
         "rows": extremes,

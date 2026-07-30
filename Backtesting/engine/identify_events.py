@@ -14,7 +14,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from detect_moves import spike_thresholds
+from detect_moves import event_definition, spike_thresholds
 
 RESULTS_DIR = Path(__file__).resolve().parent.parent / "results"
 SYMBOLS = ("MES", "MNQ")
@@ -110,10 +110,12 @@ def outcome_counts(moves: pd.DataFrame) -> dict:
 
 
 def write_events_markdown(catalog: pd.DataFrame) -> None:
+    definition = event_definition()
     thresholds = spike_thresholds()
     lines = ["# 2023 spikes and drops — price-identified (develop year)\n",
-             "An event = |move| >= the magnitude setting for its kind (engine/detection_config.json):",
-             ", ".join(f"{kind} {value}%" for kind, value in thresholds.items()) + "\n",
+             f"Event definition mode: **{definition['mode']}** (engine/detection_config.json). "
+             f"Magnitude settings: " + ", ".join(f"{kind} {value}%" for kind, value in thresholds.items()) + ". "
+             f"Percentile settings: top {definition['percentile']['top_percent']}% vs trailing {definition['percentile']['trailing_years']} years.\n",
              "This is the list to hold against news sources: what happened on these days?\n",
              "| Date | Day | Kind | MES % | MNQ % |", "|---|---|---|---|---|"]
     for row in catalog.itertuples():
@@ -129,7 +131,7 @@ def main() -> None:
     catalog = event_catalog(moves)
     stats = outcome_counts(moves)
     write_events_markdown(catalog)
-    payload = {"thresholds_pct": spike_thresholds(), "event_days": int(catalog["date"].nunique()),
+    payload = {"event_definition": event_definition(), "event_days": int(catalog["date"].nunique()),
                "events": len(catalog), "outcomes": stats}
     (RESULTS_DIR / "events_2023.json").write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
     print(f"2023: {payload['events']} events on {payload['event_days']} distinct days -> EVENTS_2023.md")

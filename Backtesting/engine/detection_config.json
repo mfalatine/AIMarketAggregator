@@ -1,12 +1,21 @@
 {
-  "_doc": "Spike/drop magnitude settings — THE definition of an event, editable by Mike. A move is a spike (up) or drop (down) when |move %| >= the threshold for its timeframe kind. Trailing-percentile columns in the catalog are pointer info only, never the definition. See docs/CONCEPTS.md §7.",
-  "spike_thresholds_pct": {
-    "session": 1.0,
-    "overnight_gap": 0.5,
-    "am_leg": 0.75,
-    "pm_leg": 0.75,
-    "hour": 0.5,
-    "week": 2.0,
-    "sunday_gap": 0.5
+  "_doc": "Event definition - VARIABLE so we can test (Mike 2026-07-30: 'we just need to be able to vary whatever we use so that we can test - its all about the data'). mode: 'magnitude' = |move %| >= per-kind threshold; 'percentile' = top X% vs trailing N years; 'either' = qualifies under one or the other; 'both' = must qualify under both. All flags are kept in the catalog so switching modes never loses data. See docs/CONCEPTS.md section 7.",
+  "event_definition": {
+    "mode": "magnitude",
+    "magnitude": {
+      "spike_thresholds_pct": {
+        "session": 1.0,
+        "overnight_gap": 0.5,
+        "am_leg": 0.75,
+        "pm_leg": 0.75,
+        "hour": 0.5,
+        "week": 2.0,
+        "sunday_gap": 0.5
+      }
+    },
+    "percentile": {
+      "top_percent": 5,
+      "trailing_years": 2
+    }
   }
 }
