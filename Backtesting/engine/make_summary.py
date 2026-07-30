@@ -65,6 +65,38 @@ def moves_sections() -> list[dict]:
                       "rows": guidance_rows},
             "note": "MFE = max run in your favor to the horizon; MAE = max pull against you (stop-distance guide, dollarized per micro contract). News attribution pending the source decision.",
         })
+    book_path = RESULTS_DIR / "pattern_book.json"
+    if book_path.exists():
+        book = json.loads(book_path.read_text(encoding="utf-8"))
+        sections.append({
+            "title": f"Pattern book — {book['year']} price patterns (news tiers pending)",
+            "table": {"columns": ["Kind", "Dir", "Events", "Kept going", "Reversed", "Med MFE", "Med MAE", "Med peak", "MAE $/ct"],
+                      "rows": [[p["kind"], p["direction"], str(p["events"]), str(p["kept_going"]), str(p["reversed"]),
+                                f"{p['median_mfe_pct']}%", f"{p['median_mae_pct']}%", f"{p['median_minutes_to_peak']}m",
+                                f"${p['median_mae_usd_per_contract']}"] for p in book["price_patterns"]]},
+            "note": f"Generated {book['generated_at']} under mode '{book['event_definition_mode']}'. Full file: PATTERN_BOOK.md.",
+        })
+    runs_dir = RESULTS_DIR / "runs"
+    if runs_dir.exists():
+        run_rows = []
+        for run_path in sorted(runs_dir.iterdir()):
+            manifest_path, scores_path = run_path / "manifest.json", run_path / "scores.json"
+            if not (manifest_path.exists() and scores_path.exists()):
+                continue
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            scores = json.loads(scores_path.read_text(encoding="utf-8"))
+            graded = scores["days"] - scores["unparseable"]
+            run_rows.append([str(manifest["phase"]), manifest["provider"], manifest.get("hypothesis", ""),
+                             str(scores["days"]),
+                             f"{scores['direction_hits']}/{graded}", f"{scores['expansion_hits']}/{graded}",
+                             f"{scores['gap_hits']}/{graded}", f"{scores['severity_within_1']}/{graded}"])
+        if run_rows:
+            sections.append({
+                "title": "Arena runs — scored replays (point-in-time)",
+                "table": {"columns": ["Phase", "Provider", "Hypothesis", "Days", "Direction", "Expansion", "Gap", "Severity ±1"],
+                          "rows": run_rows},
+                "note": "Every run's full manifest, per-day records, and prompt live in results/runs/<run_id>/.",
+            })
     events_path = RESULTS_DIR / "events_2023.json"
     if events_path.exists():
         events = json.loads(events_path.read_text(encoding="utf-8"))

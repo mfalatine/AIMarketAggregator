@@ -1072,7 +1072,69 @@ Why it matters: ${item.why_it_matters}`).join("\n\n");
     <p class="field-help">CLI prompts run in an isolated temporary workspace that is deleted after each run. Codex may write only inside that workspace; Claude is limited to web research tools.</p>
   </section>`;
   }
+  async function renderBacktestSettings() {
+    const panel = $("#backtest-settings");
+    let config = null;
+    try {
+      const response = await fetch("/backtesting/config", { cache: "no-store" });
+      if (response.ok) config = await response.json();
+    } catch {
+    }
+    if (state.route !== "backtest") return;
+    if (!config) {
+      panel.innerHTML = html`<p class="subtle">Arena settings unavailable (engine config not reachable).</p>`;
+      return;
+    }
+    const definition = config.detection.event_definition;
+    const bands = config.detection.severity_bands_pct || {};
+    panel.innerHTML = html`
+    <div class="section-heading"><div><h2>Arena settings</h2><p class="subtle">The event definition is a variable — change it, save, re-run. Sources are checkboxes; any combination, all at once.</p></div></div>
+    <div class="form-grid two-column">
+      <label>Event definition mode
+        <select id="arena-mode">${["magnitude", "percentile", "either", "both"].map((mode) => html`<option value="${mode}" ${definition.mode === mode ? "selected" : ""}>${mode}</option>`)}</select>
+      </label>
+      <label>Percentile: top %<input id="arena-top-percent" type="number" min="1" max="50" step="1" value="${definition.percentile.top_percent}"></label>
+      <label>Percentile: trailing years<input id="arena-trailing-years" type="number" min="1" max="4" step="1" value="${definition.percentile.trailing_years}"></label>
+    </div>
+    <h3>Spike/drop magnitude per timeframe (%)</h3>
+    <div class="form-grid two-column">${Object.entries(definition.magnitude.spike_thresholds_pct).map(([kind, value]) => html`<label>${kind}<input data-arena-threshold="${kind}" type="number" min="0.05" step="0.05" value="${value}"></label>`)}</div>
+    <h3>Severity bands (|session %| at each score)</h3>
+    <div class="form-grid two-column">${[1, 2, 3, 4, 5].map((score) => html`<label>Score ${score}<input data-arena-band="${score}" type="number" min="0.05" step="0.05" value="${bands[String(score)] ?? ""}"></label>`)}</div>
+    <h3>News sources (declared set — checked sources are the source lock)</h3>
+    <div class="form-grid two-column">${Object.entries(config.sources).map(([name, enabled]) => html`<label class="option-card"><input data-arena-source="${name}" type="checkbox" ${enabled ? "checked" : ""}><span>${name}</span></label>`)}</div>
+    <div class="button-cluster">
+      <button id="arena-save" class="primary-button" type="button">Save settings</button>
+      <button id="arena-run" class="secondary-button" type="button">Re-run engine</button>
+      <span id="arena-status" class="subtle" role="status"></span>
+    </div>`;
+    $("#arena-save").addEventListener("click", async () => {
+      const statusNode = $("#arena-status");
+      const detection = config.detection;
+      detection.event_definition.mode = $("#arena-mode").value;
+      detection.event_definition.percentile.top_percent = Number($("#arena-top-percent").value);
+      detection.event_definition.percentile.trailing_years = Number($("#arena-trailing-years").value);
+      for (const input of $$("[data-arena-threshold]")) detection.event_definition.magnitude.spike_thresholds_pct[input.dataset.arenaThreshold] = Number(input.value);
+      for (const input of $$("[data-arena-band]")) detection.severity_bands_pct[input.dataset.arenaBand] = Number(input.value);
+      const sources = Object.fromEntries($$("[data-arena-source]").map((input) => [input.dataset.arenaSource, input.checked]));
+      statusNode.textContent = "Saving\u2026";
+      const response = await fetch("/backtesting/config", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ detection, sources }) });
+      statusNode.textContent = response.ok ? "Saved. Re-run the engine to apply." : "Save failed.";
+    });
+    $("#arena-run").addEventListener("click", async () => {
+      const statusNode = $("#arena-status");
+      statusNode.textContent = "Running the engine \u2014 this takes a minute or two\u2026";
+      try {
+        const response = await fetch("/backtesting/run", { method: "POST" });
+        const body = await response.json();
+        statusNode.textContent = response.ok ? "Engine re-run complete." : body.error?.message || "Run failed.";
+      } catch {
+        statusNode.textContent = "Run failed (server unreachable).";
+      }
+      renderBacktest();
+    });
+  }
   async function renderBacktest() {
+    renderBacktestSettings();
     const container = $("#backtest-content");
     container.innerHTML = html`<p class="subtle">Loading backtesting results…</p>`;
     let summary = null;

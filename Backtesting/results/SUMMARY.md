@@ -1,6 +1,6 @@
 # Backtesting arena summary
 
-Generated 2026-07-30 02:31 CST. All times CST.
+Generated 2026-07-30 18:25 CST. All times CST.
 
 
 ## Phase status
@@ -14,7 +14,7 @@ _Protocol: mine patterns on 2023, tune on 2024, single final run on 2025. See do
 ## Stage 1 — spikes/drops per the active event definition
 
 - **Definition mode (variable — test it):** magnitude (magnitude | percentile | either | both) — engine/detection_config.json
-- **Magnitude settings:** session 1.0%, overnight_gap 0.5%, am_leg 0.75%, pm_leg 0.75%, hour 0.5%, week 2.0%, sunday_gap 0.5%
+- **Magnitude settings:** session 1%, overnight_gap 0.5%, am_leg 0.75%, pm_leg 0.75%, hour 0.5%, week 2%, sunday_gap 0.5%
 - **Percentile settings:** top 5% vs trailing 2 years
 | Timeframe kind | 2023 | 2024 | 2025 |
 |---|---|---|---|
@@ -51,6 +51,34 @@ _Face-validity checks passed: 2024-08-05 carry-unwind gap and April 2025 tariff 
 | week | 3 | 3 of 3 | 2.84% | 0.47% | 10068 min | $104 |
 
 _MFE = max run in your favor to the horizon; MAE = max pull against you (stop-distance guide, dollarized per micro contract). News attribution pending the source decision._
+
+## Pattern book — 2023 price patterns (news tiers pending)
+
+| Kind | Dir | Events | Kept going | Reversed | Med MFE | Med MAE | Med peak | MAE $/ct |
+|---|---|---|---|---|---|---|---|---|
+| am_leg | down | 43 | 24 | 19 | 0.28% | 0.45% | 127m | $110 |
+| am_leg | up | 63 | 38 | 25 | 0.37% | 0.29% | 135m | $69 |
+| hour | down | 160 | 89 | 71 | 0.42% | 0.38% | 71m | $90 |
+| hour | up | 159 | 96 | 63 | 0.49% | 0.3% | 87m | $82 |
+| overnight_gap | down | 79 | 27 | 52 | 0.5% | 0.61% | 95m | $160 |
+| overnight_gap | up | 93 | 50 | 43 | 0.55% | 0.58% | 129m | $146 |
+| session | down | 47 | 18 | 29 | 0.54% | 1.0% | 1186m | $242 |
+| session | up | 68 | 38 | 30 | 0.75% | 0.52% | 1216m | $120 |
+| sunday_gap | down | 1 | 0 | 1 | 0.48% | 1.29% | 562m | $279 |
+| sunday_gap | up | 9 | 6 | 3 | 0.68% | 0.35% | 934m | $102 |
+| week | down | 15 | 5 | 10 | 0.9% | 2.3% | 7063m | $577 |
+| week | up | 26 | 15 | 11 | 1.38% | 1.58% | 6836m | $366 |
+
+_Generated 2026-07-30 18:25 CST under mode 'magnitude'. Full file: PATTERN_BOOK.md._
+
+## Arena runs — scored replays (point-in-time)
+
+| Phase | Provider | Hypothesis | Days | Direction | Expansion | Gap | Severity ±1 |
+|---|---|---|---|---|---|---|---|
+| 2023 | mock-flat | harness smoke: null baseline | 257 | 2/257 | 218/257 | 186/257 | 146/257 |
+| 2023 | mock-momentum | harness smoke: momentum baseline | 257 | 129/257 | 193/257 | 167/257 | 168/257 |
+
+_Every run's full manifest, per-day records, and prompt live in results/runs/<run_id>/._
 
 ## 2023 events identified (develop year — outcome counts)
 

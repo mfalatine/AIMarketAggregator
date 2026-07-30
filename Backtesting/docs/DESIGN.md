@@ -182,9 +182,22 @@ The dashboard is the Local app's Backtest tab (§7) — there is no separate das
 3. Prompt vs algo vs combination — deliberately deferred until 2023 patterns are on the
    table, per his instruction.
 
-## 10. Build order (proposed)
+## 10. Build status (2026-07-30)
 
-1. Stage 1 move detector + results and first pattern report from prices alone. **No
-   news source or spend needed — can start immediately.**
-2. News source adapter for whichever source Mike picks; Stage 2 event matcher.
-3. Stage 3 prompt evaluator; dashboard once there are results worth viewing.
+BUILT and verified:
+1. Stage 1 move detector (`detect_moves.py`) + trade-guidance enrichment (`enrich_events.py`).
+2. Event identification + pattern reports (`identify_events.py`).
+3. The arena scoring harness (`arena.py`): point-in-time replays, prediction contract,
+   scoring, run manifests with required hypotheses, 2025 seal. Mock baselines measured
+   on 2023 (momentum ≈ coin flip on direction — the floor to beat).
+4. AI bridge (`ai_bridge.py`): mock providers + Claude/Codex subscription CLIs.
+5. Explanation-table builder (`build_explanations.py`) — machinery proven by selftest;
+   waits on a news source for real input.
+6. Pattern book (`build_pattern_book.py`) — price patterns filled; news tiers pending.
+7. Backtest tab: results, arena runs, pattern book, and an Arena Settings panel
+   (event definition, thresholds, severity bands, source checkboxes, engine re-run).
+
+REMAINING:
+- News source activation (Mike's decision) → real explanation table → news tiers.
+- Real prompt candidates through the arena (2023 first), then the 2024 tweak loop.
+- The live trade-card generator — only after 2025 passes.

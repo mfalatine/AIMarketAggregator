@@ -1,0 +1,142 @@
+{
+  "generated_at": "2026-07-30 18:25 CST",
+  "year": 2023,
+  "event_definition_mode": "magnitude",
+  "price_patterns": [
+    {
+      "kind": "am_leg",
+      "direction": "down",
+      "events": 43,
+      "kept_going": 24,
+      "reversed": 19,
+      "median_mfe_pct": 0.28,
+      "median_mae_pct": 0.45,
+      "median_minutes_to_peak": 127,
+      "median_mae_usd_per_contract": 110
+    },
+    {
+      "kind": "am_leg",
+      "direction": "up",
+      "events": 63,
+      "kept_going": 38,
+      "reversed": 25,
+      "median_mfe_pct": 0.37,
+      "median_mae_pct": 0.29,
+      "median_minutes_to_peak": 135,
+      "median_mae_usd_per_contract": 69
+    },
+    {
+      "kind": "hour",
+      "direction": "down",
+      "events": 160,
+      "kept_going": 89,
+      "reversed": 71,
+      "median_mfe_pct": 0.42,
+      "median_mae_pct": 0.38,
+      "median_minutes_to_peak": 71,
+      "median_mae_usd_per_contract": 90
+    },
+    {
+      "kind": "hour",
+      "direction": "up",
+      "events": 159,
+      "kept_going": 96,
+      "reversed": 63,
+      "median_mfe_pct": 0.49,
+      "median_mae_pct": 0.3,
+      "median_minutes_to_peak": 87,
+      "median_mae_usd_per_contract": 82
+    },
+    {
+      "kind": "overnight_gap",
+      "direction": "down",
+      "events": 79,
+      "kept_going": 27,
+      "reversed": 52,
+      "median_mfe_pct": 0.5,
+      "median_mae_pct": 0.61,
+      "median_minutes_to_peak": 95,
+      "median_mae_usd_per_contract": 160
+    },
+    {
+      "kind": "overnight_gap",
+      "direction": "up",
+      "events": 93,
+      "kept_going": 50,
+      "reversed": 43,
+      "median_mfe_pct": 0.55,
+      "median_mae_pct": 0.58,
+      "median_minutes_to_peak": 129,
+      "median_mae_usd_per_contract": 146
+    },
+    {
+      "kind": "session",
+      "direction": "down",
+      "events": 47,
+      "kept_going": 18,
+      "reversed": 29,
+      "median_mfe_pct": 0.54,
+      "median_mae_pct": 1.0,
+      "median_minutes_to_peak": 1186,
+      "median_mae_usd_per_contract": 242
+    },
+    {
+      "kind": "session",
+      "direction": "up",
+      "events": 68,
+      "kept_going": 38,
+      "reversed": 30,
+      "median_mfe_pct": 0.75,
+      "median_mae_pct": 0.52,
+      "median_minutes_to_peak": 1216,
+      "median_mae_usd_per_contract": 120
+    },
+    {
+      "kind": "sunday_gap",
+      "direction": "down",
+      "events": 1,
+      "kept_going": 0,
+      "reversed": 1,
+      "median_mfe_pct": 0.48,
+      "median_mae_pct": 1.29,
+      "median_minutes_to_peak": 562,
+      "median_mae_usd_per_contract": 279
+    },
+    {
+      "kind": "sunday_gap",
+      "direction": "up",
+      "events": 9,
+      "kept_going": 6,
+      "reversed": 3,
+      "median_mfe_pct": 0.68,
+      "median_mae_pct": 0.35,
+      "median_minutes_to_peak": 934,
+      "median_mae_usd_per_contract": 102
+    },
+    {
+      "kind": "week",
+      "direction": "down",
+      "events": 15,
+      "kept_going": 5,
+      "reversed": 10,
+      "median_mfe_pct": 0.9,
+      "median_mae_pct": 2.3,
+      "median_minutes_to_peak": 7063,
+      "median_mae_usd_per_contract": 577
+    },
+    {
+      "kind": "week",
+      "direction": "up",
+      "events": 26,
+      "kept_going": 15,
+      "reversed": 11,
+      "median_mfe_pct": 1.38,
+      "median_mae_pct": 1.58,
+      "median_minutes_to_peak": 6836,
+      "median_mae_usd_per_contract": 366
+    }
+  ],
+  "news_tiers": {
+    "status": "pending \u2014 no labeled explanation table yet"
+  }
+}
