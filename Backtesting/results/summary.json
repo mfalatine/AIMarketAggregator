@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-30 00:16 CST",
+  "generated_at": "2026-07-30 02:05 CST",
   "headline": "Backtesting arena \u2014 status",
   "sections": [
     {
@@ -76,9 +76,9 @@
           ],
           [
             "sunday_gap",
-            "84",
-            "86",
-            "89"
+            "10",
+            "5",
+            "25"
           ],
           [
             "week",
@@ -88,7 +88,7 @@
           ]
         ]
       },
-      "note": "29,112 moves cataloged across both symbols; 5,466 qualify under the active definition. Both flags are always kept in the catalog, so switching modes never loses data."
+      "note": "29,114 moves cataloged across both symbols; 5,081 qualify under the active definition. Both flags are always kept in the catalog, so switching modes never loses data."
     },
     {
       "title": "Stage 1 \u2014 extremes",
@@ -125,7 +125,7 @@
       "rows": [
         [
           "Events identified",
-          "535 spikes/drops on 249 distinct days (full list: EVENTS_2023.md)"
+          "495 spikes/drops on 209 distinct days (full list: EVENTS_2023.md)"
         ],
         [
           "After a gap event",
@@ -137,7 +137,7 @@
         ],
         [
           "By weekday",
-          "Mon 105, Tue 124, Wed 168, Thu 218, Fri 223, Sun 84"
+          "Mon 105, Tue 124, Wed 168, Thu 218, Fri 223, Sun 10"
         ],
         [
           "Pointer info (not a director)",

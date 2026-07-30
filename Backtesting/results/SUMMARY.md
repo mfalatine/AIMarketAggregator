@@ -1,6 +1,6 @@
 # Backtesting arena summary
 
-Generated 2026-07-30 00:16 CST. All times CST.
+Generated 2026-07-30 02:05 CST. All times CST.
 
 
 ## Phase status
@@ -23,10 +23,10 @@ _Protocol: mine patterns on 2023, tune on 2024, single final run on 2025. See do
 | overnight_gap | 172 | 151 | 202 |
 | pm_leg | 70 | 38 | 42 |
 | session | 115 | 76 | 76 |
-| sunday_gap | 84 | 86 | 89 |
+| sunday_gap | 10 | 5 | 25 |
 | week | 41 | 31 | 44 |
 
-_29,112 moves cataloged across both symbols; 5,466 qualify under the active definition. Both flags are always kept in the catalog, so switching modes never loses data._
+_29,114 moves cataloged across both symbols; 5,081 qualify under the active definition. Both flags are always kept in the catalog, so switching modes never loses data._
 
 ## Stage 1 — extremes
 
@@ -41,10 +41,10 @@ _Face-validity checks passed: 2024-08-05 carry-unwind gap and April 2025 tariff 
 
 ## 2023 events identified (develop year — outcome counts)
 
-- **Events identified:** 535 spikes/drops on 249 distinct days (full list: EVENTS_2023.md)
+- **Events identified:** 495 spikes/drops on 209 distinct days (full list: EVENTS_2023.md)
 - **After a gap event:** 172 gap events: session closed in the gap's direction 77, reversed 95, session was itself an event 41
 - **After an AM event:** 106 AM events: PM same direction 62, opposite 44, PM was itself an event 19
-- **By weekday:** Mon 105, Tue 124, Wed 168, Thu 218, Fri 223, Sun 84
+- **By weekday:** Mon 105, Tue 124, Wed 168, Thu 218, Fri 223, Sun 10
 - **Pointer info (not a director):** of 115 session events, 29 were followed by another session event the next day
 
 _Counts of what actually happened, per CONCEPTS.md §7 — no averages._

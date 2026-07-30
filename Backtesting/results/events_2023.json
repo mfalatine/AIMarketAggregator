@@ -17,8 +17,8 @@
       "trailing_years": 2
     }
   },
-  "event_days": 249,
-  "events": 535,
+  "event_days": 209,
+  "events": 495,
   "outcomes": {
     "after_gap_event": {
       "gap_events": 172,
@@ -38,7 +38,7 @@
       "Wednesday": 168,
       "Thursday": 218,
       "Friday": 223,
-      "Sunday": 84
+      "Sunday": 10
     },
     "pointer_back_to_back": {
       "session_events": 115,

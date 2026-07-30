@@ -81,17 +81,18 @@ def detect(symbol: str) -> pd.DataFrame:
     last_of_week = weekly.groupby("week").last().reset_index()
     for prev, cur in zip(last_of_week.itertuples(), last_of_week.iloc[1:].itertuples()):
         moves.append(_move("week", prev.ts_close, cur.ts_close, prev.close, cur.close))
-    globex = minutes.assign(week=minutes["datetime"].dt.strftime("%G-W%V"))
-    sunday_open = globex[(globex["datetime"].dt.weekday == 6) & (globex["datetime"].dt.hour >= 17)]
-    first_sunday_bar = sunday_open.groupby("week").first().reset_index()
-    close_by_week = dict(zip(last_of_week["week"], zip(last_of_week["ts_close"], last_of_week["close"])))
-    weeks = sorted(close_by_week)
+    # Sunday reopen gap: pair each Sunday 17:00+ first bar with the last RTH session
+    # close strictly before it (the Friday two days prior) — never by calendar week,
+    # because ISO weeks END on Sunday and that pairing once swallowed a whole week.
+    sunday_bars = minutes[(minutes["datetime"].dt.weekday == 6) & (minutes["datetime"].dt.hour >= 17)]
+    first_sunday_bar = sunday_bars.groupby(sunday_bars["datetime"].dt.date, as_index=False).first()
+    ordered_sessions = sessions.sort_values("ts_close").reset_index(drop=True)
     for row in first_sunday_bar.itertuples():
-        prior_weeks = [week for week in weeks if week < row.week]
-        if not prior_weeks:
+        prior = ordered_sessions[ordered_sessions["ts_close"] < row.datetime]
+        if prior.empty:
             continue
-        prior_ts, prior_close = close_by_week[prior_weeks[-1]]
-        moves.append(_move("sunday_gap", prior_ts, row.datetime, prior_close, row.open))
+        last = prior.iloc[-1]
+        moves.append(_move("sunday_gap", last["ts_close"], row.datetime, last["close"], row.open))
 
     frame = pd.DataFrame(moves)
     frame.insert(0, "symbol", symbol)

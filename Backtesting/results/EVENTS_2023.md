@@ -18,7 +18,6 @@ This is the list to hold against news sources: what happened on these days?
 | 2023-01-06 | Friday | session | +1.41 | +2.05 |
 | 2023-01-06 | Friday | hour | +0.63 | +0.59 |
 | 2023-01-06 | Friday | pm_leg | — | +0.92 |
-| 2023-01-08 | Sunday | sunday_gap | +1.45 | +0.96 |
 | 2023-01-09 | Monday | overnight_gap | +0.60 | +0.77 |
 | 2023-01-09 | Monday | am_leg | — | +1.18 |
 | 2023-01-09 | Monday | pm_leg | -1.04 | -1.27 |
@@ -34,7 +33,6 @@ This is the list to hold against news sources: what happened on these days?
 | 2023-01-13 | Friday | hour | +0.75 | +0.82 |
 | 2023-01-13 | Friday | session | +1.25 | +1.60 |
 | 2023-01-13 | Friday | pm_leg | — | +0.78 |
-| 2023-01-15 | Sunday | sunday_gap | +2.64 | +4.48 |
 | 2023-01-17 | Tuesday | hour | -0.51 | -0.65 |
 | 2023-01-18 | Wednesday | overnight_gap | — | +0.58 |
 | 2023-01-18 | Wednesday | am_leg | -1.33 | -1.43 |
@@ -47,7 +45,6 @@ This is the list to hold against news sources: what happened on these days?
 | 2023-01-20 | Friday | session | +1.47 | +2.17 |
 | 2023-01-20 | Friday | pm_leg | +0.96 | +1.18 |
 | 2023-01-20 | Friday | hour | +0.57 | +0.76 |
-| 2023-01-22 | Sunday | sunday_gap | -0.76 | +0.60 |
 | 2023-01-23 | Monday | am_leg | +1.13 | +1.91 |
 | 2023-01-23 | Monday | hour | +0.64 | +0.51 |
 | 2023-01-23 | Monday | session | — | +1.94 |
@@ -63,7 +60,6 @@ This is the list to hold against news sources: what happened on these days?
 | 2023-01-27 | Friday | am_leg | — | +1.45 |
 | 2023-01-27 | Friday | hour | +0.52 | -0.56 |
 | 2023-01-27 | Friday | session | — | +1.46 |
-| 2023-01-29 | Sunday | sunday_gap | +2.26 | +4.60 |
 | 2023-01-30 | Monday | overnight_gap | -0.73 | -1.15 |
 | 2023-01-31 | Tuesday | am_leg | — | +0.95 |
 | 2023-01-31 | Tuesday | session | +1.33 | +1.50 |
@@ -80,7 +76,6 @@ This is the list to hold against news sources: what happened on these days?
 | 2023-02-03 | Friday | am_leg | +1.08 | +1.95 |
 | 2023-02-03 | Friday | hour | -0.76 | -1.06 |
 | 2023-02-03 | Friday | pm_leg | -0.90 | -1.53 |
-| 2023-02-05 | Sunday | sunday_gap | +1.25 | +2.91 |
 | 2023-02-06 | Monday | overnight_gap | -0.64 | -0.91 |
 | 2023-02-06 | Monday | hour | +0.56 | -0.50 |
 | 2023-02-07 | Tuesday | am_leg | — | +0.85 |
@@ -99,7 +94,6 @@ This is the list to hold against news sources: what happened on these days?
 | 2023-02-10 | Friday | week | — | -2.20 |
 | 2023-02-10 | Friday | overnight_gap | — | -0.74 |
 | 2023-02-10 | Friday | hour | — | +0.62 |
-| 2023-02-12 | Sunday | sunday_gap | -1.03 | -2.14 |
 | 2023-02-13 | Monday | am_leg | +0.88 | +1.16 |
 | 2023-02-13 | Monday | hour | +0.52 | +0.51 |
 | 2023-02-13 | Monday | session | +1.00 | +1.15 |
@@ -125,7 +119,6 @@ This is the list to hold against news sources: what happened on these days?
 | 2023-02-23 | Thursday | hour | +0.55 | +0.83 |
 | 2023-02-24 | Friday | week | -2.75 | -3.18 |
 | 2023-02-24 | Friday | overnight_gap | -1.33 | -1.74 |
-| 2023-02-26 | Sunday | sunday_gap | -2.75 | -3.14 |
 | 2023-02-27 | Monday | overnight_gap | +0.86 | +1.11 |
 | 2023-02-27 | Monday | hour | -0.57 | -0.51 |
 | 2023-03-01 | Wednesday | hour | — | -0.68 |
@@ -138,7 +131,6 @@ This is the list to hold against news sources: what happened on these days?
 | 2023-03-03 | Friday | am_leg | — | +0.77 |
 | 2023-03-03 | Friday | hour | — | +0.75 |
 | 2023-03-03 | Friday | session | +1.10 | +1.46 |
-| 2023-03-05 | Sunday | sunday_gap | +1.85 | +2.58 |
 | 2023-03-06 | Monday | hour | — | +0.59 |
 | 2023-03-07 | Tuesday | am_leg | -0.92 | — |
 | 2023-03-07 | Tuesday | hour | -0.68 | +0.53 |
@@ -152,7 +144,7 @@ This is the list to hold against news sources: what happened on these days?
 | 2023-03-10 | Friday | session | -1.32 | -1.47 |
 | 2023-03-10 | Friday | hour | -0.78 | -0.82 |
 | 2023-03-10 | Friday | pm_leg | -0.88 | -0.93 |
-| 2023-03-12 | Sunday | sunday_gap | -3.27 | -2.47 |
+| 2023-03-12 | Sunday | sunday_gap | +1.41 | +1.42 |
 | 2023-03-13 | Monday | am_leg | +1.66 | +2.25 |
 | 2023-03-13 | Monday | session | — | +1.40 |
 | 2023-03-13 | Monday | pm_leg | — | -0.83 |
@@ -170,7 +162,6 @@ This is the list to hold against news sources: what happened on these days?
 | 2023-03-16 | Thursday | hour | +1.36 | +1.52 |
 | 2023-03-17 | Friday | week | +2.21 | +6.81 |
 | 2023-03-17 | Friday | hour | -0.54 | -0.63 |
-| 2023-03-19 | Sunday | sunday_gap | +2.61 | +7.16 |
 | 2023-03-20 | Monday | hour | -0.58 | -0.69 |
 | 2023-03-21 | Tuesday | overnight_gap | +0.90 | +0.65 |
 | 2023-03-21 | Tuesday | pm_leg | — | +0.88 |
@@ -182,7 +173,6 @@ This is the list to hold against news sources: what happened on these days?
 | 2023-03-23 | Thursday | pm_leg | -1.08 | -0.98 |
 | 2023-03-23 | Thursday | hour | -0.64 | -0.83 |
 | 2023-03-24 | Friday | hour | — | -0.57 |
-| 2023-03-26 | Sunday | sunday_gap | +1.53 | +2.12 |
 | 2023-03-27 | Monday | overnight_gap | +0.59 | — |
 | 2023-03-27 | Monday | am_leg | — | -1.06 |
 | 2023-03-28 | Tuesday | hour | — | -0.56 |
@@ -191,7 +181,6 @@ This is the list to hold against news sources: what happened on these days?
 | 2023-03-31 | Friday | week | +3.39 | +3.16 |
 | 2023-03-31 | Friday | am_leg | — | +1.08 |
 | 2023-03-31 | Friday | session | +1.17 | +1.60 |
-| 2023-04-02 | Sunday | sunday_gap | +3.12 | +2.86 |
 | 2023-04-03 | Monday | overnight_gap | — | -0.68 |
 | 2023-04-03 | Monday | hour | -0.52 | -0.57 |
 | 2023-04-04 | Tuesday | am_leg | -0.79 | — |
@@ -201,7 +190,6 @@ This is the list to hold against news sources: what happened on these days?
 | 2023-04-06 | Thursday | am_leg | — | +1.10 |
 | 2023-04-06 | Thursday | session | — | +1.22 |
 | 2023-04-06 | Thursday | hour | — | +0.52 |
-| 2023-04-09 | Sunday | sunday_gap | — | -0.93 |
 | 2023-04-10 | Monday | overnight_gap | -0.64 | -0.97 |
 | 2023-04-10 | Monday | hour | — | +0.67 |
 | 2023-04-12 | Wednesday | overnight_gap | +0.50 | +0.61 |
@@ -215,7 +203,6 @@ This is the list to hold against news sources: what happened on these days?
 | 2023-04-14 | Friday | overnight_gap | — | -0.54 |
 | 2023-04-14 | Friday | pm_leg | — | +0.80 |
 | 2023-04-14 | Friday | hour | — | +0.54 |
-| 2023-04-16 | Sunday | sunday_gap | +1.01 | — |
 | 2023-04-17 | Monday | hour | — | +0.51 |
 | 2023-04-18 | Tuesday | overnight_gap | — | +0.69 |
 | 2023-04-18 | Tuesday | am_leg | — | -0.76 |
@@ -225,7 +212,6 @@ This is the list to hold against news sources: what happened on these days?
 | 2023-04-20 | Thursday | overnight_gap | -0.77 | -1.00 |
 | 2023-04-20 | Thursday | am_leg | — | +0.76 |
 | 2023-04-20 | Thursday | hour | — | -0.63 |
-| 2023-04-23 | Sunday | sunday_gap | — | -0.83 |
 | 2023-04-24 | Monday | hour | — | -0.73 |
 | 2023-04-25 | Tuesday | overnight_gap | -0.53 | -0.54 |
 | 2023-04-25 | Tuesday | session | -1.08 | -1.38 |
@@ -236,7 +222,6 @@ This is the list to hold against news sources: what happened on these days?
 | 2023-04-28 | Friday | am_leg | +0.87 | — |
 | 2023-04-28 | Friday | hour | +0.78 | -0.57 |
 | 2023-04-28 | Friday | session | +1.09 | — |
-| 2023-04-30 | Sunday | sunday_gap | +0.81 | +1.74 |
 | 2023-05-02 | Tuesday | am_leg | -1.32 | -1.02 |
 | 2023-05-02 | Tuesday | hour | -0.63 | -0.58 |
 | 2023-05-03 | Wednesday | pm_leg | -0.88 | -0.82 |
@@ -246,7 +231,6 @@ This is the list to hold against news sources: what happened on these days?
 | 2023-05-05 | Friday | am_leg | — | +0.88 |
 | 2023-05-05 | Friday | hour | — | +0.73 |
 | 2023-05-05 | Friday | session | — | +1.41 |
-| 2023-05-07 | Sunday | sunday_gap | -0.93 | — |
 | 2023-05-09 | Tuesday | overnight_gap | — | -0.55 |
 | 2023-05-10 | Wednesday | overnight_gap | +0.70 | +0.76 |
 | 2023-05-10 | Wednesday | hour | +0.53 | +0.61 |
@@ -258,7 +242,6 @@ This is the list to hold against news sources: what happened on these days?
 | 2023-05-18 | Thursday | hour | — | +0.88 |
 | 2023-05-18 | Thursday | session | +1.06 | +1.73 |
 | 2023-05-19 | Friday | week | — | +3.44 |
-| 2023-05-21 | Sunday | sunday_gap | +1.24 | +3.11 |
 | 2023-05-23 | Tuesday | overnight_gap | — | -0.53 |
 | 2023-05-24 | Wednesday | overnight_gap | — | -0.60 |
 | 2023-05-24 | Wednesday | hour | — | +0.53 |
@@ -268,14 +251,13 @@ This is the list to hold against news sources: what happened on these days?
 | 2023-05-26 | Friday | am_leg | +1.10 | +2.17 |
 | 2023-05-26 | Friday | hour | +0.94 | +1.32 |
 | 2023-05-26 | Friday | session | +1.13 | +2.25 |
-| 2023-05-28 | Sunday | sunday_gap | +0.61 | +4.04 |
+| 2023-05-28 | Sunday | sunday_gap | — | +0.59 |
 | 2023-05-30 | Tuesday | overnight_gap | — | +0.72 |
 | 2023-05-30 | Tuesday | hour | — | -0.58 |
 | 2023-06-01 | Thursday | am_leg | +0.82 | +1.10 |
 | 2023-06-01 | Thursday | session | — | +1.23 |
 | 2023-06-01 | Thursday | hour | +0.53 | +0.51 |
 | 2023-06-02 | Friday | overnight_gap | +0.63 | — |
-| 2023-06-04 | Sunday | sunday_gap | +1.78 | +1.74 |
 | 2023-06-07 | Wednesday | am_leg | — | -1.14 |
 | 2023-06-07 | Wednesday | session | — | -1.78 |
 | 2023-06-07 | Wednesday | hour | — | -0.68 |
@@ -283,7 +265,7 @@ This is the list to hold against news sources: what happened on these days?
 | 2023-06-08 | Thursday | session | — | +1.13 |
 | 2023-06-08 | Thursday | hour | — | +0.53 |
 | 2023-06-09 | Friday | hour | — | -0.80 |
-| 2023-06-11 | Sunday | sunday_gap | +1.39 | +1.09 |
+| 2023-06-11 | Sunday | sunday_gap | +1.01 | +1.25 |
 | 2023-06-12 | Monday | overnight_gap | +1.24 | +1.70 |
 | 2023-06-12 | Monday | session | — | +1.24 |
 | 2023-06-12 | Monday | pm_leg | — | +0.92 |
@@ -296,7 +278,6 @@ This is the list to hold against news sources: what happened on these days?
 | 2023-06-16 | Friday | week | +3.50 | +4.93 |
 | 2023-06-16 | Friday | overnight_gap | — | +0.61 |
 | 2023-06-16 | Friday | session | — | -1.27 |
-| 2023-06-18 | Sunday | sunday_gap | +3.55 | +5.13 |
 | 2023-06-21 | Wednesday | am_leg | — | -0.85 |
 | 2023-06-21 | Wednesday | session | — | -1.03 |
 | 2023-06-21 | Wednesday | hour | — | +0.55 |
@@ -305,7 +286,6 @@ This is the list to hold against news sources: what happened on these days?
 | 2023-06-22 | Thursday | session | — | +1.55 |
 | 2023-06-23 | Friday | overnight_gap | -0.85 | -1.12 |
 | 2023-06-23 | Friday | hour | — | +0.61 |
-| 2023-06-25 | Sunday | sunday_gap | -1.50 | -1.42 |
 | 2023-06-26 | Monday | am_leg | — | -0.99 |
 | 2023-06-26 | Monday | session | — | -1.19 |
 | 2023-06-26 | Monday | hour | — | -0.55 |
@@ -316,18 +296,15 @@ This is the list to hold against news sources: what happened on these days?
 | 2023-06-30 | Friday | week | +2.19 | — |
 | 2023-06-30 | Friday | overnight_gap | +0.72 | +0.98 |
 | 2023-06-30 | Friday | hour | — | +0.67 |
-| 2023-07-02 | Sunday | sunday_gap | +2.16 | +1.80 |
 | 2023-07-05 | Wednesday | hour | — | +0.76 |
 | 2023-07-06 | Thursday | overnight_gap | -0.89 | -1.07 |
 | 2023-07-07 | Friday | am_leg | +0.81 | — |
 | 2023-07-07 | Friday | pm_leg | -0.80 | -0.95 |
 | 2023-07-07 | Friday | hour | — | -0.50 |
-| 2023-07-09 | Sunday | sunday_gap | -1.09 | -0.88 |
 | 2023-07-12 | Wednesday | overnight_gap | +0.88 | +1.12 |
 | 2023-07-13 | Thursday | overnight_gap | — | +0.80 |
 | 2023-07-14 | Friday | week | +2.36 | +3.42 |
 | 2023-07-14 | Friday | hour | — | +0.62 |
-| 2023-07-16 | Sunday | sunday_gap | +2.28 | +3.34 |
 | 2023-07-18 | Tuesday | hour | — | +0.79 |
 | 2023-07-20 | Thursday | overnight_gap | — | -0.77 |
 | 2023-07-20 | Thursday | am_leg | — | -0.80 |
@@ -337,7 +314,6 @@ This is the list to hold against news sources: what happened on these days?
 | 2023-07-21 | Friday | overnight_gap | — | +0.64 |
 | 2023-07-21 | Friday | am_leg | — | -0.79 |
 | 2023-07-21 | Friday | hour | — | +0.52 |
-| 2023-07-23 | Sunday | sunday_gap | +0.55 | -0.94 |
 | 2023-07-27 | Thursday | overnight_gap | +0.72 | +1.42 |
 | 2023-07-27 | Thursday | session | -1.43 | -1.70 |
 | 2023-07-27 | Thursday | pm_leg | -1.29 | -1.76 |
@@ -345,7 +321,6 @@ This is the list to hold against news sources: what happened on these days?
 | 2023-07-28 | Friday | week | — | +2.01 |
 | 2023-07-28 | Friday | overnight_gap | +0.73 | +1.10 |
 | 2023-07-28 | Friday | am_leg | — | +0.83 |
-| 2023-07-30 | Sunday | sunday_gap | +0.99 | +2.01 |
 | 2023-08-02 | Wednesday | overnight_gap | -0.72 | -0.94 |
 | 2023-08-02 | Wednesday | am_leg | — | -1.24 |
 | 2023-08-02 | Wednesday | hour | — | -0.79 |
@@ -357,7 +332,6 @@ This is the list to hold against news sources: what happened on these days?
 | 2023-08-04 | Friday | overnight_gap | — | +0.52 |
 | 2023-08-04 | Friday | pm_leg | -1.34 | -1.60 |
 | 2023-08-04 | Friday | hour | -0.78 | -0.82 |
-| 2023-08-06 | Sunday | sunday_gap | -2.32 | -3.03 |
 | 2023-08-08 | Tuesday | overnight_gap | -0.60 | -0.69 |
 | 2023-08-08 | Tuesday | am_leg | — | -0.79 |
 | 2023-08-08 | Tuesday | hour | — | -0.61 |
@@ -368,7 +342,6 @@ This is the list to hold against news sources: what happened on these days?
 | 2023-08-10 | Thursday | hour | +0.62 | -0.66 |
 | 2023-08-11 | Friday | overnight_gap | — | -0.72 |
 | 2023-08-11 | Friday | hour | — | -0.59 |
-| 2023-08-13 | Sunday | sunday_gap | — | -1.65 |
 | 2023-08-14 | Monday | am_leg | — | +0.88 |
 | 2023-08-14 | Monday | hour | — | +0.52 |
 | 2023-08-14 | Monday | session | — | +1.36 |
@@ -379,7 +352,6 @@ This is the list to hold against news sources: what happened on these days?
 | 2023-08-17 | Thursday | pm_leg | -0.84 | -1.02 |
 | 2023-08-18 | Friday | week | -2.17 | -2.32 |
 | 2023-08-18 | Friday | overnight_gap | -0.68 | -0.95 |
-| 2023-08-20 | Sunday | sunday_gap | -2.22 | -2.24 |
 | 2023-08-21 | Monday | session | — | +1.21 |
 | 2023-08-22 | Tuesday | overnight_gap | — | +0.70 |
 | 2023-08-22 | Tuesday | hour | — | -0.53 |
@@ -392,7 +364,6 @@ This is the list to hold against news sources: what happened on these days?
 | 2023-08-24 | Thursday | session | -1.75 | -3.11 |
 | 2023-08-24 | Thursday | pm_leg | -0.83 | -1.12 |
 | 2023-08-25 | Friday | hour | +0.51 | +0.69 |
-| 2023-08-27 | Sunday | sunday_gap | +0.75 | +1.64 |
 | 2023-08-28 | Monday | overnight_gap | +0.51 | +0.80 |
 | 2023-08-28 | Monday | hour | — | +0.51 |
 | 2023-08-29 | Tuesday | am_leg | +1.21 | +1.98 |
@@ -402,19 +373,17 @@ This is the list to hold against news sources: what happened on these days?
 | 2023-09-01 | Friday | week | +2.44 | +3.62 |
 | 2023-09-01 | Friday | overnight_gap | +0.63 | +0.65 |
 | 2023-09-01 | Friday | am_leg | — | -0.95 |
-| 2023-09-03 | Sunday | sunday_gap | +2.39 | +3.61 |
 | 2023-09-06 | Wednesday | am_leg | -0.90 | -1.15 |
 | 2023-09-06 | Wednesday | hour | -0.52 | -0.73 |
 | 2023-09-07 | Thursday | overnight_gap | -0.74 | -1.28 |
 | 2023-09-08 | Friday | hour | — | +0.67 |
-| 2023-09-10 | Sunday | sunday_gap | — | -1.37 |
+| 2023-09-10 | Sunday | sunday_gap | +1.15 | — |
 | 2023-09-11 | Monday | overnight_gap | +1.73 | +2.12 |
 | 2023-09-14 | Thursday | overnight_gap | +0.53 | — |
 | 2023-09-14 | Thursday | hour | — | +0.51 |
 | 2023-09-15 | Friday | am_leg | — | -0.99 |
 | 2023-09-15 | Friday | hour | — | -0.73 |
 | 2023-09-15 | Friday | session | — | -1.40 |
-| 2023-09-17 | Sunday | sunday_gap | +0.86 | +0.58 |
 | 2023-09-20 | Wednesday | session | -1.23 | -1.73 |
 | 2023-09-20 | Wednesday | pm_leg | -1.21 | -1.46 |
 | 2023-09-20 | Wednesday | hour | -0.52 | -0.66 |
@@ -423,7 +392,6 @@ This is the list to hold against news sources: what happened on these days?
 | 2023-09-22 | Friday | overnight_gap | — | +0.51 |
 | 2023-09-22 | Friday | pm_leg | -0.76 | -1.01 |
 | 2023-09-22 | Friday | hour | -0.51 | -0.57 |
-| 2023-09-24 | Sunday | sunday_gap | -2.98 | -3.33 |
 | 2023-09-26 | Tuesday | overnight_gap | -0.75 | -0.75 |
 | 2023-09-27 | Wednesday | hour | +0.50 | +0.62 |
 | 2023-09-28 | Thursday | am_leg | +1.06 | +1.60 |
@@ -431,7 +399,7 @@ This is the list to hold against news sources: what happened on these days?
 | 2023-09-28 | Thursday | hour | — | +0.78 |
 | 2023-09-29 | Friday | overnight_gap | +0.72 | +0.97 |
 | 2023-09-29 | Friday | hour | — | -0.55 |
-| 2023-10-01 | Sunday | sunday_gap | — | +0.64 |
+| 2023-10-01 | Sunday | sunday_gap | +0.52 | +0.64 |
 | 2023-10-02 | Monday | hour | -0.66 | -0.85 |
 | 2023-10-03 | Tuesday | overnight_gap | -0.55 | -0.73 |
 | 2023-10-03 | Tuesday | am_leg | -0.77 | -0.85 |
@@ -445,7 +413,7 @@ This is the list to hold against news sources: what happened on these days?
 | 2023-10-06 | Friday | am_leg | +1.55 | +2.12 |
 | 2023-10-06 | Friday | session | +1.81 | +2.56 |
 | 2023-10-06 | Friday | hour | +0.57 | +0.79 |
-| 2023-10-08 | Sunday | sunday_gap | — | +1.40 |
+| 2023-10-08 | Sunday | sunday_gap | -0.51 | — |
 | 2023-10-09 | Monday | overnight_gap | — | -0.67 |
 | 2023-10-09 | Monday | session | +1.10 | +1.19 |
 | 2023-10-09 | Monday | pm_leg | +0.82 | +0.91 |
@@ -470,7 +438,6 @@ This is the list to hold against news sources: what happened on these days?
 | 2023-10-20 | Friday | am_leg | — | -0.95 |
 | 2023-10-20 | Friday | hour | -0.61 | -0.60 |
 | 2023-10-20 | Friday | session | -1.12 | -1.35 |
-| 2023-10-22 | Sunday | sunday_gap | -2.34 | -2.93 |
 | 2023-10-23 | Monday | am_leg | +0.77 | +1.22 |
 | 2023-10-23 | Monday | hour | — | +0.51 |
 | 2023-10-24 | Tuesday | overnight_gap | +0.50 | — |
@@ -485,7 +452,6 @@ This is the list to hold against news sources: what happened on these days?
 | 2023-10-27 | Friday | week | -2.60 | -2.70 |
 | 2023-10-27 | Friday | overnight_gap | — | +0.79 |
 | 2023-10-27 | Friday | hour | — | -0.56 |
-| 2023-10-29 | Sunday | sunday_gap | -2.39 | -2.27 |
 | 2023-10-30 | Monday | overnight_gap | +0.67 | +0.69 |
 | 2023-11-01 | Wednesday | session | — | +1.54 |
 | 2023-11-01 | Wednesday | pm_leg | +0.76 | +1.15 |
@@ -495,28 +461,23 @@ This is the list to hold against news sources: what happened on these days?
 | 2023-11-03 | Friday | overnight_gap | +0.54 | — |
 | 2023-11-03 | Friday | am_leg | — | +0.89 |
 | 2023-11-03 | Friday | hour | — | +0.51 |
-| 2023-11-05 | Sunday | sunday_gap | +5.83 | +6.45 |
 | 2023-11-09 | Thursday | session | -1.05 | — |
 | 2023-11-09 | Thursday | pm_leg | -0.79 | -0.85 |
 | 2023-11-10 | Friday | week | — | +2.79 |
 | 2023-11-10 | Friday | am_leg | — | +1.31 |
 | 2023-11-10 | Friday | session | +1.06 | +1.76 |
 | 2023-11-10 | Friday | hour | — | +0.67 |
-| 2023-11-12 | Sunday | sunday_gap | +1.16 | +2.71 |
 | 2023-11-14 | Tuesday | overnight_gap | +1.38 | +1.70 |
 | 2023-11-14 | Tuesday | hour | +0.57 | — |
 | 2023-11-17 | Friday | week | +2.21 | — |
-| 2023-11-19 | Sunday | sunday_gap | +2.17 | +1.88 |
 | 2023-11-20 | Monday | am_leg | — | +0.77 |
 | 2023-11-20 | Monday | session | — | +1.22 |
 | 2023-11-21 | Tuesday | hour | — | -0.54 |
 | 2023-11-22 | Wednesday | overnight_gap | — | +0.51 |
-| 2023-11-26 | Sunday | sunday_gap | +0.89 | +0.70 |
 | 2023-11-29 | Wednesday | overnight_gap | — | +0.62 |
 | 2023-11-30 | Thursday | am_leg | — | -0.83 |
 | 2023-11-30 | Thursday | hour | — | +0.61 |
 | 2023-12-01 | Friday | hour | — | +0.51 |
-| 2023-12-03 | Sunday | sunday_gap | +0.77 | — |
 | 2023-12-04 | Monday | overnight_gap | -0.77 | -1.02 |
 | 2023-12-04 | Monday | hour | — | -0.69 |
 | 2023-12-05 | Tuesday | overnight_gap | — | -0.51 |
@@ -527,14 +488,13 @@ This is the list to hold against news sources: what happened on these days?
 | 2023-12-06 | Wednesday | session | — | -1.36 |
 | 2023-12-07 | Thursday | overnight_gap | — | +0.75 |
 | 2023-12-08 | Friday | hour | +0.52 | +0.89 |
-| 2023-12-10 | Sunday | sunday_gap | +1.28 | — |
+| 2023-12-10 | Sunday | sunday_gap | +1.15 | — |
 | 2023-12-11 | Monday | overnight_gap | +1.05 | +1.19 |
 | 2023-12-13 | Wednesday | session | +1.29 | +1.03 |
 | 2023-12-13 | Wednesday | pm_leg | +1.29 | +1.13 |
 | 2023-12-13 | Wednesday | hour | +0.71 | +0.70 |
 | 2023-12-14 | Thursday | hour | -0.51 | -0.73 |
 | 2023-12-15 | Friday | week | +3.46 | +4.48 |
-| 2023-12-17 | Sunday | sunday_gap | +3.54 | +4.48 |
 | 2023-12-20 | Wednesday | session | -1.26 | -1.31 |
 | 2023-12-20 | Wednesday | pm_leg | -1.61 | -1.68 |
 | 2023-12-20 | Wednesday | hour | -1.12 | -1.29 |
