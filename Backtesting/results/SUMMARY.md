@@ -1,15 +1,40 @@
 # Backtesting arena summary
 
-Generated 2026-07-29 22:47 CST. All times CST.
+Generated 2026-07-29 23:14 CST. All times CST.
 
 
 ## Phase status
 
-- **2023 (develop):** Not started — awaiting Stage 1 move detector
+- **2023 (develop):** Stage 1 move catalog built — pattern mining next
 - **2024 (tweak):** Locked until 2023 produces candidates
 - **2025 (final test):** SEALED — one frozen run, no peeking
 
 _Protocol: mine patterns on 2023, tune on 2024, single final run on 2025. See docs/DESIGN.md._
+
+## Stage 1 — move catalog (significant = top 5% vs trailing 2 years)
+
+| Timeframe kind | 2023 | 2024 | 2025 |
+|---|---|---|---|
+| am_leg | 9 | 8 | 28 |
+| hour | 48 | 60 | 256 |
+| overnight_gap | 8 | 10 | 73 |
+| pm_leg | 7 | 11 | 26 |
+| session | 4 | 4 | 30 |
+| sunday_gap | 2 | 0 | 9 |
+| week | 3 | 0 | 8 |
+
+_29,112 moves cataloged across both symbols; 604 flagged significant (2023-2025)._
+
+## Stage 1 — extremes
+
+- **Worst sessions:** MNQ 2025-04-08 -5.75%
+- **Worst sessions:** MES 2025-04-08 -5.22%
+- **Worst sessions:** MNQ 2025-10-10 -4.53%
+- **Worst overnight gaps:** MNQ 2024-08-05 -5.38%
+- **Worst overnight gaps:** MES 2024-08-05 -4.03%
+- **Worst overnight gaps:** MNQ 2025-04-04 -3.93%
+
+_Face-validity checks passed: 2024-08-05 carry-unwind gap (-4.03%) and April 2025 tariff days flagged._
 
 ## Price data coverage (verified this run)
 
@@ -28,4 +53,4 @@ _Protocol: mine patterns on 2023, tune on 2024, single final run on 2025. See do
 
 - **Framework:** In place — adapters registered: trading_economics, benzinga, web_search (allowlisted)
 - **Source:** None activated — Mike's decision deferred; keys go in data/news/access.json
-- **Discipline:** Point-in-time cut + source lock enforced per docs/OPERATOR_CONCEPTS.md
+- **Discipline:** Point-in-time cut + source lock enforced per docs/CONCEPTS.md

@@ -89,8 +89,10 @@ range expansions. Configurable per timeframe, e.g.:
 - Daily: close→close, plus overnight gap (prior 15:00 close → 08:30 open, CST)
 - Weekly: Friday close → Friday close, plus the Sunday 17:00 reopen gap
 
-Output: `results/moves/<symbol>_<timeframe>.parquet` — every qualifying move with
-timestamp, direction, size, and context. Deterministic, cheap, re-runnable.
+Output: `results/moves/<symbol>_moves.parquet` (all timeframe kinds in one file, `kind`
+column) — every move with timestamps, direction, size, trailing-2-year 95th-percentile
+threshold, and a significance flag. Deterministic, cheap, re-runnable. **Built** —
+`engine/detect_moves.py`.
 
 ### Stage 2: Event matcher (news + moves, still no AI)
 Join the news table to the move catalog: what was published/scheduled in the window
