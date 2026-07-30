@@ -7,7 +7,9 @@ import { CliBridgeError, createCliService } from './cli-bridge.mjs';
 const root = normalize(join(dirname(fileURLToPath(import.meta.url)), '..'));
 const port = Number(process.env.PORT || 4173);
 const allowedRootFiles = new Set(['index.html', 'app.js', 'app.bundle.js', 'styles.css']);
-const mime = { '.html': 'text/html; charset=utf-8', '.js': 'application/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8' };
+const mime = { '.html': 'text/html; charset=utf-8', '.js': 'application/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8', '.md': 'text/markdown; charset=utf-8' };
+// Read-only window into the repo's Backtesting arena results for the Backtest tab.
+const backtestResultsRoot = normalize(join(root, '..', 'Backtesting', 'results'));
 const cliService = createCliService();
 
 async function loadEnv() {
@@ -79,6 +81,14 @@ const server = createServer(async (request, response) => {
       sendJson(response, 200, result); return;
     }
     if (request.method !== 'GET' && request.method !== 'HEAD') { send(response, 405, 'Method not allowed'); return; }
+    if (url.pathname.startsWith('/backtesting/')) {
+      const relativeResult = decodeURIComponent(url.pathname.slice('/backtesting/'.length));
+      const target = normalize(join(backtestResultsRoot, relativeResult));
+      const resultExt = extname(target);
+      if (relativeResult.includes('..') || target.slice(0, backtestResultsRoot.length) !== backtestResultsRoot || !['.json', '.md'].includes(resultExt)) { send(response, 404, 'Not found'); return; }
+      const content = await readFile(target);
+      send(response, 200, request.method === 'HEAD' ? '' : content, { 'Content-Type': mime[resultExt] }); return;
+    }
     const relative = decodeURIComponent(url.pathname === '/' ? 'index.html' : url.pathname.slice(1));
     const allowed = allowedRootFiles.has(relative) || relative.startsWith('js/');
     if (!allowed || relative.includes('..') || normalize(join(root, relative)).slice(0, root.length) !== root) { send(response, 404, 'Not found'); return; }

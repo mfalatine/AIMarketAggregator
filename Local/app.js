@@ -16,7 +16,7 @@ const state = {
   settingsDraft: null, profilesDraft: null, settingsDirty: false, cliStatus: null, cliConfig: { codexPath: '', claudePath: '' }, cliStatusLoading: false, run: null
 };
 const requestedRoute = window.location.hash.replace(/^#/, '');
-if (['briefing', 'history', 'settings'].includes(requestedRoute)) state.route = requestedRoute;
+if (['briefing', 'history', 'backtest', 'settings'].includes(requestedRoute)) state.route = requestedRoute;
 
 function activeProfile() { return state.profiles.find(profile => profile.id === state.settings.activeProfileId) || state.profiles[0]; }
 function resetRun(profile = activeProfile()) {
@@ -81,13 +81,14 @@ function applyTheme(theme) { document.documentElement.dataset.theme = theme || '
 function persistUi() { store.saveUi({ route: state.route, settingsSection: state.settingsSection, selectedHistoryId: state.currentRecord?.id || '' }); }
 
 function setRoute(route, settingsSection = '') {
-  if (!['briefing', 'history', 'settings'].includes(route)) route = 'briefing';
+  if (!['briefing', 'history', 'backtest', 'settings'].includes(route)) route = 'briefing';
   if (state.route === 'settings') captureSettingsSection();
   state.route = route; if (settingsSection) state.settingsSection = settingsSection;
   $$('.view').forEach(view => { const active = view.id === `view-${route}`; view.hidden = !active; view.classList.toggle('is-active', active); });
   $$('.nav-link').forEach(button => { const active = button.dataset.route === route && (!button.dataset.settingsSection || button.dataset.settingsSection === state.settingsSection); button.classList.toggle('is-active', active); if (active) button.setAttribute('aria-current', 'page'); else button.removeAttribute('aria-current'); });
   if (route === 'briefing') renderWorkspace();
   if (route === 'history') renderHistory();
+  if (route === 'backtest') renderBacktest();
   if (route === 'settings') { ensureSettingsDrafts(); renderSettings(); }
   if (window.location.hash !== `#${route}`) {
     try { window.history.replaceState(null, '', `#${route}`); }
@@ -335,6 +336,23 @@ function settingsConnectionsMarkupV3() {
     <details class="advanced-disclosure cli-path-settings"><summary>Advanced path override (normally unnecessary)</summary><div class="advanced-body"><label>Codex executable<input id="cli-codex-path" value="${state.cliConfig.codexPath || detected('codex')}" placeholder="${detected('codex') || 'Example: C:\\Users\\you\\AppData\\Roaming\\npm\\codex.cmd'}"><small class="field-help">The detected DAI/PATH value is shown. Edit only to force a different codex executable.</small></label><label>Claude executable<input id="cli-claude-path" value="${state.cliConfig.claudePath || detected('claude')}" placeholder="${detected('claude') || 'Example: C:\\Users\\you\\.local\\bin\\claude.exe'}"><small class="field-help">The detected DAI/PATH value is shown. Edit only to force a different claude executable.</small></label><button class="secondary-button" data-action="save-cli-paths">Save path overrides</button></div></details>
     <p class="field-help">CLI prompts run in an isolated temporary workspace that is deleted after each run. Codex may write only inside that workspace; Claude is limited to web research tools.</p>
   </section>`;
+}
+
+async function renderBacktest() {
+  const container = $('#backtest-content');
+  container.innerHTML = html`<p class="subtle">Loading backtesting results…</p>`;
+  let summary = null;
+  try {
+    const response = await fetch('/backtesting/summary.json', { cache: 'no-store' });
+    if (response.ok) summary = await response.json();
+  } catch {}
+  if (state.route !== 'backtest') return;
+  if (!summary || typeof summary !== 'object') {
+    container.innerHTML = html`<h2>No results yet</h2><p class="subtle">The arena has not produced a summary. Run <span class="code-input">python Backtesting/engine/make_summary.py</span> from the repo root, then reopen this tab. The design and status live in Backtesting/docs/DESIGN.md.</p>`;
+    return;
+  }
+  const sections = Array.isArray(summary.sections) ? summary.sections : [];
+  container.innerHTML = html`<h2>${summary.headline || 'Backtesting summary'}</h2><p class="subtle">Generated ${summary.generated_at || 'unknown'} · all times CST</p>${sections.map(section => html`<section class="settings-section"><h3>${section.title || ''}</h3>${Array.isArray(section.rows) ? html`<div class="table-wrap"><table class="data-table"><tbody>${section.rows.map(row => html`<tr>${(Array.isArray(row) ? row : [row]).map((cell, index) => index === 0 ? html`<th scope="row">${cell}</th>` : html`<td>${cell}</td>`)}</tr>`)}</tbody></table></div>` : ''}${section.table ? html`<div class="table-wrap"><table class="data-table"><thead><tr>${(section.table.columns || []).map(column => html`<th>${column}</th>`)}</tr></thead><tbody>${(section.table.rows || []).map(row => html`<tr>${(Array.isArray(row) ? row : [row]).map(cell => html`<td>${cell}</td>`)}</tr>`)}</tbody></table></div>` : ''}${section.note ? html`<p class="subtle">${section.note}</p>` : ''}</section>`)}`;
 }
 
 function settingsAppearanceMarkup() { return html`<section class="settings-section"><span class="scope-chip shared">Application setting</span><h2>Appearance</h2><p class="subtle">Dark remains the default. Light and the original maize-and-blue theme are still available.</p><div class="theme-grid">${[['dark','Dark'],['light','Light'],['umich','Go Blue!']].map(([id,name]) => html`<label class="theme-card"><input type="radio" name="settings-theme" value="${id}" ${state.settingsDraft.theme === id ? 'checked' : ''}><span>${name}</span></label>`)}</div></section>`; }

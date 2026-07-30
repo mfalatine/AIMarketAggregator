@@ -120,10 +120,15 @@ Controls we adopt:
 
 ## 7. Dashboard + chat access
 
-- **Dashboard:** a standalone `dashboard/index.html` (browser-only, no server — same
-  model as the main app) that reads `results/summary.json` and shows: pattern leaderboard,
-  prompt leaderboard, hit rates by timeframe, severity calibration chart, equity curve of
-  the simulated P&L, 2023/2024/2025 phase results side by side.
+- **Dashboard:** a **Backtest tab in the Local app** (Mike's ruling 2026-07-29 — reuse
+  the existing dashboard, don't reinvent it). The Local dev server serves
+  `Backtesting/results/` read-only at `/backtesting/`, and the tab renders
+  `results/summary.json`: phase status, pattern/prompt leaderboards, hit rates by
+  timeframe, calibration, 2023/2024/2025 side by side. The tab renders whatever
+  sections `summary.json` contains, so the engine can grow without app changes.
+  Local-only by design: the results live on this machine, and the customer-facing
+  Netlify app must not carry the R&D arena — this tab is an explicit exception to the
+  feature-parity rule (noted in the root README).
 - **Chat:** every engine run also writes plain-Markdown summaries into `results/` so any
   AI session pointed at this folder can answer "how did prompt v3 do on 2024?" by reading
   files — no special tooling.
@@ -140,14 +145,16 @@ Backtesting/
 │   └── news/            # normalized news tables per source (populated later)
 ├── engine/
 │   ├── load_prices.py   # canonical loader + timeframe aggregation (exists)
+│   ├── make_summary.py  # regenerates results/summary.json + SUMMARY.md (exists)
 │   └── ...              # move detector, event matcher, prompt evaluator (next)
-├── results/
-│   ├── moves/           # Stage 1 output
-│   ├── runs/            # Stage 3 logs
-│   └── summary.json     # dashboard feed + Markdown summaries
-└── dashboard/
-    └── index.html       # static results viewer (later)
+└── results/
+    ├── moves/           # Stage 1 output
+    ├── runs/            # Stage 3 logs
+    ├── summary.json     # feed for the Local app's Backtest tab
+    └── SUMMARY.md       # chat-readable summary
 ```
+
+The dashboard is the Local app's Backtest tab (§7) — there is no separate dashboard folder.
 
 ## 9. Open decisions for Mike
 

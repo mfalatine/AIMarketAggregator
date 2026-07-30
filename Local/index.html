@@ -17,6 +17,7 @@
       <nav class="primary-nav" aria-label="Primary navigation">
         <button class="nav-link is-active" type="button" data-route="briefing" aria-current="page">Dashboard</button>
         <button class="nav-link" type="button" data-route="history">History</button>
+        <button class="nav-link" type="button" data-route="backtest">Backtest</button>
         <button class="nav-link" type="button" data-route="settings" data-settings-section="profiles">Settings</button>
         <button class="nav-link" type="button" data-route="settings" data-settings-section="expert">Admin</button>
         <button class="nav-link" type="button" data-action="open-help">Guide</button>
@@ -121,6 +122,11 @@
           </section>
           <section id="history-detail" class="surface history-detail" aria-live="polite"></section>
         </div>
+      </section>
+
+      <section id="view-backtest" class="view" aria-labelledby="backtest-heading" hidden>
+        <div class="page-heading"><div><span class="eyebrow">Research arena</span><h1 id="backtest-heading">Backtesting</h1><p>News-versus-move patterns for S&amp;P 500 and Nasdaq futures. Develop on 2023, tweak on 2024, one frozen final test on 2025.</p></div></div>
+        <section id="backtest-content" class="surface generation-panel" aria-live="polite"></section>
       </section>
 
       <section id="view-settings" class="view" aria-labelledby="settings-heading" hidden>

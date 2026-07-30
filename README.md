@@ -24,6 +24,10 @@ else — the processing of information, features, and behavior — must be updat
 equally in both apps in the same change, so that what is verified on Local is
 exactly what the customer receives on Netlify.**
 
+**Exception (operator ruling 2026-07-29): the `Backtesting/` arena and the Local app's
+Backtest tab are internal R&D. They are deliberately Local-only, excluded from the
+Netlify app and from the parity rule — do not "fix" parity by adding them to Netlify.**
+
 When a product feature applies to both applications—profiles, watchlists,
 briefing layout, history, deep dives, evidence display, accessibility, themes,
 or responsive behavior—the same change must be made and tested in both

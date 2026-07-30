@@ -11,7 +11,10 @@ leakage caveat, and open decisions.
 - `data/news/` — normalized news per selectable source (Trading Economics, Benzinga, …). Later.
 - `engine/` — move detector → event matcher → prompt evaluator.
 - `results/` — machine-readable outputs plus Markdown summaries any chat session can read.
-- `dashboard/` — static HTML results viewer. Later.
 
-This folder is standalone: it shares the repo but nothing in `Local/` or `Netlify/`
-depends on it, and the parity gate does not apply here.
+The dashboard is the **Backtest tab in the Local app**: the Local dev server serves
+`results/` read-only at `/backtesting/`, and the tab renders `results/summary.json`
+(regenerate with `python Backtesting/engine/make_summary.py`).
+
+This arena is internal R&D: Local-only, excluded from the customer-facing Netlify app
+and from the feature-parity rule (see the root README).

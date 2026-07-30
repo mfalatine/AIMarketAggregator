@@ -20,7 +20,9 @@ test('Local application is permanently limited to subscription CLI controls', as
     { id: 'codex', installed: true, authenticated: true, available: true, authMethod: 'ChatGPT subscription', path: 'C:\\Users\\micha\\AppData\\Roaming\\npm\\codex.cmd', source: 'DAI/PATH auto-detection' },
     { id: 'claude', installed: true, authenticated: true, available: true, authMethod: 'Claude max', path: 'C:\\Users\\micha\\.local\\bin\\claude.exe', source: 'DAI/PATH auto-detection' }
   ] };
-  const fetch = async url => ({ ok: true, headers: { get: () => null }, json: async () => String(url).includes('/status') ? detectedStatus : { codexPath: '', claudePath: '' } });
+  const fetch = async url => String(url).includes('/backtesting/')
+    ? { ok: false, headers: { get: () => null }, json: async () => ({}) }
+    : { ok: true, headers: { get: () => null }, json: async () => String(url).includes('/status') ? detectedStatus : { codexPath: '', claudePath: '' } };
   Object.assign(globalThis, { window: dom.window, document: dom.window.document, localStorage: dom.window.localStorage, Blob: dom.window.Blob, URL: dom.window.URL, confirm: () => true, fetch });
   Object.defineProperty(globalThis, 'navigator', { value: dom.window.navigator, configurable: true });
   dom.window.scrollTo = () => {};
@@ -33,6 +35,11 @@ test('Local application is permanently limited to subscription CLI controls', as
   assert.match(document.querySelector('#runtime-detail').textContent, /Subscription CLI/i);
   assert.equal(document.querySelector('input[name="run-transport"]'), null);
   assert.ok([...document.querySelector('#run-model').options].every(option => option.value.startsWith('cli-')));
+
+  document.querySelector('.primary-nav [data-route="backtest"]').click();
+  await new Promise(resolve => setTimeout(resolve, 0));
+  assert.equal(document.querySelector('#view-backtest').hidden, false);
+  assert.match(document.querySelector('#backtest-content').textContent, /No results yet/i);
 
   document.querySelector('.primary-nav [data-route="settings"]').click();
   assert.ok(document.querySelector('#profile-cli-model'));
