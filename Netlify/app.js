@@ -36,7 +36,7 @@ const $$ = selector => [...document.querySelectorAll(selector)];
 
 function applyRuntimeIdentity() {
   document.documentElement.dataset.runtime = 'api';
-  document.title = 'Market AI Aggregator — API';
+  document.title = 'AI Market Aggregator — API';
   $('#runtime-label').textContent = directFileMode ? 'Standalone API' : 'API mode';
   $('#runtime-detail').textContent = directFileMode ? 'Browser APIs' : 'Cloud APIs';
   $('#runtime-indicator').title = 'API mode uses browser-configured Anthropic, Gemini, and OpenAI credentials.';
@@ -376,7 +376,7 @@ async function handleAction(button) {
   if (action === 'finish-onboarding') { const profile = activeProfile(); profile.watchlist = [...(state.onboardingWatchlist || profile.watchlist)]; state.settings.onboardingComplete = true; store.saveProfiles(state.profiles); store.saveSettings(state.settings); resetRun(profile); renderWorkspace(); toast('Setup complete.'); }
   if (action === 'open-help') {
     const modeHelp = '<p><strong>API mode is open.</strong> Every briefing uses a configured cloud API.</p>';
-    openDialog('Market AI Aggregator guide', `<div class="settings-section"><h3>Current version</h3>${modeHelp}<h3>Dashboard</h3><p>Choose a profile and depth, then generate with the configured cloud API.</p><h3>Connections</h3><p>Configure an Anthropic, Gemini, or OpenAI API key.</p><h3>Customize</h3><p>Use Customize this run for dates, one-time tickers, model overrides, and special questions.</p><h3>Deep dives</h3><p>Open any finding or section and request an evidence review, bull-versus-bear analysis, scenario analysis, or challenge.</p><h3>Evidence</h3><p>Retrieved source links appear beside claims. An explicit unsourced label means the provider did not attach retrievable evidence.</p><h3>Themes</h3><p>Dark is the default. Light and Go Blue remain available under Settings → Appearance.</p><h3>Privacy</h3><p>Settings, history, and provider keys stay in this browser. Standard exports exclude API credentials.</p></div>`, 'Guide');
+    openDialog('AI Market Aggregator guide', `<div class="settings-section"><h3>Current version</h3>${modeHelp}<h3>Dashboard</h3><p>Choose a profile and depth, then generate with the configured cloud API.</p><h3>Connections</h3><p>Configure an Anthropic, Gemini, or OpenAI API key.</p><h3>Customize</h3><p>Use Customize this run for dates, one-time tickers, model overrides, and special questions.</p><h3>Deep dives</h3><p>Open any finding or section and request an evidence review, bull-versus-bear analysis, scenario analysis, or challenge.</p><h3>Evidence</h3><p>Retrieved source links appear beside claims. An explicit unsourced label means the provider did not attach retrievable evidence.</p><h3>Themes</h3><p>Dark is the default. Light and Go Blue remain available under Settings → Appearance.</p><h3>Privacy</h3><p>Settings, history, and provider keys stay in this browser. Standard exports exclude API credentials.</p></div>`, 'Guide');
   }
   if (action === 'close-dialog') closeDialog();
   if (action === 'open-deep-dive') openDeepDive(button.dataset.recordId, { findingId: button.dataset.findingId });

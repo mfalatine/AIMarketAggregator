@@ -1,4 +1,4 @@
-# Market AI Aggregator — Netlify
+# AI Market Aggregator — Netlify
 
 This application is exclusively for direct cloud APIs. It contains no
 subscription CLI execution choice and does not show CLI authentication,

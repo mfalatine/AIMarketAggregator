@@ -101,6 +101,6 @@ const server = createServer(async (request, response) => {
 });
 
 server.listen(port, '127.0.0.1', () => {
-  console.log(`Market AI Aggregator is available at http://127.0.0.1:${port}`);
+  console.log(`AI Market Aggregator is available at http://127.0.0.1:${port}`);
   console.log('Local CLI bridge enabled. Codex and Claude login status is available in Connections.');
 });

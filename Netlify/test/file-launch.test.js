@@ -50,7 +50,7 @@ test('bundled application initializes from a file URL with profiles, buttons, an
   assert.equal(document.querySelector('input[name="run-transport"]'), null);
   assert.equal(document.querySelector('#profile-select').value, 'daily-market');
   assert.ok(document.querySelectorAll('#profile-select option').length >= 4);
-  assert.match(document.querySelector('.brand').textContent, /Market AI Aggregator/);
+  assert.match(document.querySelector('.brand').textContent, /AI Market Aggregator/);
   const bodyFont = dom.window.getComputedStyle(document.body).fontFamily;
   for (const selector of ['button', 'input:not([type="hidden"])', 'select', 'textarea']) {
     assert.equal(dom.window.getComputedStyle(document.querySelector(selector)).fontFamily, bodyFont, `${selector} must use the application font stack`);

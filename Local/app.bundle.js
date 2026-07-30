@@ -695,7 +695,7 @@ Requirements:
   var $$ = (selector) => [...document.querySelectorAll(selector)];
   function applyRuntimeIdentity() {
     document.documentElement.dataset.runtime = "local";
-    document.title = "Market AI Aggregator \u2014 Local";
+    document.title = "AI Market Aggregator \u2014 Local";
     $("#runtime-label").textContent = "Local server";
     $("#runtime-detail").textContent = "Subscription CLI";
     $("#runtime-indicator").title = "Local server mode: briefings use an authenticated Codex or Claude subscription CLI.";
@@ -1229,7 +1229,7 @@ Why it matters: ${item.why_it_matters}`).join("\n\n");
     }
     if (action === "open-help") {
       const modeHelp = "<p><strong>Local Server mode is open.</strong> Every briefing uses an authenticated Codex or Claude subscription CLI.</p>";
-      openDialog("Market AI Aggregator guide", `<div class="settings-section"><h3>Current version</h3>${modeHelp}<h3>Dashboard</h3><p>Choose a profile and depth, then generate with your subscription CLI.</p><h3>Connections</h3><p>Connect an authenticated Codex or Claude installation and its existing subscription.</p><h3>Customize</h3><p>Use Customize this run for dates, one-time tickers, model overrides, and special questions.</p><h3>Deep dives</h3><p>Open any finding or section and request an evidence review, bull-versus-bear analysis, scenario analysis, or challenge.</p><h3>Evidence</h3><p>Retrieved source links appear beside claims. An explicit unsourced label means the CLI did not attach retrievable evidence.</p><h3>Themes</h3><p>Dark is the default. Light and Go Blue remain available under Settings \u2192 Appearance.</p><h3>Privacy</h3><p>Settings and history stay in this browser. CLI credentials remain owned by the installed CLI.</p></div>`, "Guide");
+      openDialog("AI Market Aggregator guide", `<div class="settings-section"><h3>Current version</h3>${modeHelp}<h3>Dashboard</h3><p>Choose a profile and depth, then generate with your subscription CLI.</p><h3>Connections</h3><p>Connect an authenticated Codex or Claude installation and its existing subscription.</p><h3>Customize</h3><p>Use Customize this run for dates, one-time tickers, model overrides, and special questions.</p><h3>Deep dives</h3><p>Open any finding or section and request an evidence review, bull-versus-bear analysis, scenario analysis, or challenge.</p><h3>Evidence</h3><p>Retrieved source links appear beside claims. An explicit unsourced label means the CLI did not attach retrievable evidence.</p><h3>Themes</h3><p>Dark is the default. Light and Go Blue remain available under Settings \u2192 Appearance.</p><h3>Privacy</h3><p>Settings and history stay in this browser. CLI credentials remain owned by the installed CLI.</p></div>`, "Guide");
     }
     if (action === "close-dialog") closeDialog();
     if (action === "open-deep-dive") openDeepDive(button.dataset.recordId, { findingId: button.dataset.findingId });

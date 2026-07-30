@@ -1,4 +1,4 @@
-# Market AI Aggregator pre-launch helper, following DAI's focus_dai.ps1 pattern.
+# AI Market Aggregator pre-launch helper, following DAI's focus_dai.ps1 pattern.
 # Free port 4173 by killing the old server and its entire child process tree so
 # a second BAT launch always replaces the first server with the current code.
 $listeners = @(Get-NetTCPConnection -LocalPort 4173 -State Listen -ErrorAction SilentlyContinue)

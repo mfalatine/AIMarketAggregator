@@ -6,7 +6,7 @@
       "Bash(git branch:*)",
       "Bash(git add:*)",
       "Bash(git commit -m \"$\\(cat <<''EOF''\nInitial commit: project docs and configuration\n\n- Application requirements spec \\(InitialApplicationRequirements.md\\)\n- Future sharing options doc \\(FUTUREShareMyBriefingOptions.md\\)\n- Future ForexFactory scraper integration doc \\(FUTUREFeature_ForexScrapperConnection.md\\)\n- .gitignore and .claude config\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
-      "Bash(git -C \"C:\\\\Users\\\\micha\\\\source\\\\repos\\\\MarketAIAggregator\" log --oneline)",
+      "Bash(git -C \"C:\\\\Users\\\\micha\\\\source\\\\repos\\\\AIMarketAggregator\" log --oneline)",
       "Bash(git checkout:*)",
       "Bash(git commit:*)",
       "Bash(git push:*)",

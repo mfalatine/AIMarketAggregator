@@ -1,4 +1,4 @@
-# Market AI Aggregator — Initial Application Requirements
+# AI Market Aggregator — Initial Application Requirements
 
 > Historical MVP document. The implemented V2 interaction model and data contract are documented in [V2ProductDesign.md](V2ProductDesign.md). This file is retained as the original product and architecture record.
 
@@ -1184,7 +1184,7 @@ API responses include mixed content blocks (text + tool_use for web search). The
 Although the app is a single HTML file, the logical structure is:
 
 ```text
-MarketAIAggregator/
+AIMarketAggregator/
 ├── index.html              # The entire application
 ├── Docs/
 │   └── InitialApplicationRequirements.md  # This document

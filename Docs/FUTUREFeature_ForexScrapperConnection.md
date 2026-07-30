@@ -2,7 +2,7 @@
 
 ## Context
 
-There is an existing project at `C:\Users\micha\source\repos\ForexFactoryScraper` that scrapes live economic calendar data from ForexFactory.com. It's already deployed as a Netlify serverless function at `https://forexfactoryscrape.netlify.app`. This document explores the possibility of connecting it to Market AI Aggregator to enhance briefing quality.
+There is an existing project at `C:\Users\micha\source\repos\ForexFactoryScraper` that scrapes live economic calendar data from ForexFactory.com. It's already deployed as a Netlify serverless function at `https://forexfactoryscrape.netlify.app`. This document explores the possibility of connecting it to AI Market Aggregator to enhance briefing quality.
 
 ---
 

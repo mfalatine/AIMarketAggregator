@@ -1,4 +1,4 @@
-# Market AI Aggregator
+# AI Market Aggregator
 
 This repository contains two deliberately separate applications. There is no
 runtime mode switch and no shared browser storage between them. Local uses
@@ -7,7 +7,7 @@ runtime mode switch and no shared browser storage between them. Local uses
 ## Applications
 
 - [`Local/`](Local/) — Codex or Claude subscription CLI only. Start it with
-  `Local/MarketAIAggregator_start.bat`.
+  `Local/AIMarketAggregator_start.bat`.
 - [`Netlify/`](Netlify/) — cloud API only. Open its `index.html` directly or
   deploy the folder to Netlify; Anthropic, Gemini, and OpenAI use direct API
   key connections.
