@@ -2,7 +2,7 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "maa-local",
+      "name": "ama-local",
       "runtimeExecutable": "node",
       "runtimeArgs": ["scripts/dev-server.mjs"],
       "cwd": "Local",
