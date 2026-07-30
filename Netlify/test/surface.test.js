@@ -6,7 +6,7 @@ import { DEFAULT_PROFILES, DEFAULT_SETTINGS } from '../js/core.js';
 
 test('Netlify application is permanently limited to cloud API controls', async () => {
   const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
-  const dom = new JSDOM(html, { url: 'https://market-ai.example/#briefing', pretendToBeVisual: true });
+  const dom = new JSDOM(html, { url: 'https://ai-market.example/#briefing', pretendToBeVisual: true });
   dom.window.localStorage.setItem('mba_v2_migrated', '4');
   dom.window.localStorage.setItem('mba_v2_settings', JSON.stringify({ ...DEFAULT_SETTINGS, onboardingComplete: true }));
   dom.window.localStorage.setItem('mba_v2_profiles', JSON.stringify(DEFAULT_PROFILES));
