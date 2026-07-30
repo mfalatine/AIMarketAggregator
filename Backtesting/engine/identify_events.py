@@ -35,12 +35,19 @@ def event_catalog(moves: pd.DataFrame) -> pd.DataFrame:
     for (date, kind), group in flagged.groupby(["date", "kind"]):
         by_symbol = {row.symbol: row for row in group.itertuples()}
         any_row = next(iter(by_symbol.values()))
-        rows.append({
+        record = {
             "date": date, "kind": kind, "ts_start": any_row.ts_start, "ts_end": any_row.ts_end,
             "mes_pct": getattr(by_symbol.get("MES"), "ret_pct", float("nan")),
             "mnq_pct": getattr(by_symbol.get("MNQ"), "ret_pct", float("nan")),
             "direction": any_row.direction,
-        })
+        }
+        for symbol in ("MES", "MNQ"):
+            row = by_symbol.get(symbol)
+            prefix = symbol.lower()
+            record[f"{prefix}_mfe"] = getattr(row, "mfe_pct", float("nan")) if row else float("nan")
+            record[f"{prefix}_mae"] = getattr(row, "mae_pct", float("nan")) if row else float("nan")
+            record[f"{prefix}_peak_min"] = getattr(row, "time_to_peak_min", float("nan")) if row else float("nan")
+        rows.append(record)
     return pd.DataFrame(rows).sort_values(["date", "ts_start"]).reset_index(drop=True)
 
 
@@ -117,12 +124,21 @@ def write_events_markdown(catalog: pd.DataFrame) -> None:
              f"Magnitude settings: " + ", ".join(f"{kind} {value}%" for kind, value in thresholds.items()) + ". "
              f"Percentile settings: top {definition['percentile']['top_percent']}% vs trailing {definition['percentile']['trailing_years']} years.\n",
              "This is the list to hold against news sources: what happened on these days?\n",
-             "| Date | Day | Kind | MES % | MNQ % |", "|---|---|---|---|---|"]
+             "In/out guidance per event (entry at event end, in its direction, to the kind's",
+             "horizon): `MFE/MAE/peak` = max % it ran your way / max % against you / minutes to",
+             "the favorable peak. News attribution: **pending Mike's source decision.**\n",
+             "| Date | Day | Kind | MES % | MNQ % | MES MFE/MAE/peak | MNQ MFE/MAE/peak | News |",
+             "|---|---|---|---|---|---|---|---|"]
     for row in catalog.itertuples():
         day = WEEKDAYS[pd.Timestamp(row.date).weekday()]
         mes = f"{row.mes_pct:+.2f}" if pd.notna(row.mes_pct) else "—"
         mnq = f"{row.mnq_pct:+.2f}" if pd.notna(row.mnq_pct) else "—"
-        lines.append(f"| {row.date} | {day} | {row.kind} | {mes} | {mnq} |")
+        def guidance(prefix):
+            mfe = getattr(row, f"{prefix}_mfe")
+            if pd.isna(mfe):
+                return "—"
+            return f"{mfe:.2f} / {getattr(row, f'{prefix}_mae'):.2f} / {getattr(row, f'{prefix}_peak_min'):.0f}m"
+        lines.append(f"| {row.date} | {day} | {row.kind} | {mes} | {mnq} | {guidance('mes')} | {guidance('mnq')} | pending |")
     (RESULTS_DIR / "EVENTS_2023.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 

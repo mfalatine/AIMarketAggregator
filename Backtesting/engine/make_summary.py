@@ -48,6 +48,23 @@ def moves_sections() -> list[dict]:
         "rows": extremes,
         "note": "Face-validity checks passed: 2024-08-05 carry-unwind gap and April 2025 tariff days are cataloged.",
     }]
+    # Trade guidance per kind — short list (percentile events, 2023): counts and medians.
+    short = moves[(moves["year"] == 2023) & moves["percentile_event"] & moves["mfe_pct"].notna()]
+    if len(short):
+        guidance_rows = []
+        for kind, group in short.groupby("kind"):
+            followed = int((group["fwd_ret_pct"] > 0).sum())
+            guidance_rows.append([kind,
+                                  str(len(group)), f"{followed} of {len(group)}",
+                                  f"{group['mfe_pct'].median():.2f}%", f"{group['mae_pct'].median():.2f}%",
+                                  f"{group['time_to_peak_min'].median():.0f} min",
+                                  f"${group['mae_usd'].median():.0f}"])
+        sections.append({
+            "title": "Trade guidance — 2023 short-list events (entry at event end, in its direction)",
+            "table": {"columns": ["Kind", "Events", "Closed favorable", "Median MFE", "Median MAE", "Median time to peak", "Median MAE $/contract"],
+                      "rows": guidance_rows},
+            "note": "MFE = max run in your favor to the horizon; MAE = max pull against you (stop-distance guide, dollarized per micro contract). News attribution pending the source decision.",
+        })
     events_path = RESULTS_DIR / "events_2023.json"
     if events_path.exists():
         events = json.loads(events_path.read_text(encoding="utf-8"))

@@ -1,6 +1,6 @@
 # Backtesting arena summary
 
-Generated 2026-07-30 02:05 CST. All times CST.
+Generated 2026-07-30 02:31 CST. All times CST.
 
 
 ## Phase status
@@ -38,6 +38,19 @@ _29,114 moves cataloged across both symbols; 5,081 qualify under the active defi
 - **Worst overnight gaps:** MNQ 2025-04-04 -3.93%
 
 _Face-validity checks passed: 2024-08-05 carry-unwind gap and April 2025 tariff days are cataloged._
+
+## Trade guidance — 2023 short-list events (entry at event end, in its direction)
+
+| Kind | Events | Closed favorable | Median MFE | Median MAE | Median time to peak | Median MAE $/contract |
+|---|---|---|---|---|---|---|
+| am_leg | 9 | 6 of 9 | 0.62% | 0.10% | 147 min | $26 |
+| hour | 44 | 27 of 44 | 0.45% | 0.28% | 70 min | $64 |
+| overnight_gap | 8 | 6 of 8 | 0.54% | 0.63% | 240 min | $178 |
+| session | 4 | 1 of 4 | 0.73% | 1.22% | 1114 min | $305 |
+| sunday_gap | 8 | 6 of 8 | 0.81% | 0.27% | 988 min | $72 |
+| week | 3 | 3 of 3 | 2.84% | 0.47% | 10068 min | $104 |
+
+_MFE = max run in your favor to the horizon; MAE = max pull against you (stop-distance guide, dollarized per micro contract). News attribution pending the source decision._
 
 ## 2023 events identified (develop year — outcome counts)
 
