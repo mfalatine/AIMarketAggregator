@@ -12,7 +12,7 @@ documented "no edge found" — all three are valid results.
 
 ## 2. The three-year protocol (the backtest)
 
-| Year | Role | Rules (Mike's ruling 2026-07-29 — full record in [OPERATOR_CONCEPTS.md](OPERATOR_CONCEPTS.md)) |
+| Year | Role | Rules (Mike's ruling 2026-07-29 — full record in [CONCEPTS.md](CONCEPTS.md)) |
 |------|------|-------|
 | 2023 | **Develop** | Open book. Known news sources, generic or specific — this year is for noticing. |
 | 2024 | **Tweak** | Point-in-time only: at any simulated moment the AI sees information up to that minute and nothing after. Multiple runs allowed, but each run = ONE conceptual tweak with its hypothesis logged ("noticed X in 2023, trying Y"). Single conceptual tests, not overfitting — no parameter sweeps. |
@@ -69,8 +69,10 @@ adapters (`trading_economics`, `benzinga`, `web_search`), one normalized schema
 point-in-time cut (`as_of`) that enforces no-forward-bias in code, and embedded API
 settings per source in `data/news/access.json` (git-ignored; template committed as
 `access.example.json`). Activating a source = Mike picks it, key goes in the config,
-one `fetch()` gets implemented. Web search is allowlist-limited to known sites so
-results stay somewhat repeatable (operator ruling — see OPERATOR_CONCEPTS.md §5).
+one `fetch()` gets implemented. Web search can be general but carries per-site
+on/off limiters (the only repeatability control we have) plus an unrestricted
+comparison mode to see what limiting changes — comparison runs are never scored
+runs (Mike's concept — see CONCEPTS.md §5).
 
 Source selection itself is deferred by Mike — to be discussed later. Standing
 recommendation: Trading Economics calendar first; Benzinga when company-level
@@ -96,11 +98,12 @@ before each move, and what did the market do after each news item. Pure mechanic
 this alone answers "do CPI misses gap the open?" style questions and is where the first
 patterns will show.
 
-**Attribution is arms, not arrows** (Mike's concept — OPERATOR_CONCEPTS.md §4): news
-acts through indirect chains, possibly several at once (CXMT IPO → US memory shortage →
-US semis hit → Nasdaq drops — and that is one arm of possibly many simultaneous). The
-matcher records candidate contributing arms per move with levels of effect, never a
-single forced "this caused that."
+**Attribution supports direct AND arms** (Mike's concept — CONCEPTS.md §4): some news
+is direct (the Fed speaking; earnings can be), other news acts through indirect chains,
+possibly several at once (CXMT IPO → US memory shortage → US semis hit → Nasdaq drops —
+one arm of possibly many simultaneous). The matcher records a direct attribution when
+the link is direct, and candidate contributing arms with levels when it is not — it
+never forces one shape onto every case.
 
 ### Stage 3: Prompt evaluator (the AI arena)
 For each candidate prompt and each historical decision point:

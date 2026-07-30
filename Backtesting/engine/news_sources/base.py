@@ -1,5 +1,5 @@
 """News source contract. Every adapter honors the operator rules in
-docs/OPERATOR_CONCEPTS.md: point-in-time only (no item after `as_of` may ever be
+docs/CONCEPTS.md: point-in-time only (no item after `as_of` may ever be
 returned), and a run considers only its declared sources.
 
 Normalized schema every adapter returns (a pandas DataFrame):

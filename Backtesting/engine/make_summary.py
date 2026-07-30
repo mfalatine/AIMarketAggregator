@@ -46,7 +46,7 @@ def main() -> None:
                 "rows": [
                     ["Framework", "In place — adapters registered: trading_economics, benzinga, web_search (allowlisted)"],
                     ["Source", "None activated — Mike's decision deferred; keys go in data/news/access.json"],
-                    ["Discipline", "Point-in-time cut + source lock enforced per docs/OPERATOR_CONCEPTS.md"],
+                    ["Discipline", "Point-in-time cut + source lock enforced per docs/CONCEPTS.md"],
                 ],
             },
         ],

@@ -1,23 +1,40 @@
-"""Allowlisted web search adapter — STUB.
+"""Web search adapter with per-site limiters — STUB.
 
-Operator rule (docs/OPERATOR_CONCEPTS.md §5): web search must be limited to KNOWN
-websites so results are somewhat repeatable. The allowlist is part of the run manifest
-like any declared source. An unbounded search cannot be tweaked or scored honestly.
+Rule (docs/CONCEPTS.md §5, Mike): search can be general, but each site in the limiter
+list can be turned on or off individually — the site list is the only repeatability
+control we have. An unrestricted comparison mode exists to see what limiting changes;
+unrestricted runs are labeled comparison runs and are never scored runs. The active
+limiter configuration goes into the run manifest like any declared source.
 """
 import pandas as pd
 
 from .base import NewsSource
 
-DEFAULT_ALLOWLIST = ["reuters.com", "cnbc.com", "marketwatch.com", "bls.gov", "federalreserve.gov"]
+# Default limiters: site -> on/off. Edit in data/news/access.json -> web_search.sites.
+DEFAULT_SITES = {
+    "reuters.com": True,
+    "cnbc.com": True,
+    "marketwatch.com": True,
+    "bls.gov": True,
+    "federalreserve.gov": True,
+}
 
 
 class WebSearchSource(NewsSource):
     name = "web_search"
 
+    def active_sites(self) -> list[str]:
+        sites = self.config.get("sites") or DEFAULT_SITES
+        return sorted(site for site, enabled in sites.items() if enabled)
+
+    def is_unrestricted(self) -> bool:
+        return bool(self.config.get("unrestricted"))
+
     def fetch(self, start_cst: str, end_cst: str) -> pd.DataFrame:
-        allowlist = self.config.get("allowlist") or DEFAULT_ALLOWLIST
+        mode = ("UNRESTRICTED comparison mode (never scored)" if self.is_unrestricted()
+                else f"limited to sites turned on: {', '.join(self.active_sites())}")
         raise NotImplementedError(
-            "Web search retrieval is not connected yet. It will be restricted to the "
-            f"allowlisted sites ({', '.join(allowlist)}) and every returned item must carry "
-            "its original publish timestamp so the point-in-time cut can be applied."
+            f"Web search retrieval is not connected yet. This run would be {mode}. Every "
+            "returned item must carry its original publish timestamp so the point-in-time "
+            "cut can be applied."
         )

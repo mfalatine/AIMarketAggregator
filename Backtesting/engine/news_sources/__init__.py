@@ -7,7 +7,7 @@ Usage:
 
 Access config lives in data/news/access.json (git-ignored; copy access.example.json).
 A run's declared sources — including the web-search allowlist — go into its manifest;
-the AI may consider ONLY those (docs/OPERATOR_CONCEPTS.md §2).
+the AI may consider ONLY those (docs/CONCEPTS.md §2).
 """
 import json
 from pathlib import Path
