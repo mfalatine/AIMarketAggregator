@@ -1,6 +1,6 @@
 # Backtesting arena summary
 
-Generated 2026-07-29 22:34 CST. All times CST.
+Generated 2026-07-29 22:47 CST. All times CST.
 
 
 ## Phase status
@@ -26,4 +26,6 @@ _Protocol: mine patterns on 2023, tune on 2024, single final run on 2025. See do
 
 ## News data
 
-- **Source:** None connected yet — decision pending (Trading Economics recommended)
+- **Framework:** In place — adapters registered: trading_economics, benzinga, web_search (allowlisted)
+- **Source:** None activated — Mike's decision deferred; keys go in data/news/access.json
+- **Discipline:** Point-in-time cut + source lock enforced per docs/OPERATOR_CONCEPTS.md

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-29 22:34 CST",
+  "generated_at": "2026-07-29 22:47 CST",
   "headline": "Backtesting arena \u2014 status",
   "sections": [
     {
@@ -69,8 +69,16 @@
       "title": "News data",
       "rows": [
         [
+          "Framework",
+          "In place \u2014 adapters registered: trading_economics, benzinga, web_search (allowlisted)"
+        ],
+        [
           "Source",
-          "None connected yet \u2014 decision pending (Trading Economics recommended)"
+          "None activated \u2014 Mike's decision deferred; keys go in data/news/access.json"
+        ],
+        [
+          "Discipline",
+          "Point-in-time cut + source lock enforced per docs/OPERATOR_CONCEPTS.md"
         ]
       ]
     }

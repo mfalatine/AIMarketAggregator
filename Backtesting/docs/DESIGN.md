@@ -12,11 +12,16 @@ documented "no edge found" — all three are valid results.
 
 ## 2. The three-year protocol (the backtest)
 
-| Year | Role | Rules |
+| Year | Role | Rules (Mike's ruling 2026-07-29 — full record in [OPERATOR_CONCEPTS.md](OPERATOR_CONCEPTS.md)) |
 |------|------|-------|
-| 2023 | **Develop** | Unlimited looking. Mine news-vs-move patterns, draft prompt verbiage / algo candidates. |
-| 2024 | **Tweak** | Test 2023's candidates, adjust them. Still allowed to iterate. |
-| 2025 | **Final test** | Run ONCE with the frozen candidate. No peeking during development, no re-runs to improve the score. The 2025 number is the answer. |
+| 2023 | **Develop** | Open book. Known news sources, generic or specific — this year is for noticing. |
+| 2024 | **Tweak** | Point-in-time only: at any simulated moment the AI sees information up to that minute and nothing after. Multiple runs allowed, but each run = ONE conceptual tweak with its hypothesis logged ("noticed X in 2023, trying Y"). Single conceptual tests, not overfitting — no parameter sweeps. |
+| 2025 | **Final test** | Absolutely no forward biasing. Run ONCE with the frozen candidate. The 2025 number is the answer. |
+
+**Source lock (all phases that score):** a run declares its news source or set of
+sources up front, and the AI may consider ONLY those — nothing outside the declared
+set, including the model's own knowledge of events. The declared sources (and the
+web-search allowlist, when used) are part of every run manifest.
 
 This mirrors the train/validate/test discipline used in the HYDRA engines. The moment 2025
 is used to tune anything, it is burned as a test year and the result is void.
@@ -58,15 +63,18 @@ provide access info, everything downstream is source-agnostic):
 | GDELT | Free bulk | Global news metadata every 15 min back beyond 2023 | Free |
 | AI web search | Live | Convenient but sees today's internet — weakest for backtesting (see §6) | Per-call |
 
-Every source adapter normalizes to one schema in `data/news/`:
-`timestamp_cst, source, category, headline, body, tickers, meta(json)`.
-Access info (keys, endpoints) lives in a local config file that is **git-ignored** —
-never committed.
+**The framework is built** (`engine/news_sources/`): a registry of selectable source
+adapters (`trading_economics`, `benzinga`, `web_search`), one normalized schema
+(`timestamp_cst, source, category, headline, body, tickers, meta(json)`), a
+point-in-time cut (`as_of`) that enforces no-forward-bias in code, and embedded API
+settings per source in `data/news/access.json` (git-ignored; template committed as
+`access.example.json`). Activating a source = Mike picks it, key goes in the config,
+one `fetch()` gets implemented. Web search is allowlist-limited to known sites so
+results stay somewhat repeatable (operator ruling — see OPERATOR_CONCEPTS.md §5).
 
-DECISION NEEDED (Mike): which source to fund/start with. Recommendation: Trading
-Economics calendar first — macro releases are the cleanest timestamped events and the
-Sunday-gap / CPI-morning patterns are exactly its territory; add Benzinga if/when we
-need company-level headlines.
+Source selection itself is deferred by Mike — to be discussed later. Standing
+recommendation: Trading Economics calendar first; Benzinga when company-level
+headlines are needed.
 
 ## 5. The engine — three stages
 
@@ -87,6 +95,12 @@ Join the news table to the move catalog: what was published/scheduled in the win
 before each move, and what did the market do after each news item. Pure mechanics —
 this alone answers "do CPI misses gap the open?" style questions and is where the first
 patterns will show.
+
+**Attribution is arms, not arrows** (Mike's concept — OPERATOR_CONCEPTS.md §4): news
+acts through indirect chains, possibly several at once (CXMT IPO → US memory shortage →
+US semis hit → Nasdaq drops — and that is one arm of possibly many simultaneous). The
+matcher records candidate contributing arms per move with levels of effect, never a
+single forced "this caused that."
 
 ### Stage 3: Prompt evaluator (the AI arena)
 For each candidate prompt and each historical decision point:
