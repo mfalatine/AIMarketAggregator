@@ -70,3 +70,17 @@ Which sources to fund/activate is deferred by Mike — events are being identifi
 prices first, then the news-source conversation happens. Candidates on the table:
 Trading Economics, Benzinga, limited web search. Adding a source means writing one
 adapter that honors §1, §2, and §5.
+
+## 7. Spikes and drops are defined, not derived (Mike's ruling, 2026-07-30)
+
+We are looking at **actual spikes and drops** — discrete events — not averages. An
+average is never a finding about an event, and "it averaged flat" is exactly the
+indecisive whirlwind to avoid. Therefore:
+
+- **The magnitude of a spike/drop is a setting** (`engine/detection_config.json`),
+  per timeframe kind, editable by Mike. That setting IS the definition of an event.
+- Results about events are reported as **counts of what actually happened**
+  (N of M continued, reversed, spiked again) — not means.
+- **Volatility is a pointer, not a director.** It holds weight as one more piece of
+  info and may be looked at, but it never defines events and never drives conclusions.
+  Statistical baselines (trailing percentiles) ride along as pointer columns only.

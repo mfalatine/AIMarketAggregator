@@ -1,6 +1,6 @@
 # Backtesting arena summary
 
-Generated 2026-07-30 00:00 CST. All times CST.
+Generated 2026-07-30 00:10 CST. All times CST.
 
 
 ## Phase status
@@ -11,19 +11,20 @@ Generated 2026-07-30 00:00 CST. All times CST.
 
 _Protocol: mine patterns on 2023, tune on 2024, single final run on 2025. See docs/DESIGN.md._
 
-## Stage 1 — move catalog (significant = top 5% vs trailing 2 years)
+## Stage 1 — spikes/drops per Mike's magnitude settings
 
+- **Settings (editable):** session 1.0%, overnight_gap 0.5%, am_leg 0.75%, pm_leg 0.75%, hour 0.5%, week 2.0%, sunday_gap 0.5% — engine/detection_config.json
 | Timeframe kind | 2023 | 2024 | 2025 |
 |---|---|---|---|
-| am_leg | 9 | 8 | 28 |
-| hour | 48 | 60 | 256 |
-| overnight_gap | 8 | 10 | 73 |
-| pm_leg | 7 | 11 | 26 |
-| session | 4 | 4 | 30 |
-| sunday_gap | 2 | 0 | 9 |
-| week | 3 | 0 | 8 |
+| am_leg | 106 | 84 | 95 |
+| hour | 334 | 256 | 368 |
+| overnight_gap | 172 | 151 | 202 |
+| pm_leg | 70 | 38 | 42 |
+| session | 115 | 76 | 76 |
+| sunday_gap | 84 | 86 | 89 |
+| week | 41 | 31 | 44 |
 
-_29,112 moves cataloged across both symbols; 604 flagged significant (2023-2025)._
+_29,112 moves cataloged across both symbols; 5,466 meet the event settings (all years). Trailing-percentile columns remain in the catalog as pointer info only._
 
 ## Stage 1 — extremes
 
@@ -34,17 +35,17 @@ _29,112 moves cataloged across both symbols; 604 flagged significant (2023-2025)
 - **Worst overnight gaps:** MES 2024-08-05 -4.03%
 - **Worst overnight gaps:** MNQ 2025-04-04 -3.93%
 
-_Face-validity checks passed: 2024-08-05 carry-unwind gap (-4.03%) and April 2025 tariff days flagged._
+_Face-validity checks passed: 2024-08-05 carry-unwind gap and April 2025 tariff days are cataloged._
 
-## 2023 events identified (develop year — price-only patterns)
+## 2023 events identified (develop year — outcome counts)
 
-- **Events identified:** 54 significant events on 40 distinct days (full list: EVENTS_2023.md)
-- **Gap follow-through:** 8 significant gaps; session continued the gap direction 75.0% of the time (small sample)
-- **AM → PM:** 9 significant mornings; afternoon continued 66.7% of the time, avg PM -0.02%
-- **By weekday:** Mon 7, Tue 10, Wed 19, Thu 22, Fri 21, Sun 2
-- **Volatility clustering:** next session averages ±0.8% after a significant day vs ±0.64% otherwise
+- **Events identified:** 535 spikes/drops on 249 distinct days (full list: EVENTS_2023.md)
+- **After a gap event:** 172 gap events: session closed in the gap's direction 77, reversed 95, session was itself an event 41
+- **After an AM event:** 106 AM events: PM same direction 62, opposite 44, PM was itself an event 19
+- **By weekday:** Mon 105, Tue 124, Wed 168, Thu 218, Fri 223, Sun 84
+- **Pointer info (not a director):** of 115 session events, 29 were followed by another session event the next day
 
-_Wed/Thu/Fri dominate — the macro-release calendar (FOMC Wednesdays, CPI mornings, Friday jobs) is visible in prices alone._
+_Counts of what actually happened, per CONCEPTS.md §7 — no averages._
 
 ## Price data coverage (verified this run)
 

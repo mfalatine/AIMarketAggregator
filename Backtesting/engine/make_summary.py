@@ -24,42 +24,44 @@ def moves_sections() -> list[dict]:
     if not frames:
         return []
     moves = pd.concat(frames)
-    flagged = moves[moves["significant"]]
-    counts = flagged.groupby(["kind", "year"]).size().unstack(fill_value=0)
+    flagged = moves[moves["event"]]
+    counts = flagged[flagged["year"] >= 2023].groupby(["kind", "year"]).size().unstack(fill_value=0)
     count_table = {"columns": ["Timeframe kind"] + [str(year) for year in counts.columns],
                    "rows": [[kind] + [str(count) for count in row] for kind, row in counts.iterrows()]}
+    thresholds = json.loads((Path(__file__).resolve().parent / "detection_config.json").read_text(encoding="utf-8"))["spike_thresholds_pct"]
     extremes = []
     for kind, label in (("session", "Worst sessions"), ("overnight_gap", "Worst overnight gaps")):
         for row in flagged[flagged["kind"] == kind].nsmallest(3, "ret_pct").itertuples():
             extremes.append([f"{label}", f"{row.symbol} {pd.Timestamp(row.ts_end).date()} {row.ret_pct:+.2f}%"])
     sections = [{
-        "title": "Stage 1 — move catalog (significant = top 5% vs trailing 2 years)",
+        "title": "Stage 1 — spikes/drops per Mike's magnitude settings",
+        "rows": [["Settings (editable)", ", ".join(f"{kind} {value}%" for kind, value in thresholds.items()) + " — engine/detection_config.json"]],
         "table": count_table,
-        "note": f"{len(moves):,} moves cataloged across both symbols; {len(flagged):,} flagged significant (2023-2025).",
+        "note": f"{len(moves):,} moves cataloged across both symbols; {len(flagged):,} meet the event settings (all years). Trailing-percentile columns remain in the catalog as pointer info only.",
     }, {
         "title": "Stage 1 — extremes",
         "rows": extremes,
-        "note": "Face-validity checks passed: 2024-08-05 carry-unwind gap (-4.03%) and April 2025 tariff days flagged.",
+        "note": "Face-validity checks passed: 2024-08-05 carry-unwind gap and April 2025 tariff days are cataloged.",
     }]
     events_path = RESULTS_DIR / "events_2023.json"
     if events_path.exists():
         events = json.loads(events_path.read_text(encoding="utf-8"))
-        patterns = events.get("patterns", {})
-        rows = [["Events identified", f"{events['events']} significant events on {events['event_days']} distinct days (full list: EVENTS_2023.md)"]]
-        gap = patterns.get("gap_follow_through")
+        outcomes = events.get("outcomes", {})
+        rows = [["Events identified", f"{events['events']} spikes/drops on {events['event_days']} distinct days (full list: EVENTS_2023.md)"]]
+        gap = outcomes.get("after_gap_event")
         if gap:
-            rows.append(["Gap follow-through", f"{gap['events']} significant gaps; session continued the gap direction {gap['continuation_rate_pct']}% of the time (small sample)"])
-        am = patterns.get("am_to_pm")
+            rows.append(["After a gap event", f"{gap['gap_events']} gap events: session closed in the gap's direction {gap['session_closed_gap_direction']}, reversed {gap['session_reversed']}, session was itself an event {gap['session_was_also_event']}"])
+        am = outcomes.get("after_am_event")
         if am:
-            rows.append(["AM → PM", f"{am['events']} significant mornings; afternoon continued {am['continuation_rate_pct']}% of the time, avg PM {am['avg_pm_after_sig_am']:+.2f}%"])
-        weekday = patterns.get("events_by_weekday")
+            rows.append(["After an AM event", f"{am['am_events']} AM events: PM same direction {am['pm_same_direction']}, opposite {am['pm_opposite']}, PM was itself an event {am['pm_was_also_event']}"])
+        weekday = outcomes.get("events_by_weekday")
         if weekday:
             rows.append(["By weekday", ", ".join(f"{day[:3]} {count}" for day, count in weekday.items())])
-        cluster = patterns.get("vol_clustering")
-        if cluster:
-            rows.append(["Volatility clustering", f"next session averages ±{cluster['avg_next_session_abs_after_significant']}% after a significant day vs ±{cluster['avg_next_session_abs_otherwise']}% otherwise"])
-        sections.append({"title": "2023 events identified (develop year — price-only patterns)", "rows": rows,
-                         "note": "Wed/Thu/Fri dominate — the macro-release calendar (FOMC Wednesdays, CPI mornings, Friday jobs) is visible in prices alone."})
+        pointer = outcomes.get("pointer_back_to_back")
+        if pointer:
+            rows.append(["Pointer info (not a director)", f"of {pointer['session_events']} session events, {pointer['next_session_also_event']} were followed by another session event the next day"])
+        sections.append({"title": "2023 events identified (develop year — outcome counts)", "rows": rows,
+                         "note": "Counts of what actually happened, per CONCEPTS.md §7 — no averages."})
     return sections
 
 

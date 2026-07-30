@@ -1,29 +1,39 @@
 {
-  "event_days": 40,
-  "events": 54,
-  "patterns": {
-    "gap_follow_through": {
-      "events": 8,
-      "continuation_rate_pct": 75.0,
-      "avg_session_after_gap_up": 0.45,
-      "avg_session_after_gap_down": 0.68
+  "thresholds_pct": {
+    "session": 1.0,
+    "overnight_gap": 0.5,
+    "am_leg": 0.75,
+    "pm_leg": 0.75,
+    "hour": 0.5,
+    "week": 2.0,
+    "sunday_gap": 0.5
+  },
+  "event_days": 249,
+  "events": 535,
+  "outcomes": {
+    "after_gap_event": {
+      "gap_events": 172,
+      "session_closed_gap_direction": 77,
+      "session_reversed": 95,
+      "session_was_also_event": 41
     },
-    "am_to_pm": {
-      "events": 9,
-      "continuation_rate_pct": 66.7,
-      "avg_pm_after_sig_am": -0.02
+    "after_am_event": {
+      "am_events": 106,
+      "pm_same_direction": 62,
+      "pm_opposite": 44,
+      "pm_was_also_event": 19
     },
     "events_by_weekday": {
-      "Monday": 7,
-      "Tuesday": 10,
-      "Wednesday": 19,
-      "Thursday": 22,
-      "Friday": 21,
-      "Sunday": 2
+      "Monday": 105,
+      "Tuesday": 124,
+      "Wednesday": 168,
+      "Thursday": 218,
+      "Friday": 223,
+      "Sunday": 84
     },
-    "vol_clustering": {
-      "avg_next_session_abs_after_significant": 0.8,
-      "avg_next_session_abs_otherwise": 0.64
+    "pointer_back_to_back": {
+      "session_events": 115,
+      "next_session_also_event": 29
     }
   }
 }
