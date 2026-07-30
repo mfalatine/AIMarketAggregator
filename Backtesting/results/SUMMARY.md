@@ -1,6 +1,6 @@
 # Backtesting arena summary
 
-Generated 2026-07-29 23:14 CST. All times CST.
+Generated 2026-07-30 00:00 CST. All times CST.
 
 
 ## Phase status
@@ -35,6 +35,16 @@ _29,112 moves cataloged across both symbols; 604 flagged significant (2023-2025)
 - **Worst overnight gaps:** MNQ 2025-04-04 -3.93%
 
 _Face-validity checks passed: 2024-08-05 carry-unwind gap (-4.03%) and April 2025 tariff days flagged._
+
+## 2023 events identified (develop year — price-only patterns)
+
+- **Events identified:** 54 significant events on 40 distinct days (full list: EVENTS_2023.md)
+- **Gap follow-through:** 8 significant gaps; session continued the gap direction 75.0% of the time (small sample)
+- **AM → PM:** 9 significant mornings; afternoon continued 66.7% of the time, avg PM -0.02%
+- **By weekday:** Mon 7, Tue 10, Wed 19, Thu 22, Fri 21, Sun 2
+- **Volatility clustering:** next session averages ±0.8% after a significant day vs ±0.64% otherwise
+
+_Wed/Thu/Fri dominate — the macro-release calendar (FOMC Wednesdays, CPI mornings, Friday jobs) is visible in prices alone._
 
 ## Price data coverage (verified this run)
 

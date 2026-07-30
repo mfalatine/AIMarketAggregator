@@ -1,0 +1,29 @@
+{
+  "event_days": 40,
+  "events": 54,
+  "patterns": {
+    "gap_follow_through": {
+      "events": 8,
+      "continuation_rate_pct": 75.0,
+      "avg_session_after_gap_up": 0.45,
+      "avg_session_after_gap_down": 0.68
+    },
+    "am_to_pm": {
+      "events": 9,
+      "continuation_rate_pct": 66.7,
+      "avg_pm_after_sig_am": -0.02
+    },
+    "events_by_weekday": {
+      "Monday": 7,
+      "Tuesday": 10,
+      "Wednesday": 19,
+      "Thursday": 22,
+      "Friday": 21,
+      "Sunday": 2
+    },
+    "vol_clustering": {
+      "avg_next_session_abs_after_significant": 0.8,
+      "avg_next_session_abs_otherwise": 0.64
+    }
+  }
+}

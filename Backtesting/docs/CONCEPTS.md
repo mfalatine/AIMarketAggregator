@@ -59,9 +59,14 @@ so we can measure what limiting actually changes. Scored runs declare their exac
 limiter configuration (which sites were on) in the run manifest; unrestricted runs are
 labeled as comparison runs, not scored runs.
 
-## 6. News source selection
+## 6. News source selection (Mike's vision, 2026-07-29)
 
-Deferred by Mike ("we can discuss this later"). The framework is in place: embedded
-API settings for single news sources, internal interfacing per source, selectable later
-by a click. Candidates on the table: Trading Economics, Benzinga, limited web search.
-Adding a source means writing one adapter that honors §1, §2, and §5.
+Selection UI: **web search and each API source get a checkbox that can be turned on or
+off — and all can be used at once.** Any combination is a valid declared set; the set
+of checked sources is the run's source lock (§2). The per-source `enabled` flag in
+`data/news/access.json` is that checkbox in config form until the UI exists.
+
+Which sources to fund/activate is deferred by Mike — events are being identified from
+prices first, then the news-source conversation happens. Candidates on the table:
+Trading Economics, Benzinga, limited web search. Adding a source means writing one
+adapter that honors §1, §2, and §5.

@@ -32,7 +32,7 @@ def moves_sections() -> list[dict]:
     for kind, label in (("session", "Worst sessions"), ("overnight_gap", "Worst overnight gaps")):
         for row in flagged[flagged["kind"] == kind].nsmallest(3, "ret_pct").itertuples():
             extremes.append([f"{label}", f"{row.symbol} {pd.Timestamp(row.ts_end).date()} {row.ret_pct:+.2f}%"])
-    return [{
+    sections = [{
         "title": "Stage 1 — move catalog (significant = top 5% vs trailing 2 years)",
         "table": count_table,
         "note": f"{len(moves):,} moves cataloged across both symbols; {len(flagged):,} flagged significant (2023-2025).",
@@ -41,6 +41,26 @@ def moves_sections() -> list[dict]:
         "rows": extremes,
         "note": "Face-validity checks passed: 2024-08-05 carry-unwind gap (-4.03%) and April 2025 tariff days flagged.",
     }]
+    events_path = RESULTS_DIR / "events_2023.json"
+    if events_path.exists():
+        events = json.loads(events_path.read_text(encoding="utf-8"))
+        patterns = events.get("patterns", {})
+        rows = [["Events identified", f"{events['events']} significant events on {events['event_days']} distinct days (full list: EVENTS_2023.md)"]]
+        gap = patterns.get("gap_follow_through")
+        if gap:
+            rows.append(["Gap follow-through", f"{gap['events']} significant gaps; session continued the gap direction {gap['continuation_rate_pct']}% of the time (small sample)"])
+        am = patterns.get("am_to_pm")
+        if am:
+            rows.append(["AM → PM", f"{am['events']} significant mornings; afternoon continued {am['continuation_rate_pct']}% of the time, avg PM {am['avg_pm_after_sig_am']:+.2f}%"])
+        weekday = patterns.get("events_by_weekday")
+        if weekday:
+            rows.append(["By weekday", ", ".join(f"{day[:3]} {count}" for day, count in weekday.items())])
+        cluster = patterns.get("vol_clustering")
+        if cluster:
+            rows.append(["Volatility clustering", f"next session averages ±{cluster['avg_next_session_abs_after_significant']}% after a significant day vs ±{cluster['avg_next_session_abs_otherwise']}% otherwise"])
+        sections.append({"title": "2023 events identified (develop year — price-only patterns)", "rows": rows,
+                         "note": "Wed/Thu/Fri dominate — the macro-release calendar (FOMC Wednesdays, CPI mornings, Friday jobs) is visible in prices alone."})
+    return sections
 
 
 def coverage_rows(symbol: str) -> list[list[str]]:
