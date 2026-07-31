@@ -41,23 +41,24 @@ HEADERS = {
 }
 
 
-def main() -> None:
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
-    pending = []
+def pending_dates() -> list:
+    days = []
     day = START
     while day <= END:
         if not (OUT_DIR / f"{day.isoformat()}.json").exists():
-            pending.append(day)
+            days.append(day)
         day += timedelta(days=1)
-    total_days = (END - START).days + 1
-    print(f"{total_days - len(pending)}/{total_days} event dates already stored; {len(pending)} remaining")
-    if not pending:
-        print("Pull complete — nothing to do.")
-        return
+    return days
 
-    session = pending[:MAX_REQUESTS_PER_SESSION]
+
+def run_session(limit: int) -> tuple:
+    """One polite pass. Returns (fetched_count, soft_blocked)."""
+    session = pending_dates()[:limit]
+    if not session:
+        return 0, False
     consecutive_failures = 0
     consecutive_empty = []
+    soft_blocked = False
     done = 0
     for event_date in session:
         query_date = event_date + timedelta(days=1)  # endpoint's +1 shift
@@ -81,8 +82,10 @@ def main() -> None:
                 if len(consecutive_empty) >= MAX_CONSECUTIVE_EMPTY:
                     for empty_path in consecutive_empty:
                         empty_path.unlink(missing_ok=True)
+                    done -= len(consecutive_empty) - 1
                     print(f"STOP: {MAX_CONSECUTIVE_EMPTY} consecutive empty responses ending {event_date} — "
                           f"soft block detected; those {len(consecutive_empty)} files deleted for refetch.")
+                    soft_blocked = True
                     break
             else:
                 consecutive_empty = []
@@ -106,10 +109,38 @@ def main() -> None:
                 print("STOP: 3 consecutive failures — halting session.")
                 break
         time.sleep(random.uniform(2.0, 3.5))
+    return done, soft_blocked
+
+
+def main() -> None:
+    """Mike's retry rule (2026-07-31): the block may not reset on a calendar-date
+    boundary — try at 00:30, and if still blocked wait an hour and try again
+    (up to MAX_ATTEMPTS), until the session lands its quota."""
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    total_days = (END - START).days + 1
+    remaining = pending_dates()
+    print(f"{total_days - len(remaining)}/{total_days} event dates already stored; {len(remaining)} remaining")
+    if not remaining:
+        print("Pull complete — nothing to do.")
+        return
+    MAX_ATTEMPTS = 8
+    fetched_total = 0
+    for attempt in range(1, MAX_ATTEMPTS + 1):
+        budget = MAX_REQUESTS_PER_SESSION - fetched_total
+        if budget <= 0:
+            break
+        print(f"attempt {attempt}: fetching up to {budget} dates")
+        fetched, soft_blocked = run_session(budget)
+        fetched_total += fetched
+        if not soft_blocked:
+            break
+        if attempt < MAX_ATTEMPTS:
+            print(f"soft-blocked after {fetched_total} real fetches this session — waiting 1 hour before retry")
+            time.sleep(3600)
     stored = len(list(OUT_DIR.glob("*.json")))
-    print(f"Session done: {done} fetched this run; {stored}/{total_days} event dates stored total.")
+    print(f"Session done: {fetched_total} fetched this session; {stored}/{total_days} event dates stored total.")
     if stored < total_days:
-        print(f"Run again (tomorrow) for the next session; {total_days - stored} dates remain.")
+        print(f"Next scheduled run continues; {total_days - stored} dates remain.")
 
 
 if __name__ == "__main__":
