@@ -1,1 +1,0 @@
-{"event_date": "2021-10-11", "query_date": "2021-10-12", "fetched_at": "2026-07-31 02:06:08", "response": {"data": null, "message": null, "status": {"rCode": 200, "bCodeMessage": [{"code": 1002, "errorMessage": "Economic Events Calendar: No record found."}], "developerMessage": null}}}

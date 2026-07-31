@@ -12,12 +12,19 @@ the AI may consider ONLY those (docs/CONCEPTS.md §2).
 import json
 from pathlib import Path
 
+from .alpha_vantage import AlphaVantageSource
 from .base import NEWS_COLUMNS, NewsSource
 from .benzinga import BenzingaSource
+from .ff_weekly import FFWeeklySource
+from .finnhub_news import FinnhubNewsSource
+from .gdelt import GdeltSource
+from .nasdaq_calendar import NasdaqCalendarSource
 from .trading_economics import TradingEconomicsSource
 from .web_search import WebSearchSource
 
-SOURCES = {source.name: source for source in (TradingEconomicsSource, BenzingaSource, WebSearchSource)}
+SOURCES = {source.name: source for source in (
+    NasdaqCalendarSource, FFWeeklySource, GdeltSource, AlphaVantageSource, FinnhubNewsSource,
+    TradingEconomicsSource, BenzingaSource, WebSearchSource)}
 ACCESS_PATH = Path(__file__).resolve().parent.parent.parent / "data" / "news" / "access.json"
 
 

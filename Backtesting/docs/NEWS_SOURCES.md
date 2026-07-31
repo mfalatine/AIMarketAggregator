@@ -8,7 +8,7 @@ verified status, and the recommendation. This supersedes scattered notes; DESIGN
 
 | # | Source | Verified status (live-tested unless noted) | Cost | Recommendation |
 |---|--------|--------------------------------------------|------|----------------|
-| 1 | **Nasdaq calendar (unofficial API)** | actual+consensus+previous; history ≥2021 (NFP 311K vs 205K for Mar-2023 verified); +1 date shift handled; 15/15 burst probe passed; **bulk pull IN PROGRESS** | $0 | **PRIMARY for scheduled-past.** Finish the 4-session pull, compact to one parquet, validate vs official figures |
+| 1 | **Nasdaq calendar (unofficial API)** | actual+consensus+previous; history ≥2021 (NFP + Apr-2021 CPI shock verified); +1 date shift and -2h display offset handled; adapter built+tested; **bulk pull IN PROGRESS — soft-block at ~250 sustained requests discovered, sessions now 240 with auto-halt** | $0 | **PRIMARY for scheduled-past.** Finish the 4-session pull, compact to one parquet, validate vs official figures |
 | 2 | **ForexFactory weekly JSON feed** (nfs.faireconomy.media) | Live: 92 events/week, forecast/previous/impact; NO actuals; forward week only | $0 | **KEEP — scheduled-now redundancy** and graceful-degrade layer; also Part Two retrofit fuel |
 | 3 | FMP Starter | Calendar has estimate+actual per docs; free tier returns nothing usable (tested with Mike's key: 404/402) | $29/mo monthly, $22/mo annual | **BENCHED fallback** — wake only if Nasdaq validation fails; acceptance test written |
 | 4 | EODHD calendar | Fields verified (estimate/actual/previous, history from 2020); cheapest access path unresolved ($19.99 claim vs $59.99+ per their docs) | ~$20-60/mo | **BENCHED fallback** — same acceptance test as FMP if needed |
