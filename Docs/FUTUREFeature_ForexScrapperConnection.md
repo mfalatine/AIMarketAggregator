@@ -111,4 +111,27 @@ Use this confirmed data as the foundation for the Economic Calendar section. Sea
 
 ## Status
 
-**Exploratory** — This is a future possibility, not committed for MVP. The ForexFactory Scraper is already running and the API is available. Integration would be a relatively light lift when ready.
+**Exploratory** — This is a future possibility, not committed for MVP. ~~The ForexFactory Scraper is already running and the API is available.~~ **UPDATE 2026-07-31: the FF scraper is broken — ForexFactory's bot protection blocks it (aftermath of the 108k-requests/day flood incident). The retrofit plan below supersedes the original integration idea.**
+
+---
+
+## Retrofit options — recorded 2026-07-31 (Mike: "different ways to skin a cat, record them all")
+
+Goal: revive the scraper site's interface (day/week/month queries, impact/currency filters, JSON/CSV out, key gate) on a new upstream — Nasdaq's unofficial economic calendar (verified 2026-07-31: actual + consensus + previous, history to at least 2021; AMA has pulled/is pulling the 2021-2025 archive). This work belongs to a separate chat/project; AMA records the options and shares components.
+
+**Decide-first test:** one call to `api.nasdaq.com/api/calendar/economicevents` from a Netlify function. Datacenter IPs may be blocked where residential IPs pass — this single test picks the architecture.
+
+| # | Option | How it works | Trade-offs |
+|---|---|---|---|
+| 1 | **Cloud-direct (Netlify function)** | Site fetches Nasdaq itself, as the old scraper did FF | Only if the datacenter-IP test passes; zero infrastructure; same fragility class as before |
+| 2 | **Local puller + static site** | Mike's always-on box (already runs dai_server 24/7) pulls politely and pushes JSON; Netlify serves cached data, never calls Nasdaq | No IP problem; site can never get the source banned; goes stale (not down) when the box is off; resumable backfill |
+| 3 | **Per-user local, AMA-style** | Each user runs the fetcher on their own machine (their residential IP), like AMA's Local app runs its own server; no central service to ban | Best ban-resistance; pushes setup burden to each user — needs the same packaged-setup story AMA needs (exe + first-run setup) |
+| 4 | **Cloud virtual desktop as puller** | A persistent VDI (residential-like environment) runs the puller | Machine-independent; **cost risk if left always-on** — would need scheduled wake/pull/sleep to stay cheap |
+| 5 | **Hybrid degrade path** | FF's official weekly feed (nfs.faireconomy.media — CDN file, fetchable from anywhere, no bot wall) keeps the forward-looking week fresh from the cloud; actuals fill in via whichever puller (2/3/4) runs | Site degrades gracefully instead of breaking — forward calendar always live, actuals possibly delayed |
+
+**Common components with AMA (build once, share):**
+- The normalized calendar schema and two-timestamp point-in-time contract (`Backtesting/engine/news_sources/base.py`) — one format for the site, the arena, and the app.
+- The pulled 2021-2025 Nasdaq archive + the polite resumable puller (`Backtesting/engine/pull_nasdaq_calendar.py`) — the site's history section is already fetched.
+- The impact mapping (Nasdaq has no High/Med/Low — a one-time curated event-name → impact-tier table serves both the site and AMA's Tier-1 event list).
+- The key-gate lockdown pattern (post-hack) — the site stays private-by-key, as does AMA's key handling (git-ignored config, keys never client-side).
+- The deployment/setup story: Mike's requirement that every deployment mode (his local, another user's packaged local, cloud) has a clean first-run setup applies to both apps.
