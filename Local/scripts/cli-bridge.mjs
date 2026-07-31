@@ -230,9 +230,12 @@ export function createCliService({ resolve = resolveExecutable, execute = runPro
     const config = await getConfig();
     const configured = config[`${engine}Path`];
     if (configured) return { executable: configured, source: 'Saved override' };
-    const daiCommand = process.env[engine === 'codex' ? 'DAI_CODEX_CMD' : 'DAI_CLAUDE_CMD'];
-    const executable = await resolve(daiCommand || engine);
-    return { executable, source: daiCommand ? 'DAI command override' : 'DAI/PATH auto-detection' };
+    // Preferred override names are repo-native (settable in Local/.env, which ships
+    // with any packaged build); the DAI_* names remain as a compatibility fallback.
+    const commandOverride = process.env[engine === 'codex' ? 'AMA_CODEX_CMD' : 'AMA_CLAUDE_CMD']
+      || process.env[engine === 'codex' ? 'DAI_CODEX_CMD' : 'DAI_CLAUDE_CMD'];
+    const executable = await resolve(commandOverride || engine);
+    return { executable, source: commandOverride ? 'Command override (.env)' : 'PATH auto-detection' };
   }
 
   async function engineStatus(engine, { refresh = false } = {}) {

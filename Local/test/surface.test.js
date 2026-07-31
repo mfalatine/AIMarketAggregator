@@ -17,8 +17,8 @@ test('Local application is permanently limited to subscription CLI controls', as
   dom.window.localStorage.setItem('mba_v2_history', '[]');
   dom.window.localStorage.setItem('mba_v2_ui', JSON.stringify({ route: 'briefing', settingsSection: 'profiles' }));
   const detectedStatus = { ok: true, engines: [
-    { id: 'codex', installed: true, authenticated: true, available: true, authMethod: 'ChatGPT subscription', path: 'C:\\Users\\micha\\AppData\\Roaming\\npm\\codex.cmd', source: 'DAI/PATH auto-detection' },
-    { id: 'claude', installed: true, authenticated: true, available: true, authMethod: 'Claude max', path: 'C:\\Users\\micha\\.local\\bin\\claude.exe', source: 'DAI/PATH auto-detection' }
+    { id: 'codex', installed: true, authenticated: true, available: true, authMethod: 'ChatGPT subscription', path: 'C:\\Users\\micha\\AppData\\Roaming\\npm\\codex.cmd', source: 'PATH auto-detection' },
+    { id: 'claude', installed: true, authenticated: true, available: true, authMethod: 'Claude max', path: 'C:\\Users\\micha\\.local\\bin\\claude.exe', source: 'PATH auto-detection' }
   ] };
   const fetch = async url => String(url).includes('/backtesting/')
     ? { ok: false, headers: { get: () => null }, json: async () => ({}) }
@@ -49,7 +49,7 @@ test('Local application is permanently limited to subscription CLI controls', as
   document.querySelector('.settings-nav [data-settings-section="connections"]').click();
   assert.ok(document.querySelector('[data-action="refresh-cli-status"]'));
   assert.ok(document.querySelector('#cli-codex-path'));
-  assert.match(document.querySelector('#settings-content').textContent, /DAI\/PATH auto-detection/i);
+  assert.match(document.querySelector('#settings-content').textContent, /PATH auto-detection/i);
   assert.doesNotMatch(document.querySelector('#settings-content').textContent, /has not been checked/i);
   assert.match(document.querySelector('#cli-codex-path').value, /codex\.cmd$/i);
   assert.match(document.querySelector('#cli-claude-path').value, /claude\.exe$/i);

@@ -17,7 +17,7 @@ const briefing = {
   watchlist: []
 };
 
-test('Codex command uses DAI command ordering, model ID, and stdin transport', () => {
+test('Codex command uses exec ordering, model ID, and stdin transport', () => {
   const args = buildCliArgs(cliModelFor('cli-codex-terra'), { schemaPath: 'C:\\temp\\schema.json', schemaJson: '{}', workspace: 'C:\\temp\\work' });
   assert.deepEqual(args.slice(0, 6), ['exec', '--full-auto', '--skip-git-repo-check', '-m', 'gpt-5.6-terra', '--output-schema']);
   assert.equal(args.at(-1), '-');
@@ -66,7 +66,7 @@ test('CLI service validates login, allowlists the model, and sends the prompt th
   assert.match(generation.options.input, /Research markets/);
   assert.equal(generation.args.includes('Research markets.'), false);
   const status = await service.getStatus();
-  assert.ok(status.engines.every(engine => engine.source === 'DAI/PATH auto-detection'));
+  assert.ok(status.engines.every(engine => engine.source === 'PATH auto-detection'));
   await assert.rejects(() => service.generate({ modelId: 'not-allowlisted', prompt: 'x' }), /supported local CLI model/i);
 });
 
