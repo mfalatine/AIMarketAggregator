@@ -66,10 +66,12 @@ off — and all can be used at once.** Any combination is a valid declared set; 
 of checked sources is the run's source lock (§2). The per-source `enabled` flag in
 `data/news/access.json` is that checkbox in config form until the UI exists.
 
-Which sources to fund/activate is deferred by Mike — events are being identified from
-prices first, then the news-source conversation happens. Candidates on the table:
-Trading Economics, Benzinga, limited web search. Adding a source means writing one
-adapter that honors §1, §2, and §5.
+Stack status (2026-07-30): four cells locked "for now" — paid calendar (FMP vs EODHD,
+settled by the acceptance test in DESIGN.md §3.5) + GDELT + FF weekly feed + AI web
+search. Benzinga-via-reseller and Alpha Vantage benched with wake conditions. Adding a
+source means writing one adapter that honors §1, §2, and §5 — including the two-
+timestamp rule (event_at vs known_at) from the Sol review, so estimates are visible
+before releases but actuals and revisions never leak backward.
 
 ## 7. The event definition is a variable — test it (Mike's rulings, 2026-07-30)
 

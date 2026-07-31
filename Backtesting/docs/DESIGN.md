@@ -79,24 +79,33 @@ How the end system works, simplest form:
 2023 writes it (news + events + in/out numbers), 2024 tweaks it one idea at a time,
 2025 proves the whole loop end-to-end. Then it runs live on today's news.
 
-**The locked news stack (four feeds, locked "for now" 2026-07-30 — live-verified):**
+**The news stack (four cells locked "for now" 2026-07-30; providers PROVISIONAL until
+acceptance-tested — Sol review 2026-07-30):**
 
-| Feed | Cell it covers | Job | Cost |
+| Feed | Cell it covers | Job | Status / cost |
 |---|---|---|---|
-| FMP Starter | Scheduled + past (and live) | Economic calendar with expected vs actual per release, 2023-25 — the surprise measurement the pattern book runs on | $22/mo billed annually = $264/yr (the only paid item; key pending Mike's signup) |
-| GDELT | Unscheduled + past | Timestamped headline archive 2023-25, filtered to the chosen site list — explains the non-calendar half of the event list (SVB, CXMT-type arms) | Free |
-| ForexFactory weekly JSON feed (nfs.faireconomy.media) | Scheduled + now | Live week-ahead calendar (forecast/previous/impact) in the FF format Mike knows; redundancy/cross-check for FMP's live calendar, and fallback | Free |
-| AI web search (already in the app) | Unscheduled + now | Live headlines and arms-chasing at briefing/trade-card time; not used by the backtest | Free with subscriptions |
+| Scheduled-past calendar: **FMP Starter vs EODHD** — decided by an identical 2023 acceptance test | Scheduled + past (and live) | Economic calendar with estimate vs actual per release, 2023-25 — the surprise measurement the pattern book runs on | FMP: expected $264/yr **if Starter passes acceptance testing** (its public docs read upcoming-oriented; 2023-25 depth with estimate+actual unproven until a key exists). EODHD: fields verified (estimate/actual/previous, history from 2020); cheapest access path unresolved (docs say the $59.99+ plans; a $19.99 standalone claim needs signup-page confirmation) |
+| **GDELT** | Unscheduled + past | Historical headline **discovery**: titles, URLs, metadata, ~15-min discovery timestamps, filterable to the site list. Honest limits: not full article bodies; only ~30% of records carry an exact publisher timestamp (the rest use first-seen time); duplicates expected. It **finds candidate explanations — it does not prove them** | Free |
+| **ForexFactory weekly JSON feed** (nfs.faireconomy.media) | Scheduled + now | Live week-ahead calendar (forecast/previous/impact) in the FF format Mike knows. **Partial fallback only**: it carries no actuals, so it cannot replace the paid calendar's surprise data | Free |
+| **AI web search** (already in the app) | Unscheduled + now | Live headlines and arms-chasing at briefing/trade-card time; not used by the backtest | Free with subscriptions |
 
 The logic: two kinds of news (scheduled vs unscheduled) × two time directions (past for
-the backtest, now for live) = four cells, one feed per cell. The true backtest minimum
-is FMP + GDELT; FF is deliberate redundancy; AI search is the live side already built.
-Rejected on live-verified pricing: Finnhub ($3,500/mo tier, no calendar on free),
-EODHD ($99.99/mo bundle), Tiingo (3-month news history), Alpha Vantage (25 req/day).
-Benched, not rejected: Benzinga newsfeed via the Polygon/Massive reseller at $99/mo —
-in budget, wake condition: the explanation table shows company-headline gaps that
-GDELT + AI search cannot fill, and its history depth verifies. Benzinga Pro (~$2k/yr)
-is the human terminal with no API — not a system feed.
+the backtest, now for live) = four cells, **at least one feed per cell** (scheduled-now
+deliberately has both the paid calendar and FF). The true backtest minimum is the paid
+calendar + GDELT.
+
+**Acceptance test (gates any calendar purchase):** pull full-year 2023 US; verify
+records return with estimate AND actual populated, release timestamps convertible to
+CST, and coverage of the known majors (every CPI/FOMC/NFP date). Run identically
+against FMP and EODHD; cheapest passer wins the cell.
+
+Rejected on live-verified pricing: Finnhub ($3,500/mo tier; no calendar on free tier),
+Tiingo (3-month news history). Benched, not rejected: Alpha Vantage (free; 25
+requests/day is workable for slow history pulls at up to 1,000 results/request — kept
+as a possible free headline supplement), and Benzinga newsfeed via the Polygon/Massive
+reseller at $99/mo — in budget; wake condition: the explanation table shows
+company-headline gaps GDELT + AI search cannot fill, and its history depth verifies.
+Benzinga Pro (~$2k/yr) is the human terminal with no API — not a system feed.
 
 ## 4. News data — the hard part, and the pluggable source design
 
@@ -124,9 +133,9 @@ on/off limiters (the only repeatability control we have) plus an unrestricted
 comparison mode to see what limiting changes — comparison runs are never scored
 runs (Mike's concept — see CONCEPTS.md §5).
 
-Source selection itself is deferred by Mike — to be discussed later. Standing
-recommendation: Trading Economics calendar first; Benzinga when company-level
-headlines are needed.
+Source selection: see §3.5 — the four-cell stack is locked for now; the scheduled-past
+calendar provider (FMP vs EODHD) is decided by the acceptance test defined there.
+Earlier Trading Economics/Benzinga recommendations are superseded.
 
 ## 5. The engine — three stages
 
@@ -227,7 +236,8 @@ The dashboard is the Local app's Backtest tab (§7) — there is no separate das
 
 ## 9. Open decisions for Mike
 
-1. News source to start with (recommendation: Trading Economics calendar — §4).
+1. News stack: four cells locked for now (§3.5); remaining call is FMP vs EODHD for
+   the scheduled-past calendar, settled by the §3.5 acceptance test.
 2. Move thresholds per timeframe (defaults will be proposed with Stage 1 code).
 3. Prompt vs algo vs combination — deliberately deferred until 2023 patterns are on the
    table, per his instruction.

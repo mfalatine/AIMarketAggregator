@@ -41,14 +41,16 @@ def build(events: pd.DataFrame, news: pd.DataFrame, lookback_minutes: int) -> pd
     rows = []
     for event in events.itertuples():
         window_start = pd.Timestamp(event.ts_end) - pd.Timedelta(minutes=lookback_minutes)
-        # Point-in-time: only items published AT OR BEFORE the event's end qualify.
-        candidates = news[(news["timestamp_cst"] > window_start) & (news["timestamp_cst"] <= pd.Timestamp(event.ts_end))]
+        # Point-in-time: only information KNOWN at or before the event's end qualifies
+        # (known_at_cst, never event_at_cst — a release/revision knowable only later
+        # must not explain an earlier move).
+        candidates = news[(news["known_at_cst"] > window_start) & (news["known_at_cst"] <= pd.Timestamp(event.ts_end))]
         for item in candidates.itertuples():
             rows.append({
                 "event_ts": event.ts_end, "event_kind": event.kind, "event_symbol": event.symbol,
-                "event_ret_pct": event.ret_pct, "news_ts": item.timestamp_cst, "news_source": item.source,
-                "news_category": item.category, "headline": item.headline,
-                "minutes_before_event_end": (pd.Timestamp(event.ts_end) - pd.Timestamp(item.timestamp_cst)).total_seconds() / 60,
+                "event_ret_pct": event.ret_pct, "news_event_at": item.event_at_cst, "news_known_at": item.known_at_cst,
+                "news_source": item.source, "news_category": item.category, "headline": item.headline,
+                "minutes_before_event_end": (pd.Timestamp(event.ts_end) - pd.Timestamp(item.known_at_cst)).total_seconds() / 60,
                 "attribution": "unlabeled",
             })
     return pd.DataFrame(rows)
@@ -59,13 +61,18 @@ def selftest() -> None:
         {"ts_end": pd.Timestamp("2023-05-01 09:30"), "kind": "hour", "symbol": "MES", "ret_pct": -0.9},
     ])
     news = pd.DataFrame([
-        {"timestamp_cst": pd.Timestamp("2023-05-01 07:30"), "source": "synthetic", "category": "macro_release", "headline": "in-window item"},
-        {"timestamp_cst": pd.Timestamp("2023-05-01 10:00"), "source": "synthetic", "category": "headline", "headline": "AFTER the event - must be excluded"},
-        {"timestamp_cst": pd.Timestamp("2023-04-30 07:00"), "source": "synthetic", "category": "headline", "headline": "before lookback - must be excluded"},
+        {"event_at_cst": pd.Timestamp("2023-05-01 07:30"), "known_at_cst": pd.Timestamp("2023-05-01 07:30"),
+         "source": "synthetic", "category": "macro_release", "headline": "release known in window - keep"},
+        {"event_at_cst": pd.Timestamp("2023-05-01 07:30"), "known_at_cst": pd.Timestamp("2023-04-26 08:00"),
+         "source": "synthetic", "category": "macro_estimate", "headline": "estimate known before lookback - excluded"},
+        {"event_at_cst": pd.Timestamp("2023-05-01 07:30"), "known_at_cst": pd.Timestamp("2023-05-15 08:00"),
+         "source": "synthetic", "category": "macro_revision", "headline": "LEAK TEST: revision of a pre-event release, known later - must be excluded"},
+        {"event_at_cst": pd.Timestamp("2023-05-01 10:00"), "known_at_cst": pd.Timestamp("2023-05-01 10:00"),
+         "source": "synthetic", "category": "headline", "headline": "after the event - excluded"},
     ])
     table = build(events, news, lookback_minutes=720)
-    assert len(table) == 1 and table.iloc[0]["headline"] == "in-window item", table
-    print("selftest OK: 1 of 3 synthetic items joined; the post-event and pre-window items were excluded.")
+    assert len(table) == 1 and table.iloc[0]["headline"].startswith("release known in window"), table
+    print("selftest OK: 1 of 4 kept; the later-known revision (event_at before the move, known_at after) did NOT leak.")
 
 
 def main() -> None:
