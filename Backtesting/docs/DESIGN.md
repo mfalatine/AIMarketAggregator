@@ -48,6 +48,56 @@ Facts that matter:
 - The micros track the indexes tick-for-tick for pattern purposes; MES stands in for
   S&P 500 / ES, MNQ for Nasdaq-100 / NQ.
 
+## 3.5 The whole machine (Mike ratified 2026-07-30) — and the locked news stack
+
+How the end system works, simplest form:
+
+**INPUTS (what goes in)**
+- The news, right now, from whatever sources are checked (APIs / limited web search)
+- Today's calendar of scheduled releases (CPI, Fed, jobs...)
+- Current ES & NQ prices
+- **The pattern book** — the thing the backtest builds: "this type of news → this type
+  of move, this often, this size, this direction," plus the in/out numbers per event
+  type (how far it runs, where the stop goes, how long to hold)
+
+**MIDDLE (what the AI does with it)**
+- Reads the incoming news and matches it against the pattern book — direct hit ("Fed
+  speaks") or arm ("Chinese chip IPO → US semis → Nasdaq")
+- Decides: does this look like a real event forming? Which direction, expected size
+- If yes, pulls the in/out numbers for that event type from the book
+
+**OUTPUTS (what you see — a trade card, or "no trade")**
+- **Get in:** now / at the open / at level X
+- **Direction:** long or short, ES or NQ or both
+- **Stop:** level and $ per contract (from the measured pull-against)
+- **Get out:** target level and/or "typically peaks in ~70 minutes — don't overstay"
+- **Confidence 0–5** — anchored to how often this pattern actually worked
+- **Why:** the one line of news and the pattern it matched
+- Silence otherwise — no card, no trade, no noise
+
+**Where the backtest fits:** everything above hinges on the pattern book being real.
+2023 writes it (news + events + in/out numbers), 2024 tweaks it one idea at a time,
+2025 proves the whole loop end-to-end. Then it runs live on today's news.
+
+**The locked news stack (four feeds, locked "for now" 2026-07-30 — live-verified):**
+
+| Feed | Cell it covers | Job | Cost |
+|---|---|---|---|
+| FMP Starter | Scheduled + past (and live) | Economic calendar with expected vs actual per release, 2023-25 — the surprise measurement the pattern book runs on | $22/mo billed annually = $264/yr (the only paid item; key pending Mike's signup) |
+| GDELT | Unscheduled + past | Timestamped headline archive 2023-25, filtered to the chosen site list — explains the non-calendar half of the event list (SVB, CXMT-type arms) | Free |
+| ForexFactory weekly JSON feed (nfs.faireconomy.media) | Scheduled + now | Live week-ahead calendar (forecast/previous/impact) in the FF format Mike knows; redundancy/cross-check for FMP's live calendar, and fallback | Free |
+| AI web search (already in the app) | Unscheduled + now | Live headlines and arms-chasing at briefing/trade-card time; not used by the backtest | Free with subscriptions |
+
+The logic: two kinds of news (scheduled vs unscheduled) × two time directions (past for
+the backtest, now for live) = four cells, one feed per cell. The true backtest minimum
+is FMP + GDELT; FF is deliberate redundancy; AI search is the live side already built.
+Rejected on live-verified pricing: Finnhub ($3,500/mo tier, no calendar on free),
+EODHD ($99.99/mo bundle), Tiingo (3-month news history), Alpha Vantage (25 req/day).
+Benched, not rejected: Benzinga newsfeed via the Polygon/Massive reseller at $99/mo —
+in budget, wake condition: the explanation table shows company-headline gaps that
+GDELT + AI search cannot fill, and its history depth verifies. Benzinga Pro (~$2k/yr)
+is the human terminal with no API — not a system feed.
+
 ## 4. News data — the hard part, and the pluggable source design
 
 Prices are solved; historical news is not. The arena needs news **as it looked at the
