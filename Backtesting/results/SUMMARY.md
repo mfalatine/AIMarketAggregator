@@ -1,6 +1,6 @@
 # Backtesting arena summary
 
-Generated 2026-07-30 18:25 CST. All times CST.
+Generated 2026-07-31 16:03 CST. All times CST.
 
 
 ## Phase status
@@ -75,6 +75,7 @@ _Generated 2026-07-30 18:25 CST under mode 'magnitude'. Full file: PATTERN_BOOK.
 
 | Phase | Provider | Hypothesis | Days | Direction | Expansion | Gap | Severity ±1 |
 |---|---|---|---|---|---|---|---|
+| 2023 | claude | first real-AI baseline: price-context only, 2023 open book, vs mock floors | 40 | 21/40 | 20/40 | 21/40 | 24/40 |
 | 2023 | mock-flat | harness smoke: null baseline | 257 | 2/257 | 218/257 | 186/257 | 146/257 |
 | 2023 | mock-momentum | harness smoke: momentum baseline | 257 | 129/257 | 193/257 | 167/257 | 168/257 |
 

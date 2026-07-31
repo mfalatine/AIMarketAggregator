@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-30 18:25 CST",
+  "generated_at": "2026-07-31 16:03 CST",
   "headline": "Backtesting arena \u2014 status",
   "sections": [
     {
@@ -356,6 +356,16 @@
           "Severity \u00b11"
         ],
         "rows": [
+          [
+            "2023",
+            "claude",
+            "first real-AI baseline: price-context only, 2023 open book, vs mock floors",
+            "40",
+            "21/40",
+            "20/40",
+            "21/40",
+            "24/40"
+          ],
           [
             "2023",
             "mock-flat",

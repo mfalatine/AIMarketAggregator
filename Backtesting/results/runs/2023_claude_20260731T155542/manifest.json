@@ -1,0 +1,35 @@
+{
+  "run_id": "2023_claude_20260731T155542",
+  "phase": 2023,
+  "provider": "claude",
+  "hypothesis": "first real-AI baseline: price-context only, 2023 open book, vs mock floors",
+  "declared_sources": "none (price-only)",
+  "generated_at": "2026-07-31 16:02 CST",
+  "event_definition": {
+    "mode": "magnitude",
+    "magnitude": {
+      "spike_thresholds_pct": {
+        "session": 1,
+        "overnight_gap": 0.5,
+        "am_leg": 0.75,
+        "pm_leg": 0.75,
+        "hour": 0.5,
+        "week": 2,
+        "sunday_gap": 0.5
+      }
+    },
+    "percentile": {
+      "top_percent": 5,
+      "trailing_years": 2
+    }
+  },
+  "severity_bands_pct": {
+    "1": 0.2,
+    "2": 0.5,
+    "3": 1,
+    "4": 1.5,
+    "5": 2.5
+  },
+  "prompt_template": "You are predicting the next regular US equity session (S&P 500 futures).\nToday is {date}. You know only information available before this session opens.\nRecent sessions (oldest first, open->close % moves): {recent}\nPrior session moved {prior:+.2f}%. The overnight gap into today is not yet known to you.\n\nAnswer ONLY with JSON, no other text:\n{{\"direction\": \"up|down|flat\", \"expansion\": \"yes|no\", \"gap\": \"yes|no\", \"severity\": 0-5}}\ndirection: today's session close vs open. expansion: will today's session move exceed\n{session_threshold}%. gap: will the overnight gap into today exceed {gap_threshold}%.\nseverity: size of today's move, 0 (dead) to 5 (extreme).",
+  "graded_symbol": "MES"
+}
