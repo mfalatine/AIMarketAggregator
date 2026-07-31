@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change History - Forex Factory Data Scraper</title>
+    <meta name="description" content="Change history and change log for the Forex Factory Data Scraper site.">
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        header { background: white; border-radius: 15px; padding: 30px; margin-bottom: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+        h1 { color: #1e3c72; margin: 0 0 10px 0; }
+        h2 { color: #2a5298; margin: 25px 0 15px 0; font-size: 1.4em; }
+        h3 { color: #667eea; margin: 20px 0 12px 0; font-size: 1.2em; }
+        .card { background: white; border-radius: 15px; padding: 25px 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); }
+        ul { margin: 10px 0; padding-left: 25px; }
+        li { margin: 8px 0; color: #333; line-height: 1.6; }
+        strong { color: #1e3c72; }
+        .back { display: inline-block; margin-bottom: 16px; color: #1e3c72; font-weight: 600; text-decoration: none; }
+        .back:hover { text-decoration: underline; }
+    </style>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📌 Change History - Forex Factory Data Scraper</h1>
+        </header>
+        <div class="card">
+            <a href="index.html" class="back">← Back to Scraper</a>
+
+            <h2>2025-10-21 Updates</h2>
+
+            <h3>Bug Fixes</h3>
+            <ul>
+                <li><strong>X100: Fix Missing Cheerio Dependency</strong> - Fixed critical Netlify function crash by adding cheerio to package.json dependencies. Resolved "Cannot find module 'cheerio'" error that prevented the scraper from working.</li>
+            </ul>
+
+            <h2>2025-09-06 Updates</h2>
+
+            <h3>Bug Fixes</h3>
+            <ul>
+                <li><strong>X99: Fix Today/Yesterday/Tomorrow Navigation</strong> - Fixed date navigation links by removing unnecessary post-processing date filtering that prevented ForexFactory's correct response from displaying</li>
+            </ul>
+
+            <h2>2025-08-27 Updates</h2>
+
+            <h3>Code Quality & Performance</h3>
+            <ul>
+                <li><strong>X94: Complete Production Cleanup</strong> - Removed all console.error statements, eliminated dead debugging code (26 lines of unused variables), removed unused cheerio dependency from package.json</li>
+                <li><strong>X93: Backend Error Handling</strong> - Replaced dummy test data return with proper error throwing to warn users when JSON extraction fails, removed 80+ lines of commented HTML parsing fallback code, cleaned all debug console.log statements from production</li>
+            </ul>
+
+            <h3>UI Polish & Consistency</h3>
+            <ul>
+                <li><strong>X91-92: Button Standardization</strong> - Fixed Clear All and Load Selected button dimensions to match (same width, height, padding), centered both buttons in container with consistent styling</li>
+            </ul>
+
+            <h3>Event Filtering & Search Improvements</h3>
+            <ul>
+                <li><strong>X84: Smooth Filtering</strong> - Major UX improvement with fixed filter bar outside table, preserving scroll position and input focus during filtering</li>
+                <li><strong>X78-83: Autocomplete System</strong> - Added smart autocomplete dropdown for event filtering with:
+                    <ul>
+                        <li>Up to 10 matching suggestions with highlighting</li>
+                        <li>Fixed dropdown positioning and click detection</li>
+                        <li>Proper CSS overrides for consistent display</li>
+                        <li>Search button (🔍) and Enter key support</li>
+                    </ul>
+                </li>
+                <li><strong>X74-76: Event Filter UI</strong> - Added event filter input above Event column with live filtering, clear button, and "X of Y events" counter</li>
+                <li><strong>X85: Filter UI Polish</strong> - Moved search/clear buttons inline with purple/red color coding</li>
+            </ul>
+
+            <h3>File Management</h3>
+            <ul>
+                <li><strong>X88-89: Download Improvements</strong>
+                    <ul>
+                        <li>Added timestamps to filenames (YYYY-MM-DD-HHmmss format)</li>
+                        <li>Changed from HH.mm.ss to cleaner HHmmss format</li>
+                        <li>Prevents file overwriting with unique names</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>UI Enhancements</h3>
+            <ul>
+                <li><strong>X86-87: Bulk Selection</strong> - Added "Check Visible" buttons for week/month selectors, removed redundant "Uncheck All" button</li>
+            </ul>
+
+            <h2>2025-08-25 Major Release</h2>
+
+            <h3>Core Functionality</h3>
+            <ul>
+                <li><strong>X45-46: Complete Timezone Fix</strong> - Eliminated all timezone processing issues:
+                    <ul>
+                        <li>Times and dates kept exactly as ForexFactory provides</li>
+                        <li>Fixed day-off and hour-off problems</li>
+                        <li>Perfect match between website and table display</li>
+                    </ul>
+                </li>
+                <li><strong>X58-60: Enhanced Date Selection</strong>
+                    <ul>
+                        <li>Enabled combined week+month selections (removed mutual exclusion)</li>
+                        <li>Fixed month boundary filtering for accurate date ranges</li>
+                        <li>Automatic deduplication of events</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>Data Enhancement</h3>
+            <ul>
+                <li><strong>X41-43: Event Classification</strong>
+                    <ul>
+                        <li>Integrated EventTypes.csv lookup table</li>
+                        <li>Added Event Type columns to display and exports</li>
+                        <li>Created EventCrawler tool for comprehensive event mapping</li>
+                        <li>Added Day of Week column as first column</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>User Interface Redesign</h3>
+            <ul>
+                <li><strong>X24: Compact Layout Overhaul</strong>
+                    <ul>
+                        <li>Side-by-side week/month selectors (always visible)</li>
+                        <li>Removed expandable popups</li>
+                        <li>Reduced font sizes by 2-3 points</li>
+                        <li>Optimized mobile responsive design</li>
+                    </ul>
+                </li>
+                <li><strong>X48-52: Event Detail Links</strong>
+                    <ul>
+                        <li>Added clickable icons linking to ForexFactory event pages</li>
+                        <li>Popup windows (1440x900) with fallback to new tabs</li>
+                        <li>Integrated actual event URLs from backend</li>
+                    </ul>
+                </li>
+                <li><strong>X54-56: Visual Polish</strong>
+                    <ul>
+                        <li>Enhanced table row hover effects with blue tinting</li>
+                        <li>Converted filter links to proper stacked buttons</li>
+                        <li>Improved click targets and visual hierarchy</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>Backend Optimization</h3>
+            <ul>
+                <li><strong>X29-31: Data Loading Fixes</strong>
+                    <ul>
+                        <li>Fixed critical month loading issues (February, April, May)</li>
+                        <li>Resolved JSON extraction for large HTML responses</li>
+                        <li>Download buttons now export actual displayed data</li>
+                    </ul>
+                </li>
+                <li><strong>X23: Advanced Date Range System</strong>
+                    <ul>
+                        <li>DateRangeManager class supporting 2007-2035</li>
+                        <li>Batch data loading with progress indicators</li>
+                        <li>Smart filter integration with ForexFactory codes</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h2>2025-08-24 Foundation Updates</h2>
+
+            <h3>Table & Display</h3>
+            <ul>
+                <li>Implemented 200-row pagination with navigation controls</li>
+                <li>Auto-expanding table layout without data cutoff</li>
+                <li>Centered headers and prevented text wrapping</li>
+                <li>Added functional "all/none" filter links</li>
+            </ul>
+
+            <h3>Project Structure</h3>
+            <ul>
+                <li>Consolidated to single version (removed basic/detailed split)</li>
+                <li>Separated JavaScript and CSS into external files</li>
+                <li>Enhanced JSON extraction with brace counting algorithm</li>
+                <li>Added dark-themed Event Filters panel</li>
+            </ul>
+
+            <h2>2025-08-23 Initial Release</h2>
+
+            <h3>Core Features</h3>
+            <ul>
+                <li>Post-processing to fill missing times in event blocks</li>
+                <li>Cache-busting timestamps on all fetch requests</li>
+                <li>Fixed timezone offset issues (removed incorrect +1 hour)</li>
+                <li>Improved date parsing using explicit ForexFactory headers</li>
+            </ul>
+
+            <h3>API & Backend</h3>
+            <ul>
+                <li>Switched to Netlify Functions (removed Python scraper)</li>
+                <li>Calendar selection returns exactly 7 days (date +6)</li>
+                <li>Week quick-links with correct Monday calculation</li>
+                <li>Rolling 7-day window from selected date</li>
+            </ul>
+
+            <h3>UI/UX</h3>
+            <ul>
+                <li>Compacted manual scraping interface</li>
+                <li>Aligned and stacked action buttons</li>
+                <li>Fixed quick-links JavaScript errors</li>
+                <li>Improved mobile spacing</li>
+                <li>Added Change History page</li>
+            </ul>
+
+            <h3>Data Preview</h3>
+            <ul>
+                <li>Shows all events (removed 20-item cap)</li>
+                <li>Updated header and note information</li>
+                <li>Streamlined layout with Data Preview below buttons</li>
+            </ul>
+
+            <h2>Repository & Documentation</h2>
+            <ul>
+                <li><strong>X62-72</strong>: Various updates to README, button consistency, API examples</li>
+                <li><strong>X57</strong>: Removed unnecessary 'Data' folder</li>
+                <li><strong>X59</strong>: Updated documentation for combined selections</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

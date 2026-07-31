@@ -1,0 +1,15 @@
+[build]
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "none"
+  included_files = ["node_modules/**"]
+
+[[plugins]]
+  package = "@netlify/plugin-functions-install-core"
+
+[build.environment]
+  NODE_VERSION = "18"
+  AWS_LAMBDA_JS_RUNTIME = "nodejs20.x"
+
+

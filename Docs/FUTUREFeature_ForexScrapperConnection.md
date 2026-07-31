@@ -128,6 +128,14 @@ Goal: revive the scraper site's interface (day/week/month queries, impact/curren
 | 3 | **Per-user local, AMA-style** | Each user runs the fetcher on their own machine (their residential IP), like AMA's Local app runs its own server; no central service to ban | Best ban-resistance; pushes setup burden to each user — needs the same packaged-setup story AMA needs (exe + first-run setup) |
 | 4 | **Cloud virtual desktop as puller** | A persistent VDI (residential-like environment) runs the puller | Machine-independent; **cost risk if left always-on** — would need scheduled wake/pull/sleep to stay cheap |
 | 5 | **Hybrid degrade path** | FF's official weekly feed (nfs.faireconomy.media — CDN file, fetchable from anywhere, no bot wall) keeps the forward-looking week fresh from the cloud; actuals fill in via whichever puller (2/3/4) runs | Site degrades gracefully instead of breaking — forward calendar always live, actuals possibly delayed |
+| 6 | **Fold into AMA as a Calendar tab** (Mike's idea 2026-07-31) | No standalone site at all: the scraper's interface (day/week/month, impact/currency filters) is reskinned as an AMA tab over data the repo already holds — 5-year history ships as a static bundled file (works even in the Netlify app), forward week from FF's CDN feed, live actuals polling on Local only | Imports nothing (archive/puller/schema/mapping already in-repo); kills the separate site, its hosting, and its key-gate exposure; verified 2026-07-31: nothing else consumes the old site's API. Decision pending alongside options 1-5 |
+
+**Reference plate (Mike's correction 2026-07-31):** the scraper's code is NOT
+mostly discardable — the functionality was the hard part. It serves at minimum as
+the reference plate, probably more including how it works: event crawling/parsing
+(`eventcrawler.js`), event categorization (`EventTypes.csv`), the filter/query API
+design, and the field semantics. A full copy lives in this repo at
+`Reference/ForexFactoryScraper/` (2026-07-31) to be mined during the retrofit.
 
 **Common components with AMA (build once, share):**
 - The normalized calendar schema and two-timestamp point-in-time contract (`Backtesting/engine/news_sources/base.py`) — one format for the site, the arena, and the app.
