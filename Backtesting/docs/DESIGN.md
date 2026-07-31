@@ -257,6 +257,19 @@ BUILT and verified:
 7. Backtest tab: results, arena runs, pattern book, and an Arena Settings panel
    (event definition, thresholds, severity bands, source checkboxes, engine re-run).
 
+STANDING PROCEDURE — Nasdaq calendar pull (Mike ratified 2026-07-31, execute in order):
+1. Complete the pull: `pull_nasdaq_calendar.py`, one ~480-request session per day until
+   all 1,826 event dates 2021-2025 are stored (raw per-day JSON in
+   data/news/nasdaq_calendar_raw/ — the archive layer, ~41 MB, keep untouched).
+2. IMMEDIATELY after the last session: build the compact working layer — normalize all
+   raw files into ONE parquet, data/news/nasdaq_calendar_2021_2025.parquet (one row per
+   release: event datetime CST, country, event, actual, consensus, previous; two-
+   timestamp contract per news_sources/base.py). The engine reads ONLY the parquet.
+3. Validate before trusting: cross-check known releases (NFP, CPI, FOMC dates
+   2021-2025) against official BLS/Fed figures; document pass/fail in results/.
+   Pass → the scheduled-past cell is filled at $0 and the FMP trial stays benched.
+   Fail → wake the FMP $29 trial from the ledger.
+
 REMAINING:
 - News source activation (Mike's decision) → real explanation table → news tiers.
 - Real prompt candidates through the arena (2023 first), then the 2024 tweak loop.
