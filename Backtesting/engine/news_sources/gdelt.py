@@ -34,20 +34,28 @@ class GdeltSource(NewsSource):
         params = urllib.parse.urlencode({"query": query + site_filter, "mode": "artlist", "format": "json",
                                          "startdatetime": start, "enddatetime": end,
                                          "maxrecords": int(self.config.get("maxrecords", 75)), "sort": "datedesc"})
-        wait = 6.0 - (time.time() - _last_call[0])
+        pace = float(self.config.get("pace_seconds", 6.0))
+        wait = pace - (time.time() - _last_call[0])
         if wait > 0:
             time.sleep(wait)
         url = f"{DOC_URL}?{params}"
         request = urllib.request.Request(url, headers={"User-Agent": "AMA-news-adapter"})
+        payload = None
         for attempt in (1, 2):
             try:
                 with urllib.request.urlopen(request, timeout=60) as response:
-                    payload = json.loads(response.read().decode("utf-8", errors="replace"))
+                    body = response.read().decode("utf-8", errors="replace")
+                try:
+                    payload = json.loads(body)
+                except json.JSONDecodeError:
+                    # GDELT can answer HTTP 200 with a plain-text throttle page.
+                    raise urllib.error.HTTPError(url, 429, f"non-JSON body: {body[:80]}", None, None)
                 break
             except urllib.error.HTTPError as error:
                 if error.code == 429 and attempt == 1:
-                    time.sleep(30)
+                    time.sleep(60)
                     continue
+                _last_call[0] = time.time()
                 raise
         _last_call[0] = time.time()
         rows = []

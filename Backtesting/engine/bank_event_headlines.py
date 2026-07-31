@@ -50,21 +50,35 @@ def main() -> None:
 
     gdelt_path = DATA_DIR / "gdelt_2023_events.parquet"
     gdelt = get_source("gdelt")
+    gdelt.config.setdefault("pace_seconds", 45)  # banking runs slow and boring on purpose
     todo = [d for d in days if str(d) not in banked_days(gdelt_path)]
-    print(f"GDELT: {len(todo)} days to bank")
+    print(f"GDELT: {len(todo)} days to bank (pace {gdelt.config['pace_seconds']}s)")
+    consecutive_failures = 0
     for day in todo:
-        frame = gdelt.validate(gdelt.fetch(f"{day} 00:00", f"{day} 23:59", query=GDELT_QUERY, sites=SITES))
-        append(gdelt_path, frame, day)
-        print(f"  gdelt {day}: {len(frame)} headlines")
+        try:
+            frame = gdelt.validate(gdelt.fetch(f"{day} 00:00", f"{day} 23:59", query=GDELT_QUERY, sites=SITES))
+            append(gdelt_path, frame, day)
+            consecutive_failures = 0
+            print(f"  gdelt {day}: {len(frame)} headlines")
+        except Exception as error:
+            consecutive_failures += 1
+            print(f"  gdelt {day}: FAILED ({str(error)[:100]})")
+            if consecutive_failures >= 3:
+                print("GDELT: 3 consecutive failures — cooling off; remaining days resume next run.")
+                break
 
     av_path = DATA_DIR / "av_2023_events.parquet"
     av = get_source("alpha_vantage")
     todo = [d for d in days if str(d) not in banked_days(av_path)][:MAX_AV_CALLS_PER_RUN]
     print(f"AlphaVantage: {len(todo)} days this run (budget {MAX_AV_CALLS_PER_RUN}/day)")
     for day in todo:
-        frame = av.validate(av.fetch(f"{day} 00:00", f"{day} 23:59", topics="financial_markets,economy_macro"))
-        append(av_path, frame, day)
-        print(f"  av {day}: {len(frame)} headlines")
+        try:
+            frame = av.validate(av.fetch(f"{day} 00:00", f"{day} 23:59", topics="financial_markets,economy_macro"))
+            append(av_path, frame, day)
+            print(f"  av {day}: {len(frame)} headlines")
+        except Exception as error:
+            print(f"  av {day}: FAILED ({str(error)[:100]})")
+            break  # AV failures are usually the daily budget — stop, resume tomorrow
 
     for path in (gdelt_path, av_path):
         if path.exists():
