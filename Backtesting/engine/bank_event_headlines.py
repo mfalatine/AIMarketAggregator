@@ -73,6 +73,14 @@ def main() -> None:
             except Exception as error:
                 print(f"  gdelt bulk {day}: FAILED ({str(error)[:80]})")
                 continue
+        if frame.empty:
+            # Zero from BOTH doors = a hole in GDELT's own archive (verified for
+            # 2023-03-22/23: their files 404). Mark the day so it stops re-fetching;
+            # Alpha Vantage covers such days.
+            frame = pd.DataFrame([{"event_at_cst": pd.Timestamp(str(day)), "known_at_cst": pd.Timestamp(str(day)),
+                                   "source": "gdelt", "category": "no_data",
+                                   "headline": "GDELT archive gap - no files exist for this day", "body": "",
+                                   "tickers": "", "meta": "{}"}])
         append(gdelt_path, frame, day)
         print(f"  gdelt {day}: {len(frame)} headlines" + (" (bulk)" if search_blocked else ""))
 
