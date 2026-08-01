@@ -54,18 +54,27 @@ def main() -> None:
     todo = [d for d in days if str(d) not in banked_days(gdelt_path)]
     print(f"GDELT: {len(todo)} days to bank (pace {gdelt.config['pace_seconds']}s)")
     consecutive_failures = 0
+    search_blocked = False
     for day in todo:
-        try:
-            frame = gdelt.validate(gdelt.fetch(f"{day} 00:00", f"{day} 23:59", query=GDELT_QUERY, sites=SITES))
-            append(gdelt_path, frame, day)
-            consecutive_failures = 0
-            print(f"  gdelt {day}: {len(frame)} headlines")
-        except Exception as error:
-            consecutive_failures += 1
-            print(f"  gdelt {day}: FAILED ({str(error)[:100]})")
-            if consecutive_failures >= 3:
-                print("GDELT: 3 consecutive failures — cooling off; remaining days resume next run.")
-                break
+        frame = None
+        if not search_blocked:
+            try:
+                frame = gdelt.validate(gdelt.fetch(f"{day} 00:00", f"{day} 23:59", query=GDELT_QUERY, sites=SITES))
+                consecutive_failures = 0
+            except Exception as error:
+                consecutive_failures += 1
+                print(f"  gdelt search {day}: FAILED ({str(error)[:80]})")
+                if consecutive_failures >= 2:
+                    search_blocked = True
+                    print("GDELT search door blocked — switching to bulk files for remaining days.")
+        if frame is None:
+            try:
+                frame = gdelt.validate(gdelt.fetch_bulk_day(str(day), SITES))
+            except Exception as error:
+                print(f"  gdelt bulk {day}: FAILED ({str(error)[:80]})")
+                continue
+        append(gdelt_path, frame, day)
+        print(f"  gdelt {day}: {len(frame)} headlines" + (" (bulk)" if search_blocked else ""))
 
     av_path = DATA_DIR / "av_2023_events.parquet"
     av = get_source("alpha_vantage")
