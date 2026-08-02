@@ -18,7 +18,7 @@
     }
   },
   "event_days": 209,
-  "events": 495,
+  "events": 581,
   "outcomes": {
     "after_gap_event": {
       "gap_events": 172,

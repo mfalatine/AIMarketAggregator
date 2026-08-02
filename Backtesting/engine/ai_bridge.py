@@ -11,16 +11,25 @@ Subscription CLIs cost nothing extra per run. No API keys are handled here.
 """
 import shutil
 import subprocess
+import tempfile
 
 CLI_TIMEOUT_SECONDS = 300
 
 
 def _run_cli(argv: list, prompt: str) -> str:
+    """Run the CLI in an EMPTY temp directory, never the repo.
+
+    Leak guard (Sol review 2026-08-01): a model started inside the repo could read
+    the price/move/answer files and 'predict' from them. An isolated empty cwd means
+    the only information it has is the prompt it was handed.
+    """
     executable = shutil.which(argv[0])
     if not executable:
         raise RuntimeError(f"{argv[0]} CLI not found on PATH — install/login or use a mock provider.")
-    result = subprocess.run([executable, *argv[1:]], input=prompt, capture_output=True,
-                            text=True, encoding="utf-8", timeout=CLI_TIMEOUT_SECONDS)
+    with tempfile.TemporaryDirectory(prefix="ama-arena-") as workspace:
+        result = subprocess.run([executable, *argv[1:]], input=prompt, capture_output=True,
+                                text=True, encoding="utf-8", timeout=CLI_TIMEOUT_SECONDS,
+                                cwd=workspace)
     if result.returncode != 0:
         raise RuntimeError(f"{argv[0]} exited {result.returncode}: {result.stderr[:500]}")
     return result.stdout

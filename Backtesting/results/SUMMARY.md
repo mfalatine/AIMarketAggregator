@@ -1,6 +1,6 @@
 # Backtesting arena summary
 
-Generated 2026-07-31 16:03 CST. All times CST.
+Generated 2026-08-01 22:43 CST. All times CST.
 
 
 ## Phase status
@@ -83,7 +83,7 @@ _Every run's full manifest, per-day records, and prompt live in results/runs/<ru
 
 ## 2023 events identified (develop year — outcome counts)
 
-- **Events identified:** 495 spikes/drops on 209 distinct days (full list: EVENTS_2023.md)
+- **Events identified:** 581 spikes/drops on 209 distinct days (full list: EVENTS_2023.md)
 - **After a gap event:** 172 gap events: session closed in the gap's direction 77, reversed 95, session was itself an event 41
 - **After an AM event:** 106 AM events: PM same direction 62, opposite 44, PM was itself an event 19
 - **By weekday:** Mon 105, Tue 124, Wed 168, Thu 218, Fri 223, Sun 10
@@ -104,8 +104,13 @@ _Counts of what actually happened, per CONCEPTS.md §7 — no averages._
 - **MNQ 2024:** 259 sessions · year move +26.9%
 - **MNQ 2025:** 257 sessions · year move +20.2%
 
-## News data
+## News data — actually banked
 
-- **Framework:** In place — adapters registered: trading_economics, benzinga, web_search (allowlisted)
-- **Source:** None activated — Mike's decision deferred; keys go in data/news/access.json
-- **Discipline:** Point-in-time cut + source lock enforced per docs/CONCEPTS.md
+- **av_2023_events:** 68 rows · 6 event days
+- **gdelt_2023_events:** 8,452 rows · 44 event days
+- **nasdaq_calendar_2021_2025:** 9,456 rows · 2021-01-01 .. 2021-09-13
+- **nasdaq calendar pull:** 226/1,826 event dates fetched (nightly 00:30)
+- **explanation table:** 29,886 event-news candidate pairs (attribution unlabeled)
+- **calendar validation:** Verdict on stored range: PASS — 8 passed, 0 failed, 3 skipped (outside pulled range).
+
+_Free sources only (Nasdaq calendar, GDELT, Alpha Vantage, FF feed, AI search). Spend to date: $0._

@@ -32,11 +32,14 @@ def event_catalog(moves: pd.DataFrame) -> pd.DataFrame:
     """2023 spikes/drops, one row per (date, kind), both symbols side by side."""
     flagged = moves[(moves["year"] == 2023) & moves["event"]]
     rows = []
-    for (date, kind), group in flagged.groupby(["date", "kind"]):
+    # Group by the move's own start time, not just (date, kind): two separate hourly
+    # spikes in one day are two events, not one (Sol review 2026-08-01 — the old
+    # grouping collapsed 848 symbol-events into 495 rows).
+    for (date, kind, ts_start), group in flagged.groupby(["date", "kind", "ts_start"]):
         by_symbol = {row.symbol: row for row in group.itertuples()}
         any_row = next(iter(by_symbol.values()))
         record = {
-            "date": date, "kind": kind, "ts_start": any_row.ts_start, "ts_end": any_row.ts_end,
+            "date": date, "kind": kind, "ts_start": ts_start, "ts_end": any_row.ts_end,
             "mes_pct": getattr(by_symbol.get("MES"), "ret_pct", float("nan")),
             "mnq_pct": getattr(by_symbol.get("MNQ"), "ret_pct", float("nan")),
             "direction": any_row.direction,
@@ -131,6 +134,7 @@ def write_events_markdown(catalog: pd.DataFrame) -> None:
              "|---|---|---|---|---|---|---|---|"]
     for row in catalog.itertuples():
         day = WEEKDAYS[pd.Timestamp(row.date).weekday()]
+        kind_label = f"{row.kind} {pd.Timestamp(row.ts_start).strftime('%H:%M')}" if row.kind == "hour" else row.kind
         mes = f"{row.mes_pct:+.2f}" if pd.notna(row.mes_pct) else "—"
         mnq = f"{row.mnq_pct:+.2f}" if pd.notna(row.mnq_pct) else "—"
         def guidance(prefix):
@@ -138,7 +142,7 @@ def write_events_markdown(catalog: pd.DataFrame) -> None:
             if pd.isna(mfe):
                 return "—"
             return f"{mfe:.2f} / {getattr(row, f'{prefix}_mae'):.2f} / {getattr(row, f'{prefix}_peak_min'):.0f}m"
-        lines.append(f"| {row.date} | {day} | {row.kind} | {mes} | {mnq} | {guidance('mes')} | {guidance('mnq')} | pending |")
+        lines.append(f"| {row.date} | {day} | {kind_label} | {mes} | {mnq} | {guidance('mes')} | {guidance('mnq')} | pending |")
     (RESULTS_DIR / "EVENTS_2023.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 

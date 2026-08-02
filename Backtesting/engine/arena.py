@@ -37,6 +37,13 @@ RESULTS_DIR = Path(__file__).resolve().parent.parent / "results"
 RUNS_DIR = RESULTS_DIR / "runs"
 SYMBOL = "MES"  # predictions are graded against the S&P micro; MNQ grading can be added per run later
 
+SOURCE_LOCK_HEADER = """SOURCE LOCK: use ONLY the information in this prompt. The declared sources for
+this run are: {sources}. Do not use your own knowledge or memory of what markets
+actually did, and do not consult anything else. If the prompt does not contain it,
+you do not know it.
+
+"""
+
 DEFAULT_PROMPT = """You are predicting the next regular US equity session (S&P 500 futures).
 Today is {date}. You know only information available before this session opens.
 Recent sessions (oldest first, open->close % moves): {recent}
@@ -115,7 +122,7 @@ def run(phase: int, provider: str, hypothesis: str, prompt_template: str,
         if history.empty:
             continue
         prior = float(history.iloc[-1]["session_ret"])
-        prompt = prompt_template.format(
+        prompt = SOURCE_LOCK_HEADER.format(sources=sources) + prompt_template.format(
             date=day["date"], prior=prior,
             recent=", ".join(f"{value:+.2f}%" for value in history["session_ret"].tail(5)),
             session_threshold=session_threshold, gap_threshold=gap_threshold)
@@ -141,7 +148,9 @@ def run(phase: int, provider: str, hypothesis: str, prompt_template: str,
     manifest = {"run_id": run_id, "phase": phase, "provider": provider, "hypothesis": hypothesis,
                 "declared_sources": sources, "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M CST"),
                 "event_definition": definition, "severity_bands_pct": severity_bands(),
-                "prompt_template": prompt_template, "graded_symbol": SYMBOL}
+                "prompt_template": prompt_template, "graded_symbol": SYMBOL,
+                "source_lock_header": SOURCE_LOCK_HEADER.format(sources=sources),
+                "cli_isolation": "CLI providers run in an empty temp cwd (no repo access)"}
     (run_dir / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
     (run_dir / "records.jsonl").write_text("\n".join(json.dumps(r) for r in records) + "\n", encoding="utf-8")
     (run_dir / "scores.json").write_text(json.dumps(scores, indent=2) + "\n", encoding="utf-8")

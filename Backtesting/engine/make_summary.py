@@ -119,6 +119,35 @@ def moves_sections() -> list[dict]:
     return sections
 
 
+def news_section() -> dict:
+    """Report what is ACTUALLY banked (Sol review 2026-08-01 — this used to be a
+    hardcoded 'nothing activated' string while thousands of rows sat on disk)."""
+    news_dir = RESULTS_DIR.parent / "data" / "news"
+    rows = []
+    for path in sorted(news_dir.glob("*.parquet")):
+        frame = pd.read_parquet(path)
+        if "event_day" in frame.columns:
+            days = frame["event_day"].nunique()
+            span = f"{days} event days"
+        elif "event_at_cst" in frame.columns:
+            dates = pd.to_datetime(frame["event_at_cst"])
+            span = f"{dates.min().date()} .. {dates.max().date()}"
+        else:
+            span = ""
+        rows.append([path.stem, f"{len(frame):,} rows · {span}"])
+    raw_days = len(list((news_dir / "nasdaq_calendar_raw").glob("*.json"))) if (news_dir / "nasdaq_calendar_raw").exists() else 0
+    rows.append(["nasdaq calendar pull", f"{raw_days}/1,826 event dates fetched (nightly 00:30)"])
+    explanations = RESULTS_DIR / "explanations_2023.parquet"
+    if explanations.exists():
+        rows.append(["explanation table", f"{len(pd.read_parquet(explanations)):,} event-news candidate pairs (attribution unlabeled)"])
+    validation = RESULTS_DIR / "CALENDAR_VALIDATION.md"
+    if validation.exists():
+        verdict = [line for line in validation.read_text(encoding="utf-8").splitlines() if "Verdict" in line]
+        rows.append(["calendar validation", verdict[-1].replace("*", "").strip() if verdict else "run pending"])
+    return {"title": "News data — actually banked", "rows": rows,
+            "note": "Free sources only (Nasdaq calendar, GDELT, Alpha Vantage, FF feed, AI search). Spend to date: $0."}
+
+
 def coverage_rows(symbol: str) -> list[list[str]]:
     df = load_minutes(symbol)
     rows = [[f"{symbol} minute bars", f"{len(df):,}"],
@@ -148,14 +177,7 @@ def main() -> None:
             *moves_sections(),
             {"title": "Price data coverage (verified this run)",
              "rows": coverage_rows("MES") + coverage_rows("MNQ")},
-            {
-                "title": "News data",
-                "rows": [
-                    ["Framework", "In place — adapters registered: trading_economics, benzinga, web_search (allowlisted)"],
-                    ["Source", "None activated — Mike's decision deferred; keys go in data/news/access.json"],
-                    ["Discipline", "Point-in-time cut + source lock enforced per docs/CONCEPTS.md"],
-                ],
-            },
+            news_section(),
         ],
     }
     RESULTS_DIR.mkdir(exist_ok=True)

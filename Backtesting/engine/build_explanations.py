@@ -19,6 +19,9 @@ from pathlib import Path
 
 import pandas as pd
 
+from news_sources.base import NEWS_COLUMNS
+from news_sources.nasdaq_calendar import ESTIMATE_LEAD_DAYS
+
 RESULTS_DIR = Path(__file__).resolve().parent.parent / "results"
 NEWS_DIR = Path(__file__).resolve().parent.parent / "data" / "news"
 SYMBOLS = ("MES", "MNQ")
@@ -30,11 +33,44 @@ def load_events(year: int) -> pd.DataFrame:
     return moves[(moves["year"] == year) & moves["event"]].reset_index(drop=True)
 
 
+def _calendar_to_news(frame: pd.DataFrame) -> pd.DataFrame:
+    """The calendar parquet has its own shape; project it onto the news contract as
+    estimate (knowable early) and release (knowable at the release) snapshot rows."""
+    import json as _json
+    base = pd.DataFrame({
+        "event_at_cst": frame["event_at_cst"],
+        "headline": frame["event"].astype(str) + " (" + frame["country"].astype(str) + ")",
+        "body": frame.get("description", ""), "tickers": "", "source": "nasdaq_calendar",
+    })
+    release = base.assign(known_at_cst=frame["event_at_cst"], category="macro_release",
+                          meta=[_json.dumps({"actual": a, "consensus": c, "previous": p})
+                                for a, c, p in zip(frame["actual"], frame["consensus"], frame["previous"])])
+    has_estimate = (frame["consensus"].astype(str) != "") | (frame["previous"].astype(str) != "")
+    estimate = base[has_estimate].assign(
+        known_at_cst=frame.loc[has_estimate, "event_at_cst"] - pd.Timedelta(days=ESTIMATE_LEAD_DAYS),
+        category="macro_estimate",
+        meta=[_json.dumps({"consensus": c, "previous": p})
+              for c, p in zip(frame.loc[has_estimate, "consensus"], frame.loc[has_estimate, "previous"])])
+    return pd.concat([release, estimate], ignore_index=True)
+
+
 def load_news_tables() -> pd.DataFrame | None:
-    tables = sorted(NEWS_DIR.glob("*.parquet"))
-    if not tables:
+    """Load every news parquet in data/news/, normalizing the schemas that differ.
+    Unknown shapes are skipped loudly rather than crashing the join."""
+    frames = []
+    for path in sorted(NEWS_DIR.glob("*.parquet")):
+        frame = pd.read_parquet(path)
+        if set(NEWS_COLUMNS).issubset(frame.columns):
+            frames.append(frame[NEWS_COLUMNS])
+        elif {"event_at_cst", "event", "actual", "consensus"}.issubset(frame.columns):
+            frames.append(_calendar_to_news(frame)[NEWS_COLUMNS])
+        else:
+            print(f"  skipping {path.name}: unrecognized schema {sorted(frame.columns)[:6]}")
+    if not frames:
         return None
-    return pd.concat([pd.read_parquet(path) for path in tables], ignore_index=True).sort_values("timestamp_cst")
+    combined = pd.concat(frames, ignore_index=True)
+    combined = combined[combined["category"] != "no_data"]  # archive-gap markers aren't news
+    return combined.sort_values("known_at_cst").reset_index(drop=True)
 
 
 def build(events: pd.DataFrame, news: pd.DataFrame, lookback_minutes: int) -> pd.DataFrame:

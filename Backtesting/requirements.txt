@@ -1,0 +1,6 @@
+# Backtesting arena — pinned to the versions this was built and verified against
+# (read from the live environment 2026-08-01, not guessed).
+# Install: pip install -r Backtesting/requirements.txt
+pandas==2.2.2
+pyarrow==18.1.0
+numpy==1.26.4
